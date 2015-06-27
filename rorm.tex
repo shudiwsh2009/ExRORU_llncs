@@ -1,5 +1,6 @@
 \documentclass{llncs}
 \usepackage{makeidx}
+\usepackage{enumerate}
 \usepackage{epsfig}
 \usepackage{authblk}
 \usepackage{subfigure}
@@ -46,11 +47,50 @@ iamwangzixuan@hotmail.com,jimwang@tsinghua.edu.cn}}
 \maketitle
 
 \begin{abstract}
-fawe
-\keywords{Business Process Model, Transition-labeled Graph, Edit Distance, Behavioral Similarity}
+With continuous development of the Business Process Management (i.e. BPM) and the innovation of the workflow technology, the scale of large organizations and enterprises process model repositories is increasing. Their effective utilization requires an effective retrieval mechanism, so the analysis of the similarity between models is proposed as indispensable. Existing measures for process model similarity have various limitations. In this paper, we introduce a proper metric to quantify process similarity based on the refined ordering relations with uncertainty. It uses Jaccard coefficient to measure the similarity between sets of behavioral relations of pairs process model activities. Experiments show that our measure is both efficient and effective.
+\keywords{Business Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Similarity}
 \end{abstract}
 
+\section{Introduction}\label{sec:introduction}
 
+\section{Preliminaries}\label{sec:preliminaries}
+Our work is to measure the similarity between two process models. We will show our algorithm on a specific type of process model named Petri net.
+
+The concept of the Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}. Petri nets are a graphical and mathematical modeling tool applicable to many systems. They are a promising tool for describing and studying information processing systems that are characterized as being concurrent, asynchronous, distributed, parallel, nondeterministic, and/or stochastic \cite{murata1989petri}.
+
+\begin{definition}[Petri net]\label{def:petrinet}
+A Petri net is a 5-tuple, $PN=(P,T,F,W,M_{0})$ where:
+	\begin{itemize}
+		\item[] $P=\{p_{1},p_{2},...,p_{m}\}$ is a finite set of places,
+		\item[] $T=\{t_{1},t_{2},...,t_{n}\}$ is a finite set of transitions,
+		\item[] $F\subseteq(P\times T)\cup(T\times P)$ is a set of arcs (flow relation),
+		\item[] $W:F\rightarrow\{1,2,3,...\}$ is a weight function,
+		\item[] $M_{0}:P\rightarrow\{0,1,2,3,...\}$ is the initial marking,
+		\item[] $P\cap T=\emptyset$ and $P\cup T\neq\emptyset$.
+	\end{itemize}
+A Petri net structure $N=(P,T,F,W)$ without any specific initial marking is denoted by $N$. A Petri net with the given initial marking is denoted by $(N,M_{0})$.
+\end{definition}
+
+For more details, please refer to the work of Murata \cite{murata1989petri}. A Petri net which models a workflow process definition is called a WorkFlow net (WF-net) \cite{van1998application}.
+
+\begin{definition}[WF-net]\label{def:wfnet}
+A Petri net $PN=(P,T,F)$ is a WF-net (Workflow net) if and only if:
+	\begin{enumerate}[(i)]
+		\item $PN$ has two special places: $i$ and $o$. Place $i$ is a source place: $\bullet i=\emptyset$. Place $o$ is a sink place: $o\bullet =\emptyset$.
+		\item If we add a transition $t^{*}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet t^{*}=\{o\}$ and $t^{*}\bullet=\{i\}$), then the resulting Petri net is strongly connected.
+	\end{enumerate}
+\end{definition}
+
+
+
+
+\section{Refined Ordering Relations with Uncertainty}\label{sec:relations}
+
+\section{Similarity Measure}\label{sec:similarity}
+
+\section{Experiments}\label{sec:experiments}
+
+\section{Conclusion}\label{sec:conclusion}
 
 
 \bibliographystyle{plain}
