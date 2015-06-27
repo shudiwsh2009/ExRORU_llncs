@@ -47,7 +47,7 @@ iamwangzixuan@hotmail.com,jimwang@tsinghua.edu.cn}}
 \maketitle
 
 \begin{abstract}
-With continuous development of the Business Process Management (i.e. BPM) and the innovation of the workflow technology, the scale of large organizations and enterprises process model repositories is increasing. Their effective utilization requires an effective retrieval mechanism, so the analysis of the similarity between models is proposed as indispensable. Existing measures for process model similarity have various limitations. In this paper, we introduce a proper metric to quantify process similarity based on the refined ordering relations with uncertainty. It uses Jaccard coefficient to measure the similarity between sets of behavioral relations of pairs process model activities. Experiments show that our measure is both efficient and effective.
+With continuous development of the Business Process Management (i.e. BPM) and the innovation of the workflow technology, the scale of large organizations and enterprises process model repositories is increasing. Their effective utilization requires an effective retrieval mechanism, so the analysis of the similarity between models is proposed as indispensable. Existing measures for process model similarity have various limitations. In this paper, we introduce a new metric to quantify process similarity based on the refined ordering relations with uncertainty. It uses Jaccard coefficient to measure the similarity between the sets of behavioral relation pairs of process model activities. Experiments show that our measure is both efficient and effective.
 \keywords{Business Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Similarity}
 \end{abstract}
 
@@ -71,6 +71,12 @@ A Petri net is a 5-tuple, $PN=(P,T,F,W,M_{0})$ where:
 A Petri net structure $N=(P,T,F,W)$ without any specific initial marking is denoted by $N$. A Petri net with the given initial marking is denoted by $(N,M_{0})$.
 \end{definition}
 
+\begin{figure}[!htb]
+	\centering
+	\epsfig{file=petri_example.eps,width=0.7\textwidth}
+	\caption{A example of Petri net\label{fig:exPetri}}
+\end{figure}
+
 For more details, please refer to the work of Murata \cite{murata1989petri}. A Petri net which models a workflow process definition is called a WorkFlow net (WF-net) \cite{van1998application}.
 
 \begin{definition}[WF-net]\label{def:wfnet}
@@ -81,7 +87,7 @@ A Petri net $PN=(P,T,F)$ is a WF-net (Workflow net) if and only if:
 	\end{enumerate}
 \end{definition}
 
-
+We extract the relations between activities on WF-net. A intuitive idea is to generate all the full firing sequences (or traces) of a model, which will be infinite in a model with loop structures. Also, we need to consider all possible interleavings of concurrent events, which causes the state explosion problem in a concurrent system \cite{mcmillan1995technique}. Javier Esparza proposed the notion of complete finite prefix to avoid this \cite{esparza1996improvement}, based on the improvement of MaMillan's unfolding algorithm \cite{mcmillan1995technique}.
 
 
 \section{Refined Ordering Relations with Uncertainty}\label{sec:relations}
