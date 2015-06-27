@@ -13,22 +13,23 @@
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{textcomp}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-\renewcommand{\algorithmicrequire}{\textbf{Input}}
-\renewcommand{\algorithmicensure}{\textbf{Output}}
-\fancyhead[RO]{{\scriptsize RORM: The Matrix of Refined Ordering Relations with Uncertainty \qquad\thepage}}
-\fancyhead[LE]{{\scriptsize \thepage\qquad Shuhao Wang, Lijie Wen, Zixuan Wang, Jianmin Wang and Jianwen Su}}
+% \usepackage{fancyhdr}
+% \pagestyle{fancy}
+% \fancyhf{}
+% \renewcommand{\headrulewidth}{0pt}
+% \renewcommand{\footrulewidth}{0pt}
+% \renewcommand{\algorithmicrequire}{\textbf{Input}}
+% \renewcommand{\algorithmicensure}{\textbf{Output}}
+% \fancyhead[RO]{{\scriptsize Extended Refined Ordering Relations with Uncertainty \qquad\thepage}}
+% \fancyhead[LE]{{\scriptsize \thepage\qquad Shuhao Wang, Lijie Wen, Zixuan Wang, Jianmin Wang and Jianwen Su}}
 \begin{document}
 \frontmatter 
-\addtocmark{RORM}
+\pagestyle{headings}
+\addtocmark{Extended Refined Ordering Relations with Uncertainty}
 
 \mainmatter
-\title{RORM: a Behavioral Process Model Similarity Measure based on the Matrix of Refined Ordering Relations with Uncertainty}
-\titlerunning{RORM: a Behavioral Process Model Similarity Measure based on the Matrix of Refined Ordering Relations with Uncertainty}
+\title{A Behavioral Similarity Measure for Process Models based on Extended Refined Ordering Relations with Uncertainty}
+\titlerunning{Extended Refined Ordering Relations with Uncertainty}
 
 \author[$\$$]{Shuhao Wang}
 \author[$\$$]{Lijie Wen}
@@ -47,51 +48,91 @@ iamwangzixuan@hotmail.com,jimwang@tsinghua.edu.cn}}
 \maketitle
 
 \begin{abstract}
-With continuous development of the Business Process Management (i.e. BPM) and the innovation of the workflow technology, the scale of large organizations and enterprises process model repositories is increasing. Their effective utilization requires an effective retrieval mechanism, so the analysis of the similarity between models is proposed as indispensable. Existing measures for process model similarity have various limitations. In this paper, we introduce a new metric to quantify process similarity based on the refined ordering relations with uncertainty. It uses Jaccard coefficient to measure the similarity between the sets of behavioral relation pairs of process model activities. Experiments show that our measure is both efficient and effective.
+Tao Jin has proposed new ordering relations between execution of tasks in business process models. He also gave an algorithm to compute the refined ordering relations for acyclic process models based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with invisible tasks. We extend his work and present a refinement of the relations. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary WF-nets and utilize them to measure the similarity between process models.
 \keywords{Business Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Similarity}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
 
-\section{Preliminaries}\label{sec:preliminaries}
-Our work is to measure the similarity between two process models. We will show our algorithm on a specific type of process model named Petri net.
+In a seminal paper \cite{jin2014computing}, Tao Jin has proposed new ordering relations between execution of tasks in business process models. He refines the causal and concurrency relations between two events in a concurrent system with uncertainty according to whether one task is always executed with the other task in the same instance. He then proposes some rules for adjacent tasks and some transitive laws for nonadjacent tasks, based on which he proposes an algorithm to compute the refined ordering relations for acyclic process models. The algorithm is done on the unfolding of a WF-net \cite{mcmillan1995technique,esparza1996improvement}.
 
-The concept of the Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}. Petri nets are a graphical and mathematical modeling tool applicable to many systems. They are a promising tool for describing and studying information processing systems that are characterized as being concurrent, asynchronous, distributed, parallel, nondeterministic, and/or stochastic \cite{murata1989petri}.
+Although Tao Jin' work is elegant, it has some drawbacks. First of all, for cyclic Petri nets, his algorithm cannot work well. According to his paper, the problem arises from the Global Fairness Assumption \cite{kindler1999liveness}. Secondly, invisible tasks have not been taken into consideration so that two models with different behavioral semantics may have the same set of ordering relations. To solve these problems, we extend his ordering relations to more trivial cases which is inspired by the work of DecSerFlow \cite{van2006decserflow}, and introduce the concept of sequential direct adjacency to better differentiate the behavioral semantics of two process models. Of course, we propose an algorithm to compute our relations in arbitrary WF-nets.
+
+Furthermore, since our refined relations have a strong ability to represent the behavioral semantics of a process model and can efficiently measure the tiny differentiation between two models, even when they contain invisible tasks, we utilize them as a proper metric to measure the similarity between two process models.
+
+Similarity measure can be widely used in many scenarios, such as model retrieval, process mining and model classification. There have been various proposals to this topic: based on textual information, the structure of process models, and their execution semantics \cite{kunze2011behavioral}.
+% TODO: mainstream algorithms
+
+In this paper, we propose a behavioral similarity measure based on the extended refined ordering relations with uncertainty. It satisfies metric properties, especially the triangle inequality \cite{zezula2006similarity}. The algorithm firstly extracts three types of relations and generates the relation sets of a process model. By measuring the similarity between relation sets of process models, a similarity value is finally given by the algorithm. We conduct experiments using process models from real enterprises and the results show that our similarity measure is both efficient and effective.
+
+The remainder of this paper is structured as follows: 
+% TODO: remainder of this paper
+
+\section{Preliminaries}\label{sec:preliminaries}
+Our work is to measure the similarity between two process models. There are many different notations to describe the business process, such as Business Process Model and Notation (BPMN), Event-driven Process Chain (EPC), Yet Another Workflow Language (YAWL) and Petri Net Markup Language (PNML). Since Petri net is suitable to analyze the behavior of process models, we will show our algorithm on Petri net. The concept of the Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
 
 \begin{definition}[Petri net]\label{def:petrinet}
-A Petri net is a 5-tuple, $PN=(P,T,F,W,M_{0})$ where:
+A Petri net is a triple $(P,T,F)$:
 	\begin{itemize}
-		\item[] $P=\{p_{1},p_{2},...,p_{m}\}$ is a finite set of places,
-		\item[] $T=\{t_{1},t_{2},...,t_{n}\}$ is a finite set of transitions,
-		\item[] $F\subseteq(P\times T)\cup(T\times P)$ is a set of arcs (flow relation),
-		\item[] $W:F\rightarrow\{1,2,3,...\}$ is a weight function,
-		\item[] $M_{0}:P\rightarrow\{0,1,2,3,...\}$ is the initial marking,
-		\item[] $P\cap T=\emptyset$ and $P\cup T\neq\emptyset$.
+		\item[-] $P$ is a finite set of places;
+		\item[-] $T$ is a finite set of transitions ($P\cap T=\emptyset$);
+		\item[-] $F\subseteq(P\times T)\cup(T\times P)$ is a set of arcs (flow relation).
 	\end{itemize}
-A Petri net structure $N=(P,T,F,W)$ without any specific initial marking is denoted by $N$. A Petri net with the given initial marking is denoted by $(N,M_{0})$.
 \end{definition}
 
-\begin{figure}[H]
-	\centering
-	\epsfig{file=petri_example.eps,width=0.7\textwidth}
-	\caption{A example of Petri net\label{fig:exPetri}}
-\end{figure}
-
-Figure \ref{fig:exPetri} shows an example of Petri net. For more details, please refer to the work of Murata \cite{murata1989petri}. A Petri net which models a workflow process definition is called a WorkFlow net (WF-net) \cite{van1998application}.
+For more details about Petri net, please refer to the work of Murata \cite{murata1989petri}. A Petri net which models a workflow process definition is called a WorkFlow net (WF-net) \cite{van1998application}.
 
 \begin{definition}[WF-net]\label{def:wfnet}
 A Petri net $PN=(P,T,F)$ is a WF-net (Workflow net) if and only if:
-	\begin{enumerate}[(i)]
-		\item $PN$ has two special places: $i$ and $o$. Place $i$ is a source place: $\bullet i=\emptyset$. Place $o$ is a sink place: $o\bullet =\emptyset$.
-		\item If we add a transition $t^{*}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet t^{*}=\{o\}$ and $t^{*}\bullet=\{i\}$), then the resulting Petri net is strongly connected.
-	\end{enumerate}
+	\begin{itemize}
+		\item[-] $PN$ has two special places: $i$ and $o$. Place $i$ is a source place: $\bullet i=\emptyset$. Place $o$ is a sink place: $o\bullet =\emptyset$;
+		\item[-] If we add a transition $t^{*}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet t^{*}=\{o\}$ and $t^{*}\bullet=\{i\}$), then the resulting Petri net is strongly connected.
+	\end{itemize}
 \end{definition}
 
-We extract the relations between activities on WF-net. A intuitive idea is to generate all the full firing sequences (or traces) of a model, which will be infinite in a model with loop structures. Also, we need to consider all possible interleavings of concurrent events, which causes the state explosion problem in a concurrent system \cite{mcmillan1995technique}. Javier Esparza proposed the notion of complete finite prefix to avoid this \cite{esparza1996improvement}, based on the improvement of MaMillan's unfolding algorithm \cite{mcmillan1995technique}.
+We extract the relations between activities on a WF-net. A intuitive idea is to generate the reachability graph of a model. We need to consider all possible interleavings of concurrent events, which causes the state explosion problem in a concurrent system \cite{mcmillan1995technique}. Javier Esparza proposed the notion of complete prefix unfolding to avoid this \cite{esparza1996improvement}, based on the improvement of McMillan's unfolding algorithm \cite{mcmillan1995technique}. Therefore, we use his work instead.
 
+\begin{definition}[Ordering Relations]\label{def:orderingRelations}
+There are three types of ordering relations between nodes of a net,
+	\begin{itemize}
+		\item[-] two nodes $x$ and $y$ are in causal relation, denoted by $x<y$, if the net contains a path with at least one arc leading from $x$ to $y$;
+		\item[-] $x$ and $y$ are in conflict relation, denoted by $x\#y$, if the net contains two paths $st_{1}...x_{1}$ and $st_{2}...x_{2}$ starting at the same place $s$, and such that $t_{1}\neq t_{2}$;
+		\item[-] $x$ and $y$ are in concurrency relation, denoted by $x co y$, if neither $x<y$ nor $y<x$ nor $x\#y$.
+	\end{itemize}
+\end{definition}
 
+\begin{definition}[Occurrence net]\label{def:occurrenceNet}
+An occurrence net is a Petri net $O=(B,E,A)$ such that $\forall x,y\in B\cup E:(x,y)
+\in A^{+}\Rightarrow(y,x)\notin A^{+}$ and $\forall b\in B:|\bullet b|\leq 1$.
+\end{definition}
 
-% \section{Refined Ordering Relations with Uncertainty}\label{sec:relations}
+\begin{definition}[Branching process]\label{def:branchingProcess}
+A branching process of a Petri net system $\Sigma=(P,T,F,M_{0})$ is a labelled occurrence net $\beta=(B,E,A,p)$ where the labelling function $p$ satisfies the following properties:
+	\begin{itemize}
+		\item[-] $p(B)\subseteq P$ and $p(E\subseteq T$ ($p$ preserves the nature of nodes);
+		\item[-] for every $e\in E$, the restriction of $p$ to $\bullet e$ is a bijection between $\bullet e$ (in $\Sigma$) and $\bullet p(e)$ (in $\beta$), and similarly for $e\bullet$ and $p(e)\bullet$ ($p$ preserves the environments of transitions);
+		\item[-] the restriction of $p$ to $Min(O)$ is bijection between $Min(O)$ and $M_{0}$ ($\beta$ "starts" at $M_{0}$), where $Min(O)$ denotes the set of minimal elements of $B\cup E$ with respect to the causal relation;
+		\item[-] for every $e_{1},e_{2}\in E$, if $\bullet e_{1}=\bullet e_{2}$ and $p(e_{1})=p(e_{2})$ then $e_{1}=e_{2}$ ($\beta$ does not duplicate the transitions of $\Sigma$).
+	\end{itemize}
+\end{definition}
+
+A Petri net system has infinite branching processes, which differ on "how much it unfolds". The complete finite prefix is the minimal one which contains all the markings contained in the branching process.
+
+\begin{definition}[Complete Prefix Unfolding]\label{def:cpu}
+Let $N=(P,T,F)$ be an occurrence net.
+	\begin{itemize}
+		\item[-] A local configuration $\lceil t\rceil$ of a transition $t$ in an occurrence net is the set of transitions that precede $t$.
+		\item[-] The final marking of a local configuration $Mark(\lceil t\rceil)$ is the set of places that are marked after all the transitions in $\lceil t\rceil$ fire.
+		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil t\rceil\subset\lceil t'\rceil$ implies $\lceil t\rceil\prec\lceil t'\rceil$.
+		\item[-] A transition $t$ of an occurrence net is a cutoff transition if there exists a corresponding transitions $t'$, such that $Mark(\lceil t\rceil)=Mark(\lceil t'\rceil)$ and $\lceil t\rceil\prec\lceil t'\rceil$.
+		\item[-] A complete prefix unfolding is the greatest backward closed subnet of an occurrence net containing no transitions after cutoff transitions.
+	\end{itemize}
+\end{definition}
+
+Definitions about complete prefix unfolding and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
+
+\section{Extended Refined Ordering Relations with Uncertainty}\label{sec:relations}
+In this section, we introduce the concept of refined ordering relation with uncertainty and its calculation from a WF-net.
 
 % \section{Similarity Measure}\label{sec:similarity}
 
