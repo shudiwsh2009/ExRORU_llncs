@@ -13,13 +13,13 @@
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{textcomp}
+\renewcommand{\algorithmicrequire}{\textbf{Input}}
+\renewcommand{\algorithmicensure}{\textbf{Output}}
 % \usepackage{fancyhdr}
 % \pagestyle{fancy}
 % \fancyhf{}
 % \renewcommand{\headrulewidth}{0pt}
 % \renewcommand{\footrulewidth}{0pt}
-% \renewcommand{\algorithmicrequire}{\textbf{Input}}
-% \renewcommand{\algorithmicensure}{\textbf{Output}}
 % \fancyhead[RO]{{\scriptsize Extended Refined Ordering Relations with Uncertainty \qquad\thepage}}
 % \fancyhead[LE]{{\scriptsize \thepage\qquad Shuhao Wang, Lijie Wen, Zixuan Wang, Jianmin Wang and Jianwen Su}}
 \begin{document}
@@ -107,25 +107,25 @@ An occurrence net is a Petri net $O=(B,E,A)$ such that $\forall x,y\in B\cup E:(
 \end{definition}
 
 \begin{definition}[Branching process]\label{def:branchingProcess}
-A branching process of a Petri net system $\Sigma=(P,T,F,M_{0})$ is a labelled occurrence net $\beta=(B,E,A,p)$ where the labelling function $p$ satisfies the following properties:
+A branching process of a Petri net system $\Sigma=(P,T,F,M_{0})$ is a labelled occurrence net $\beta=(B,E,A,f)$ where the labelling function $f$ satisfies the following properties:
 	\begin{itemize}
-		\item[-] $p(B)\subseteq P$ and $p(E\subseteq T$ ($p$ preserves the nature of nodes);
-		\item[-] for every $e\in E$, the restriction of $p$ to $\bullet e$ is a bijection between $\bullet e$ (in $\Sigma$) and $\bullet p(e)$ (in $\beta$), and similarly for $e\bullet$ and $p(e)\bullet$ ($p$ preserves the environments of transitions);
-		\item[-] the restriction of $p$ to $Min(O)$ is bijection between $Min(O)$ and $M_{0}$ ($\beta$ "starts" at $M_{0}$), where $Min(O)$ denotes the set of minimal elements of $B\cup E$ with respect to the causal relation;
-		\item[-] for every $e_{1},e_{2}\in E$, if $\bullet e_{1}=\bullet e_{2}$ and $p(e_{1})=p(e_{2})$ then $e_{1}=e_{2}$ ($\beta$ does not duplicate the transitions of $\Sigma$).
+		\item[-] $f(B)\subseteq P$ and $f(E\subseteq T$ ($f$ preserves the nature of nodes);
+		\item[-] for every $e\in E$, the restriction of $f$ to $\bullet e$ is a bijection between $\bullet e$ (in $\Sigma$) and $\bullet f(e)$ (in $\beta$), and similarly for $e\bullet$ and $f(e)\bullet$ ($f$ preserves the environments of transitions);
+		\item[-] the restriction of $f$ to $Min(O)$ is bijection between $Min(O)$ and $M_{0}$ ($\beta$ "starts" at $M_{0}$), where $Min(O)$ denotes the set of minimal elements of $B\cup E$ with respect to the causal relation;
+		\item[-] for every $e_{1},e_{2}\in E$, if $\bullet e_{1}=\bullet e_{2}$ and $f(e_{1})=f(e_{2})$ then $e_{1}=e_{2}$ ($\beta$ does not duplicate the transitions of $\Sigma$).
 	\end{itemize}
 \end{definition}
 
 A Petri net system has infinite branching processes, which differ on "how much it unfolds". The complete finite prefix is the minimal one which contains all the markings contained in the branching process.
 
 \begin{definition}[Complete Prefix Unfolding]\label{def:cpu}
-Let $N=(P,T,F)$ be an occurrence net.
+Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,F,M_{0})$, every condition $b\in B$ has a corresponding place $p\in P$ and every event $e\in E$ has a corresponding transition $t\in T$.
 	\begin{itemize}
-		\item[-] A local configuration $\lceil t\rceil$ of a transition $t$ in an occurrence net is the set of transitions that precede $t$.
-		\item[-] The final marking of a local configuration $Mark(\lceil t\rceil)$ is the set of places that are marked after all the transitions in $\lceil t\rceil$ fire.
-		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil t\rceil\subset\lceil t'\rceil$ implies $\lceil t\rceil\prec\lceil t'\rceil$.
-		\item[-] A transition $t$ of an occurrence net is a cutoff transition if there exists a corresponding transitions $t'$, such that $Mark(\lceil t\rceil)=Mark(\lceil t'\rceil)$ and $\lceil t\rceil\prec\lceil t'\rceil$.
-		\item[-] A complete prefix unfolding is the greatest backward closed subnet of an occurrence net containing no transitions after cutoff transitions.
+		\item[-] A local configuration $\lceil e\rceil$ of a event $e$ in an occurrence net is the set of events that precede $e$.
+		\item[-] The final marking of a local configuration $Mark(\lceil e\rceil)$ is the set of conditions that are marked after all the events in $\lceil e\rceil$ fire.
+		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil e\rceil\subset\lceil e'\rceil$ implies $\lceil e\rceil\prec\lceil e'\rceil$.
+		\item[-] A event $e$ of a branching process is a cutoff event if there exists a corresponding event $e'$, such that $Mark(\lceil e\rceil)=Mark(\lceil e'\rceil)$ and $\lceil e\rceil\prec\lceil e'\rceil$.
+		\item[-] A complete prefix unfolding is the greatest backward closed subnet of an occurrence net containing no events after cutoff events.
 	\end{itemize}
 \end{definition}
 
@@ -263,7 +263,21 @@ In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurren
 
 As mentioned before, an intuitive idea to derive our relations is based on reachability graphs. Such technique would face a state explosion problem, especially when the WF-net contains a parallel with large scale of transitions. Theoretically, the reachability graph will derive all the reaching states by combining the executions of transitions within a parallel structure. What's more important is that we actually cannot distinguish the relation of \textit{response} and \textit{alternate response} in a WF-net with loop structure using the reachability technique. So we adopt the unfolding technology in this paper.
 
-The reason why we do not derive the relations based on sound WF-net itself is that WF-net describe the structure of process rather than behaviors, which is the focus of unfolding technique. In the complete prefix unfolding of the WF-net, there would be cutoff transitions and cutoff places (places after those cutoff transitions). We need to find out all the cutoff places pointing to the gate of a loop structure in case that we traverse the loop part again and again. By traversing along the path between two specific transitions, we can derive the extended ordering relations between them, which will be specified later.
+The reason why we do not derive the relations based on sound WF-net itself is that WF-net describe the structure of process rather than behaviors, which is the focus of unfolding technique. In the complete prefix unfolding of the WF-net, there would be cutoff transitions and cutoff places (places after those cutoff transitions). We need to find out all the cutoff places pointing to the gate of a loop structure to avoid that we traverse the loop part again and again. By traversing along the path between two specific transitions, we can derive the extended ordering relations between them, which will be specified later.
+
+We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the WF-net. In another word, if we reverse the direction of every edge in the WF-net, then the causal relations in the new WF-net are the same as the inverse causal relations in the original WF-net. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of a WF-net.
+
+There may be more than one corresponding event (a.k.a. shadow event) in the complete prefix unfolding of a transition in the original WF-net. Therefore, when we derive the extended ordering relation between transition $A$ and $B$, we need to check the relations between each shadow event of $A$ and some shadow event of $B$. For example, $A\twoheadrightarrow B$ is said to be true if and only if $\forall a\in\{shadow~events~of~A\}, \exists b\in\{shadow~events~of~B\}, a\twoheadrightarrow b$.
+
+The computation of extended causal relations is listed as Algorithm.
+
+\begin{algorithm}[!htb]
+\caption{Computation of Extended Causal Relations}\label{algo:causal}
+\begin{algorithmic}[1]
+\Require A sound WF-net $\Sigma=(P,T,F,M_{0})$ and its complete prefix unfolding $\beta=(B,E,A,f)$
+\Ensure xxx
+\end{algorithmic}
+\end{algorithm}
 
 
 % \section{Similarity Measure}\label{sec:similarity}
