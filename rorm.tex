@@ -1,7 +1,7 @@
 \documentclass{llncs}
 \usepackage{makeidx}
 \usepackage{enumerate}
-\usepackage[dvips]{graphicx}
+\usepackage[dvips,dvipdfm]{graphicx}
 \usepackage{subfigure}
 \usepackage{authblk}
 \usepackage{amssymb}
@@ -203,7 +203,7 @@ $x$ and $y$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}
 \end{definition}
 
 \begin{definition}[Sometimes Inverse Causal]\label{def:sometimesInverseCausal}
-$x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: $\forall\sigma_{y}\in S_{y}$, $x$ and $y$ are neither in always inverse causal relation nor never in inverse causal relation.
+$x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: $\forall\sigma_{y}\in S_{y}$, $x$ and $y$ are neither in always inverse causal relation nor in never inverse causal relation.
 \end{definition}
 
 \begin{example}
@@ -268,7 +268,34 @@ As mentioned before, an intuitive idea to derive our relations is based on reach
 
 We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the unfolding. In another word, if we reverse the direction of every edge in the unfolding, then the causal relations in the new unfolding (actually the new graph is not an unfolding,  but we use the saying to explain our computation here) are the same as the inverse causal relations in the original unfolding. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of an unfolding.
 
-Another fact that we should notice is that there may be more than one corresponding event (shadow event in some paper like \cite{wang2013efficient}) in the complete prefix unfolding of a transition in the original WF-net. These corresponding events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the extended ordering relation between transitions in the WF-net, we need to check the relations between each corresponding event of those transitions.
+There may be more than one corresponding event (shadow event in some paper like \cite{wang2013efficient}) in the complete prefix unfolding of a transition in the original WF-net. These corresponding events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the extended ordering relation between transitions in the WF-net, we need to check the relations between each corresponding event of those transitions. Based on this, we give the computation of extended relations between transitions. Let $Corr_{E}(A)$ be the set containing the corresponding events of transition $A$.
+
+\begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
+Transitions $A$ and $B$ are in
+	\begin{itemize}
+		\item[-] always causal relation (denoted as $A\twoheadrightarrow B$) iff: $\forall a\in Corr_{E}(A), \exists b\in Corr_{E}(B),\\s.t.~a\twoheadrightarrow b$;
+		\item[-] never causal relation (denoted as $A\nrightarrow B$) iff: $\forall a\in Corr_{E}(A), b\in Corr_{E}(B),\\a\nrightarrow b$;
+		\item[-] sometimes causal relation (denoted as $A\rightharpoonup B$) iff: $A$ and $B$ are neither in always causal relation nor in never causal relation.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Extended Inverse Causal Relations Between Transitions]\label{def:inverseCausalRelations}
+Transitions $A$ and $B$ are in
+	\begin{itemize}
+		\item[-] always inverse causal relation (denoted as $B\twoheadrightarrow^{-1}A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\twoheadrightarrow^{-1}a$;
+		\item[-] never inverse causal relation (denoted as $B\nrightarrow^{-1}A$) iff: $\forall b\in Corr_{E}(B), a\in Corr_{E}(A), b\nrightarrow^{-1}a$;
+		\item[-] sometimes inverse causal relation (denoted as $B\rightharpoonup^{-1}A$) iff: $A$ and $B$ are neither in always inverse causal relation nor in never inverse causal relation.
+	\end{itemize}
+\end{definition}
+
+\begin{definition}[Extended Concurrent Relations Between Transitions]\label{def:concurrentRelations}
+Transitions $A$ and $B$ are in
+	\begin{itemize}
+		\item[-] always concurrent relation (denoted as $A\equiv B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\equiv b$;
+		\item[-] never concurrent relation (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),b\in Corr_{E}(B),a\nparallel b$;
+		\item[-] sometimes concurrent relation (denoted as $A\Uparrow B$) iff: $A$ and $B$ are neither in always concurrent relation nor in never concurrent relation.
+	\end{itemize}
+\end{definition}
 
 
 % \section{Similarity Measure}\label{sec:similarity}
