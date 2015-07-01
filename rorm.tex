@@ -305,7 +305,29 @@ As for the extended concurrent relations between events $a$ and $b$, there are a
 \caption{Derive Concurrent Relations Between Events}
 \label{algo:concurrentRelations}
 	\begin{algorithmic}
-	\Ensure
+	\Require a complete prefix unfolding $\beta=(B,E,A,f)$, two events $a,b\in E$ and their least common predecessor $lcp$
+	\Ensure concurrent relations between $a$ and $b$
+	\If {$lcp$ is a condition OR $lcp==a$ OR $lcp==b$}
+		\State \Return $a\nparallel b,b\nparallel a$
+	\EndIf
+	\State $aSometimesConcurrent\gets\texttt{false},bSometimesConcurrent\gets\texttt{false}$
+	\State $path1\gets$ some path from $lcp$ to $a$
+	\State $path2\gets$ some path from $lcp$ to $b$
+	\State $aSkipSplits,bSkipSplits,aSkipJoins,bSkipJoins\gets\emptyset$
+	\For {each condition $c\in path1$}
+		\State $Corr_{C}(c)\gets$ the set containing all the corresponding conditions of $c$
+		\For {each $co\in Corr_{C}(c)$}
+			\State $se\gets$ the successive event of $co$
+			\If {$se\notin path1$ AND there is a path from $se$ to sink state}
+				\State $aSkipSplits\gets aSkipSplits\cup\{se\}$
+			\EndIf
+			\State $pe\gets$ the predecessive event of $co$
+			\If {$pe\notin path1$ AND ($a==pe$ OR there is a path from source state or $a$ to $pe$ without any nodes of $path1$)}
+				\State $aSkipJoins\gets aSkipJoins\cup\{pe\}$
+			\EndIf
+		\EndFor
+	\EndFor
+	\State Derive the set $bSkipSplits$ and $bSkipJoins$ by $path2$ using the method above
 	\end{algorithmic}
 \end{algorithm}
 
