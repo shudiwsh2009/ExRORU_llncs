@@ -210,7 +210,7 @@ $x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoon
 In the model of Fig. \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the paths containing $O$. $A$ and $C$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some paths containing $C$ (such as $[I,B,C,O]$), indicating that $A$ and $C$ are not in \textit{precedence} relation. $C$ and $D$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
 \end{example}
 
-We have identified several cases of causal and inverse causal relation and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
+We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
 
 In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
 
@@ -262,6 +262,9 @@ Based on whether one task is always executed in the same instance concurrently w
 \begin{definition}[Sometimes Concurrent]\label{def:sometimesConcurrent}
 \end{definition}
 
+We have also identified several cases of concurrent relations and turn them into abstrace formulas.
+%TODO
+
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
 In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurrent}, we give the definitions of extended refined ordering relations with uncertainty between events of the complete prefix unfolding. 
 
@@ -293,6 +296,16 @@ We may notice the fact that the computations of causal relation and inverse caus
 			\EndFor
 		\EndIf
 		\State \Return $a\twoheadrightarrow b$
+	\end{algorithmic}
+\end{algorithm}
+
+As for the extended concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We give the computation of such relations in Algorithm \ref{algo:concurrentRelations}.
+
+\begin{algorithm}
+\caption{Derive Concurrent Relations Between Events}
+\label{algo:concurrentRelations}
+	\begin{algorithmic}
+	\Ensure
 	\end{algorithmic}
 \end{algorithm}
 
