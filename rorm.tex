@@ -1,7 +1,7 @@
 \documentclass{llncs}
 \usepackage{makeidx}
 \usepackage{enumerate}
-\usepackage[dvips,dvipdfm]{graphicx}
+\usepackage[dvips]{graphicx}
 \usepackage{subfigure}
 \usepackage{authblk}
 \usepackage{amssymb}
@@ -124,7 +124,7 @@ Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,
 		\item[-] A local configuration $\lceil e\rceil$ of a event $e$ in an occurrence net is the set of events that precede $e$.
 		\item[-] The final marking of a local configuration $Mark(\lceil e\rceil)$ is the set of conditions that are marked after all the events in $\lceil e\rceil$ fire.
 		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil e\rceil\subset\lceil e'\rceil$ implies $\lceil e\rceil\prec\lceil e'\rceil$.
-		\item[-] A event $e$ of a branching process is a cutoff event if there exists a corresponding event $e'$, such that $Mark(\lceil e\rceil)=Mark(\lceil e'\rceil)$ and $\lceil e\rceil\prec\lceil e'\rceil$.
+		\item[-] An event $e$ of a branching process is a cutoff event if there exists a corresponding event $e'$, such that $Mark(\lceil e\rceil)=Mark(\lceil e'\rceil)$ and $\lceil e\rceil\prec\lceil e'\rceil$.
 		\item[-] A complete prefix unfolding is the greatest backward closed subnet of an occurrence net containing no events after cutoff events.
 	\end{itemize}
 \end{definition}
@@ -210,8 +210,9 @@ $x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoon
 In the model of Fig. \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the paths containing $O$. $A$ and $C$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some paths containing $C$ (such as $[I,B,C,O]$), indicating that $A$ and $C$ are not in \textit{precedence} relation. $C$ and $D$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
 \end{example}
 
-We have identified several scenarios of causal and inverse causal relation and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}.
-%TODO explanation
+We have identified several cases of causal and inverse causal relation and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
+
+In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
 
 \begin{figure}[!htb]
 \centering
@@ -262,11 +263,40 @@ Based on whether one task is always executed in the same instance concurrently w
 \end{definition}
 
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
-In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurrent}, we give the definitions of extended refined ordering relations with uncertainty between events of the complete prefix unfolding. However, more useful information are the extended relations between transitions on the WF-net. In this section, we focus on the computation of our relations on a WF-net based on its unfolding.
+In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurrent}, we give the definitions of extended refined ordering relations with uncertainty between events of the complete prefix unfolding. 
 
 As mentioned before, an intuitive idea to derive our relations is based on reachability graphs. Such technique would face a state explosion problem, especially when the WF-net contains a parallel with large scale of transitions. Theoretically, the reachability graph will derive all the reaching states by combining the executions of transitions within a parallel structure. Another problem is that we actually cannot distinguish the relation of \textit{response} and \textit{alternate response} in a WF-net with loop structure using the reachability technique. So we adopt the unfolding technology in this paper. The reason why we do not derive the relations based on sound WF-net itself is that WF-net describe the structure of a process rather than behaviors, which is just the focus of unfolding technique.
 
-We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the unfolding. In another word, if we reverse the direction of every edge in the unfolding, then the causal relations in the new unfolding (actually the new graph is not an unfolding,  but we use the saying to explain our computation here) are the same as the inverse causal relations in the original unfolding. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of an unfolding.
+We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the unfolding. In another word, if we reverse the direction of every edge in the unfolding, then the causal relations in the new unfolding (actually the new graph is not an unfolding, but we use the saying to explain our computation here) are the same as the inverse causal relations in the original unfolding. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of an unfolding. The algorithm to derive causal relations between events of an unfolding is shown in Algorithm \ref{algo:causalRelations}. 
+
+\begin{algorithm}
+\caption{Derive Causal Relations Between Events}
+\label{algo:causalRelations}
+	\begin{algorithmic}
+		\Require a complete prefix unfolding $\beta=(B,E,A,f)$ and two events $a,b\in E$
+		\Ensure causal relations between $a$ and $b$
+		\If {there is no path from $a$ to $b$}
+			\State \Return $a\nrightarrow b$
+		\EndIf
+		\State $path\gets$ some path from $a$ to $b$
+		\If {$a==b$}
+			\State \Return $a\rightharpoonup b$
+		\Else
+			\For {each condition $c\in path$}
+				\State $Corr_{C}(c)\gets$ the set containing all the corresponding conditions of $c$
+				\For {each $co\in Corr_{C}(c)$}
+					\State $e\gets$ the succession event of $co$
+					\If {there is a path from $e$ to $a$ or sink state without $b$}
+						\State \Return $a\rightharpoonup b$
+					\EndIf
+				\EndFor
+			\EndFor
+		\EndIf
+		\State \Return $a\twoheadrightarrow b$
+	\end{algorithmic}
+\end{algorithm}
+
+More useful information are the extended relations between transitions on the WF-net, which can be utilized to check the consistency or measure the similarity between process models. , we focus on the computation of our relations on a WF-net based on its unfolding.
 
 There may be more than one corresponding event (shadow event in some paper like \cite{wang2013efficient}) in the complete prefix unfolding of a transition in the original WF-net. These corresponding events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the extended ordering relation between transitions in the WF-net, we need to check the relations between each corresponding event of those transitions. Based on this, we give the computation of extended relations between transitions. Let $Corr_{E}(A)$ be the set containing the corresponding events of transition $A$.
 
