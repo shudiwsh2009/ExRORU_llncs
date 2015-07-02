@@ -310,7 +310,6 @@ As for the extended concurrent relations between events $a$ and $b$, there are a
 	\If {$lcp$ is a condition OR $lcp==a$ OR $lcp==b$}
 		\State \Return $a\nparallel b,b\nparallel a$
 	\EndIf
-	\State $aSometimesConcurrent\gets\texttt{false},bSometimesConcurrent\gets\texttt{false}$
 	\State $path1\gets$ some path from $lcp$ to $a$
 	\State $path2\gets$ some path from $lcp$ to $b$
 	\State $aSkipSplits,bSkipSplits,aSkipJoins,bSkipJoins\gets\emptyset$
@@ -328,6 +327,35 @@ As for the extended concurrent relations between events $a$ and $b$, there are a
 		\EndFor
 	\EndFor
 	\State Derive the set $bSkipSplits$ and $bSkipJoins$ by $path2$ using the method above
+	\State $aSometimesConcurrent\gets\texttt{false},bSometimesConcurrent\gets\texttt{false}$
+	\For {each event $aSucc\in aSkipSplits$}
+		\For {each event $bSucc\in bSkipSplits$}
+			\If {$aSucc==bSucc$}
+				\State remove $aSucc$ from $aSkipSplits$ and remove $bSucc$ from $bSkipSplits$
+			\EndIf
+		\EndFor
+	\EndFor
+	\For {each event $aPred\in aSkipJoins$}
+		\For {each event $bPred\in bSkipJoins$}
+			\State $\_lcp\gets$ the lease common predecessor node of $aPred$ and $bPred$
+			\If {$\_lcp$ is an event AND $\_lcp\neq lcp$}
+				\State remove $bPred$ from $bSkipJoins$ and remove $bPred$ from $bSkipJoins$
+			\EndIf
+		\EndFor
+	\EndFor
+	\If {$aSkipSplits=\emptyset$ AND $aSkipJoins=\emptyset$}
+		\If {$bSkipSplits=\emptyset$ AND $bSkipJoins=\emptyset$}
+			\State \Return $a\equiv b,b\equiv a$
+		\Else 
+			\State \Return $a\equiv b,b\Uparrow a$
+		\EndIf
+	\Else
+		\If {$bSkipSplits=\emptyset$ AND $bSkipJoins=\emptyset$}
+			\State \Return $a\Uparrow b,b\equiv a$
+		\Else 
+			\State \Return $a\Uparrow b,b\Uparrow a$
+		\EndIf
+	\EndIf
 	\end{algorithmic}
 \end{algorithm}
 
