@@ -262,7 +262,43 @@ Based on whether one task is always executed in the same instance concurrently w
 \begin{definition}[Sometimes Concurrent]\label{def:sometimesConcurrent}
 \end{definition}
 
-We have also identified several cases of concurrent relations and turn them into abstrace formulas.
+We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}.
+
+\begin{figure}[!htb]
+\centering
+\subfigure[] {
+	\begin{minipage}[b]{1\textwidth}
+		\centering
+		\includegraphics[width=0.36\textwidth]{fig_concurrent_case_a_1.eps}%
+		\hspace{0.5in}%
+		\includegraphics[width=0.36\textwidth]{fig_concurrent_case_a_2.eps}
+	\end{minipage}
+	\label{fig:concurrentCaseA}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{fig_concurrent_case_b.eps}
+	\end{minipage}
+	\label{fig:concurrentCaseB}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{fig_concurrent_case_c.eps}
+	\end{minipage}
+	\label{fig:concurrentCaseC}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=1\textwidth]{fig_concurrent_case_d.eps}
+	\end{minipage}
+	\label{fig:concurrentCaseD}
+}
+\caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B$; \subref{fig:concurrentCaseB} $A\equiv B$; \subref{fig:concurrentCaseC} $A\equiv B$; \subref{fig:concurrentCaseD} $A\Uparrow B$.}
+\label{fig:concurrentCases}
+\end{figure}
 %TODO
 
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
@@ -389,6 +425,81 @@ Transitions $A$ and $B$ are in
 		\item[-] sometimes concurrent relation (denoted as $A\Uparrow B$) iff: $A$ and $B$ are neither in always concurrent relation nor in never concurrent relation.
 	\end{itemize}
 \end{definition}
+
+Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_causal}.
+
+\begin{table}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\centering
+	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
+		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
+		$A$ 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$B$ 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$C$ 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$D$ 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$E$ 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$I$ 
+			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\parallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+		$O$ 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			\\ \hline
+	\end{tabular}
+\caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
+\label{tab:example_causal}
+\end{table}
 
 
 % \section{Similarity Measure}\label{sec:similarity}
