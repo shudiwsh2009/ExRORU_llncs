@@ -102,7 +102,7 @@ There are three types of ordering relations between nodes of a net,
 	\begin{itemize}
 		\item[-] two nodes $x$ and $y$ are in causal relation, denoted by $x<y$, if the net contains a path with at least one arc leading from $x$ to $y$;
 		\item[-] $x$ and $y$ are in conflict relation, denoted by $x\#y$, if the net contains two paths $st_{1}...x_{1}$ and $st_{2}...x_{2}$ starting at the same place $s$, and such that $t_{1}\neq t_{2}$;
-		\item[-] $x$ and $y$ are in concurrency relation, denoted by $x co y$, if neither $x<y$ nor $y<x$ nor $x\#y$.
+		\item[-] $x$ and $y$ are in concurrency relation, denoted by $x~co~y$, if neither $x<y$ nor $y<x$ nor $x\#y$.
 	\end{itemize}
 \end{definition}
 
@@ -213,10 +213,6 @@ In the model of Fig. \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always i
 
 We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with "Loop $A$" means that there is a path starting from some node after $A$ and ending in some node before $A$ so that $A$ can be executed more than once. The edge labeled with "Skip $A$" means that there is a path starting from some node before $A$ and ending in some node after $A$ so that $A$ may not be executed. In other words, transitions inside a \textit{loop} structure can be executed more than once which transitions inside a \textit{skip} structure may not be executed.
 
-For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
-
-In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
-
 \begin{figure}[htbp]
 \centering
 \subfigure[] {
@@ -253,18 +249,29 @@ In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part
 \label{fig:causalCases}
 \end{figure}
 
-\subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
-A trace, or a full firing sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of $\beta$, and $\Omega_{x}$ be the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined
+For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
 
-Based on whether one task is always executed in the same instance concurrently with the other task, we extend the causal relations and define new inverse causal relations.
+In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
+
+\subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
+A trace, or a full firing sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of $\beta$, and $\Omega_{x}$ be the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined using the notion of $\Omega_{x}$.
+
+We use $\sigma\uparrow X$ to denote the projection of $\sigma$ onto some event set $X\subseteq E$, i.e., a trace $\sigma'\subseteq\sigma$ which only contains those events in $X$ and remains their order in $\sigma$. Let $P(\sigma,x,y)=\sigma\uparrow\{x,y\}$ be the projection of $\sigma$ onto events $x$ and $y$.
 
 \begin{definition}[Always Concurrent]\label{def:alwaysConcurrent}
+$x$ and $y$ are in always concurrent relation (denoted as $x\equiv y$) iff: $\forall\sigma_{x}\in\Omega_{x}$,
+	\begin{itemize}
+		\item[-] $x$ and $y$ are in concurrency relation, i.e., $x~co~y$;
+		\item[-] $|P(\sigma_{x},x,y)|\%2=0\wedge\forall_{1\leq k<|P|/2}((P(\sigma_{x},x,y)_{2k+1}=a\wedge P(\sigma_{x},x,y)_{2k+2}=b)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=a)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=b))}$.
+	\end{itemize}
 \end{definition}
 
 \begin{definition}[Never Concurrent]\label{def:neverConcurrent}
+$x$ and $y$ are in always concurrent relation (denoted as $x\nparallel y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x$ and $y$ are not in concurrency relation.
 \end{definition}
 
 \begin{definition}[Sometimes Concurrent]\label{def:sometimesConcurrent}
+$x$ and $y$ are in sometimes concurrent relation (denoted as $x\Uparrow y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x$ and $y$ are neither in always concurrent relation nor in never concurrent relation.
 \end{definition}
 
 We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}. In these formulas, events $A$ and $B$ are all in \textit{concurrency} relation.
@@ -304,6 +311,10 @@ We have also identified several cases of concurrent relations and turn them into
 \caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B$; \subref{fig:concurrentCaseB} $A\equiv B$; \subref{fig:concurrentCaseC} $A\equiv B$; \subref{fig:concurrentCaseD} $A\Uparrow B$.}
 \label{fig:concurrentCases}
 \end{figure}
+
+Similarly as the abstract formulas for causal and inverse causal relations, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:concurrentCaseA}, we have traces such as $[I*A*B*],[I*B*A*],[I*A*]$ for the first unfolding and traces such as $[I*A*B*],[I*A*A*B*],[I*A*A*A*B*]...$ for the second unfolding, which do not satisfy the second condition in Definition \ref{def:alwaysConcurrent}. Therefore, events $A$ and $B$ of the unfoldings in Fig. \ref{fig:concurrentCaseA} are in \textit{sometimes concurrent} relation.
+
+As for the unfolding in Fig. \ref{fig:concurrentCaseB}, events $A$ and $B$ may be executed both once or not executed at all, i.e., there are traces such as $[I*A*B*],[I*B*A*],[I*X*]$, indicating that $A\equiv B$. It is easily seen that traces in the unfolding of Fig. \ref{fig:concurrentCaseC} satisfy the second rule in Definition \ref{def:alwaysConcurrent}, so $A$ and $B$ are in \textit{always concurrent} relation. The unfolding in Fig. \ref{fig:concurrentCaseD} shows a special structure called non-free choice, and we will go into details later.
 
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
 In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurrent}, we give the definitions of extended refined ordering relations with uncertainty between events of the complete prefix unfolding. 
