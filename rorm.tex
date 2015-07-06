@@ -136,7 +136,7 @@ Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,
 
 Definitions about complete prefix unfolding and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.7\textwidth}
@@ -219,7 +219,7 @@ We have identified several cases of causal and inverse causal relations and turn
 
 In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
@@ -269,7 +269,7 @@ Based on whether one task is always executed in the same instance concurrently w
 
 We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}.
 
-\begin{figure}
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
@@ -313,7 +313,7 @@ As mentioned before, an intuitive idea to derive our relations is based on reach
 
 We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the unfolding. In another word, if we reverse the direction of every edge in the unfolding, then the causal relations in the new unfolding (actually the new graph is not an unfolding, but we use the saying to explain our computation here) are the same as the inverse causal relations in the original unfolding. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of an unfolding. The algorithm to derive causal relations between events of an unfolding is shown in Algorithm \ref{algo:causalRelations}. 
 
-\begin{algorithm}
+\begin{algorithm}[htbp]
 \caption{Derive Causal Relations Between Events}
 \label{algo:causalRelations}
 	\begin{algorithmic}
@@ -342,7 +342,7 @@ We may notice the fact that the computations of causal relation and inverse caus
 
 As for the extended concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We give the computation of such relations in Algorithm \ref{algo:concurrentRelations}.
 
-\begin{algorithm}
+\begin{algorithm}[htbp]
 \caption{Derive Concurrent Relations Between Events}
 \label{algo:concurrentRelations}
 	\begin{algorithmic}
@@ -433,7 +433,7 @@ Transitions $A$ and $B$ are in
 
 Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 
-\begin{table}
+\begin{table}[htbp]
 \centering
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
@@ -506,18 +506,22 @@ Using the notions and computations described in the previous sections, we can de
 \end{table}
 
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
-We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}. Example
+We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}. 
 
-\begin{figure}
+Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Fig. \ref{fig:sdaExampleA} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$ and $[I,B,O]$ while the full firing sequences of the model in Fig. \ref{fig:sdaExampleB} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$, $[I,B,O]$ and $[I,O]$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
+
+\begin{figure}[htbp]
 	\begin{minipage}[b]{0.5\textwidth}
 		\centering
 		\subfigure[] {
 			\centering
 			\includegraphics[width=1\textwidth]{fig_sda_example_1.eps}
+			\label{fig:sdaExampleA}
 		}
 		\subfigure[] {
 			\centering
 			\includegraphics[width=1\textwidth]{fig_sda_example_2.eps}
+			\label{fig:sdaExampleB}
 		}
 		\caption{Models with invisible tasks}
 		\label{fig:sdaExample}
@@ -557,6 +561,10 @@ We can distinguish most process models from each other by their executing semant
 	\end{minipage}
 \end{figure}
 
+By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}. In order to solve the problem of invisible task, we propose the concept of sequential direct adjacency.
+
+\begin{definition}[Sequential Direct Adjacency]\label{def:sda}
+\end{definition}
 
 
 % \section{Similarity Measure}\label{sec:similarity}
