@@ -15,6 +15,11 @@
 \usepackage{textcomp}
 \renewcommand{\algorithmicrequire}{\textbf{Input}}
 \renewcommand{\algorithmicensure}{\textbf{Output}}
+\makeatletter 
+  \newcommand\figcaption{\def\@captype{figure}\caption} 
+  \newcommand\tabcaption{\def\@captype{table}\caption} 
+  \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\makeatother
 % \usepackage{fancyhdr}
 % \pagestyle{fancy}
 % \fancyhf{}
@@ -131,7 +136,7 @@ Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,
 
 Definitions about complete prefix unfolding and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.7\textwidth}
@@ -214,7 +219,7 @@ We have identified several cases of causal and inverse causal relations and turn
 
 In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
@@ -264,7 +269,7 @@ Based on whether one task is always executed in the same instance concurrently w
 
 We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}.
 
-\begin{figure}[!htb]
+\begin{figure}[htb]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
@@ -426,10 +431,9 @@ Transitions $A$ and $B$ are in
 	\end{itemize}
 \end{definition}
 
-Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_causal}.
+Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 
 \begin{table}
-\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \centering
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
@@ -498,8 +502,60 @@ Using the notions and computations described in the previous sections, we can de
 			\\ \hline
 	\end{tabular}
 \caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
-\label{tab:example_causal}
+\label{tab:example_relations}
 \end{table}
+
+\subsection{Sequential Direct Adjacency}\label{subsec:sda}
+We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}.
+
+\begin{figure}[htb]
+	\begin{minipage}[b]{0.5\textwidth}
+		\centering
+		\subfigure[] {
+			\centering
+			\includegraphics[width=0.8\textwidth]{fig_sda_example_1.eps}
+		}
+		\subfigure[] {
+			\centering
+			\includegraphics[width=0.8\textwidth]{fig_sda_example_2.eps}
+		}
+		\caption{Models with invisible tasks}
+		\label{fig:sdaExample}
+	\end{minipage}%
+	\begin{minipage}[b]{0.5\textwidth}
+		\centering
+		\begin{tabular}{c|c|c|c|c} \hline
+			Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
+			$A$
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				\\ \hline
+			$B$
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				\\ \hline
+			$I$
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				\\ \hline
+			$O$
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				& \tabincell{c}{$$\\$^{-1}$\\$$} 
+				\\ \hline
+		\end{tabular}
+		\caption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
+		\label{tab:sdaExample}
+	\end{minipage}
+\end{figure}
+
 
 
 % \section{Similarity Measure}\label{sec:similarity}
