@@ -162,37 +162,33 @@ Our extended relations are inspired by the work in \cite{van2006decserflow}, whi
 \begin{definition}[Relation Formulas]\label{def:relationFormulas}
 Let $A$ and $B$ be two activities of a process, $A$ and $B$ are in the following relation formulas:\footnote{Note that the relation formulas are not complete here, since we only need part of them. For more details, please refer to the work of Alast \cite{van2006decserflow}.}
 	\begin{itemize}
-		\item[-] Responded Existence: if activity $A$ is executed, activity $B$ also has to be executed either before or after the activity $A$.
-		\item[-] Co-existence: if one of activities $A$ or $B$ is executed, the other one has to executed also.
-		\item[-] Response: every time activity $A$ executes, activity $B$ has to be executed after it.
-		\item[-] Precedence: if activity $B$ was executed, it could not have been executed until the activity $A$ was executed.
 		\item[-] Alternate Response: after the execution of an activity $A$ activity $B$ has to be executed and between the execution of each two $A$ at least one activity $B$ has to be executed.
 		\item[-] Alternate Precedence: every instance of activity $B$ has to be preceded by an instance of activity $A$ and the next instance of activity $B$ cannot be executed before the next instance of activity $A$ is executed.
 	\end{itemize}
 \end{definition}
 
 \begin{example}\label{ex:relationFormulas}
-Let $A,B,C$ be activities of a process. The execution sequence $[B,A,A,A,C,B]$ satisfies the formula \textit{response}; The execution sequence $[A,C,B,B,A]$ satisfies the formula \textit{precedence}; The execution sequence $[B,A,C,B,A,B]$ satisfies the formula \textit{alternate response}; The execution sequence $[A,C,B,A,B,A]$ satisfies the formula \textit{alternate precedence}.
+In the model of Fig. \ref{fig:examplePetri}, transitions $D,E$ in the execution sequence $[I,D,E,D,E,D,E,O]$ satisfy the formula \textit{alternate response} and \textit{alternate precedence} while transitions $D,O$ do not satisfy the formula \textit{alternate response} and transitions $I,D$ do not satisfy the formula \textit{alternate precedence}.
 \end{example}
 
 \section{Extended Refined Ordering Relations with Uncertainty}\label{sec:relations}
-In this section, we introduce the concept of extended refined ordering relations with uncertainty and its calculation from a WF-net. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $\beta=(B,E,A,f)$ be $\Sigma$'s complete prefix unfolding. Let $x,y\in E$ be events of the branching process. A path means a directed path from the source state to the end state in the complete prefix unfolding. Let $S$ be the set containing all the paths of $\beta$, and $S_{x}$ be the set of the paths containing event $x$, i.e, $S_{x}=\{\sigma\in S|x\in\sigma\}$. Our extended relations are defined using the notion of $S_{x}$.
+In this section, we introduce the concept of extended refined ordering relations with uncertainty and its calculation from a WF-net. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $\beta=(B,E,A,f)$ be $\Sigma$'s complete prefix unfolding. Let $x,y\in E$ be events of the branching process.
 
 It should be noticed that there would be cutoff events and cutoff conditions (conditions after those cutoff events) in the complete prefix unfolding of a WF-net. We can easily set a mapping between cutoff conditions and the conditions after the corresponding event of a cutoff event. Therefore, the path we defined above should not end on a cutoff condition, but will continue from the mapping of a cutoff condition to the end state instead. For example, in the complete prefix unfolding of Fig. \ref{fig:exampleCpu}, $[I,B]$ and $[I,D,E]$ are not paths, but $[I,B,C,O]$ and $[I,D,E,D,O]$ are paths.
 
 \subsection{Extended Refined Causal and Inverse Causal Relations with Uncertainty}\label{subsec:causalAndInverseCausal}
-Based on whether one task is always executed in the same instance before or after the other task, we extend the causal relations and define new inverse causal relations.
+A path means a directed path from the source condition to the end condition in the complete prefix unfolding. Let $S$ be the set containing all the paths of $\beta$, and $S_{x}$ be the set of the paths containing event $x$, i.e, $S_{x}=\{\rho\in S|x\in\rho\}$. Our extended causal and inverse causal relations are defined using the notion of $S_{x}$.
 
 \begin{definition}[Always Causal]\label{def:alwaysCausal}
-$x$ and $y$ are in always causal relation (denoted as $x\twoheadrightarrow y$) iff: $\forall\sigma_{x}\in S_{x}$, $x$ and $y$ are in \textit{alternate response} relation, i.e., among all the paths containing event $x$, after the execution of every $x$ there must be at least one $y$ executed, and before that $y$ there cannot be another event $x$.
+$x$ and $y$ are in always causal relation (denoted as $x\twoheadrightarrow y$) iff: $\forall\rho_{x}\in S_{x}$, $x$ and $y$ are in \textit{alternate response} relation, i.e., among all the paths containing event $x$, after the execution of every $x$ there must be at least one $y$ executed, and before that $y$ there cannot be another event $x$.
 \end{definition}
 
 \begin{definition}[Never Causal]\label{def:neverCausal}
-$x$ and $y$ are in never causal relation (denoted as $x\nrightarrow y$) iff: $\forall\sigma_{x}\in S_{x}$, there is no $y$ in $\sigma_{x}$, or $x$ and $y$ are not in \textit{response} relation, i.e., among all the paths containing event $x$, after the execution of every $x$, there mustn't be an instance of $y$ executed.
+$x$ and $y$ are in never causal relation (denoted as $x\nrightarrow y$) iff: $\forall\rho_{x}\in S_{x}$, there is no $y$ in $\rho_{x}$, or $x$ and $y$ are not in \textit{response} relation, i.e., among all the paths containing event $x$, after the execution of every $x$, there mustn't be an instance of $y$ executed.
 \end{definition}
 
 \begin{definition}[Sometimes Causal]\label{def:sometimesCausal}
-$x$ and $y$ are in sometimes causal relation (denoted as $x\rightharpoonup y$) iff: $\forall\sigma_{x}\in S_{x}$, $x$ and $y$ are neither in always causal relation nor in never causal relation.
+$x$ and $y$ are in sometimes causal relation (denoted as $x\rightharpoonup y$) iff: $\forall\rho_{x}\in S_{x}$, $x$ and $y$ are neither in always causal relation nor in never causal relation.
 \end{definition}
 
 \begin{example}\label{ex:causalRelation}
@@ -200,22 +196,24 @@ In the model of Fig. \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{always cau
 \end{example}
 
 \begin{definition}[Always Inverse Causal]\label{def:alwaysInverseCausal}
-$x$ and $y$ are in always inverse causal relation (denoted as $y\twoheadrightarrow^{-1}x$) iff: $\forall\sigma_{y}\in S_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the paths containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
+$x$ and $y$ are in always inverse causal relation (denoted as $y\twoheadrightarrow^{-1}x$) iff: $\forall\rho_{y}\in S_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the paths containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
 \end{definition}
 
 \begin{definition}[Never Inverse Causal]\label{def:neverInverseCausal}
-$x$ and $y$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}x$) iff: $\forall\sigma_{y}\in S_{y}$, there is no $x$ in $\sigma_{y}$, or $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the paths containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
+$x$ and $y$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}x$) iff: $\forall\rho_{y}\in S_{y}$, there is no $x$ in $\rho_{y}$, or $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the paths containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
 \end{definition}
 
 \begin{definition}[Sometimes Inverse Causal]\label{def:sometimesInverseCausal}
-$x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: $\forall\sigma_{y}\in S_{y}$, $x$ and $y$ are neither in always inverse causal relation nor in never inverse causal relation.
+$x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: $\forall\rho_{y}\in S_{y}$, $x$ and $y$ are neither in always inverse causal relation nor in never inverse causal relation.
 \end{definition}
 
 \begin{example}
 In the model of Fig. \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the paths containing $O$. $A$ and $C$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some paths containing $C$ (such as $[I,B,C,O]$), indicating that $A$ and $C$ are not in \textit{precedence} relation. $C$ and $D$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
 \end{example}
 
-We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
+We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with "Loop $A$" means that there is a path starting from some node after $A$ and ending in some node before $A$ so that $A$ can be executed more than once. The edge labeled with "Skip $A$" means that there is a path starting from some node before $A$ and ending in some node after $A$ so that $A$ may not be executed. In other words, transitions inside a \textit{loop} structure can be executed more than once which transitions inside a \textit{skip} structure may not be executed.
+
+For convenience, we use symbol $*$ to represent any numbers of sequential events besides $A$ and $B$. In Fig. \ref{fig:causalCaseA}, we have paths such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Fig. \ref{fig:causalCaseB}, we have paths such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
 
 In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part of a path from $A$ to $B$ will certainly not affect the extended relations between $A$ and $B$, neither will a exclusive branch, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive branches across both $A$ and $B$, such as the unfolding in Fig. \ref{fig:causalCaseD}, which has paths such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
 
@@ -224,30 +222,30 @@ In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_a_1.eps}\\
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_a_2.eps}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_1.eps}\\
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_2.eps}
 	\end{minipage}
 	\label{fig:causalCaseA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_b_1.eps}
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_b_2.eps}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_1.eps}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_2.eps}
 	\end{minipage}
 	\label{fig:causalCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=1\textwidth]{fig_causal_case_c.eps}
+		\includegraphics[width=0.8\textwidth]{fig_causal_case_c.eps}
 	\end{minipage}
 	\label{fig:causalCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=1\textwidth]{fig_causal_case_d.eps}
+		\includegraphics[width=0.8\textwidth]{fig_causal_case_d.eps}
 	\end{minipage}
 	\label{fig:causalCaseD}
 }
@@ -256,6 +254,8 @@ In the unfolding of Fig. \ref{fig:causalCaseC}, a loop branch in the middle part
 \end{figure}
 
 \subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
+A trace, or a full firing sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of $\beta$, and $\Omega_{x}$ be the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined
+
 Based on whether one task is always executed in the same instance concurrently with the other task, we extend the causal relations and define new inverse causal relations.
 
 \begin{definition}[Always Concurrent]\label{def:alwaysConcurrent}
@@ -267,44 +267,43 @@ Based on whether one task is always executed in the same instance concurrently w
 \begin{definition}[Sometimes Concurrent]\label{def:sometimesConcurrent}
 \end{definition}
 
-We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}.
+We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}. In these formulas, events $A$ and $B$ are all in \textit{concurrency} relation.
 
 \begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
 		\centering
-		\includegraphics[width=0.36\textwidth]{fig_concurrent_case_a_1.eps}%
+		\includegraphics[width=0.27\textwidth]{fig_concurrent_case_a_1.eps}%
 		\hspace{0.5in}%
-		\includegraphics[width=0.36\textwidth]{fig_concurrent_case_a_2.eps}
+		\includegraphics[width=0.27\textwidth]{fig_concurrent_case_a_2.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=1\textwidth]{fig_concurrent_case_b.eps}
+		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_b.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=1\textwidth]{fig_concurrent_case_c.eps}
+		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_c.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=1\textwidth]{fig_concurrent_case_d.eps}
+		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_d.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseD}
 }
 \caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B$; \subref{fig:concurrentCaseB} $A\equiv B$; \subref{fig:concurrentCaseC} $A\equiv B$; \subref{fig:concurrentCaseD} $A\Uparrow B$.}
 \label{fig:concurrentCases}
 \end{figure}
-%TODO
 
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
 In Section \ref{subsec:causalAndInverseCausal} and Section \ref{subsec:concurrent}, we give the definitions of extended refined ordering relations with uncertainty between events of the complete prefix unfolding. 
