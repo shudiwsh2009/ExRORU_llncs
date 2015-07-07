@@ -1,0 +1,10 @@
+The following information on your paper:
+Title: A Behavioral Similarity Measure for Process Models based on Extended Refined Ordering Relations with Uncertainty
+Authors: Shuhao Wang, Lijie Wen
+Abstract: Tao Jin has proposed new ordering relations between execution of tasks in business process models. He also gave an algorithm to compute the refined ordering relations for acyclic process models based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with invisible tasks. We extend his work and present a refinement of the relations. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary WF-nets and utilize them to measure the similarity between process models.
+Main topic:
+have been successfully stored in the system. A mail has been sent to shudiwsh2009@gmail.com to confirm this submission.
+You must upload your paper before 2015-07-06. Please note the following informations which must be used to upload the file or update your paper's description.
+
+Paper id: 15
+Password: fca105
