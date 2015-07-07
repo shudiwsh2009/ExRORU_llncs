@@ -70,8 +70,7 @@ Similarity measure can be widely used in many scenarios, such as model retrieval
 
 In this paper, we propose a behavioral similarity measure based on the extended refined ordering relations with uncertainty. It satisfies metric properties, especially the triangle inequality \cite{zezula2006similarity}. The algorithm firstly extracts three types of relations and generates the relation sets of a process model. By measuring the similarity between relation sets of process models, a similarity value is finally given by the algorithm. We conduct experiments using process models from real enterprises and the results show that our similarity measure is both efficient and effective.
 
-The remainder of this paper is structured as follows: 
-% TODO: remainder of this paper
+The remainder of this paper is structured as follows: The next section gives formal preliminaries that will be used in this paper. The concept and computation of extended refined ordering relations as well as sequential direct adjacency are introduced in Section \ref{sec:relations}. We present the method to measure process model similarity in Section \ref{sec:similarity}. Section \ref{sec:experiments} shows the results of an experimental evaluation, before we conclude the paper and give an outlook on future work in Section \ref{sec:conclusion}.
 
 \section{Preliminaries}\label{sec:preliminaries}
 Our work is to measure the similarity between two process models. There are many different notations to describe the business process, such as Business Process Model and Notation (BPMN), Event-driven Process Chain (EPC), Yet Another Workflow Language (YAWL) and Petri Net Markup Language (PNML). Since Petri net is suitable to analyze the behavior of process models, we will show our algorithm on Petri net. The concept of the Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
@@ -571,7 +570,7 @@ Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the mod
 	\end{minipage}
 \end{figure}
 
-By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}, but not in Fig. \ref{fig:sdaExampleB}. In order to solve the problem of invisible task, we propose the concept of sequential direct adjacency.
+By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}, but not in Fig. \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of invisible task.
 
 \begin{definition}[Sequential Direct Adjacency]\label{def:sda}
 Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transitions. $A$ and $B$ are in sequential direct adjacency iff:
@@ -579,15 +578,24 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=[t_{1}t_{2}...t_{n}]\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an invisible transition.
 	\end{itemize}
-$A\rightarrow_{D}B$ if they are in sequential direct adjacency while $A\rightarrow_{N}B$ if not. ($\rightarrow$ can be replaces by the denotations of causal and inverse causal relations)
+$A\rightarrow_{D}B$ if they are in sequential direct adjacency while $A\rightarrow_{N}B$ if not. The set of all the transition pair which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
 
+We use sequential direct adjacency to distinguish those transition pair which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the models in Fig. \ref{fig:sdaExample}, we derive the \textit{SDA-set} as followed:
+\begin{displaymath}
+	\begin{aligned}
+		&\text{(a)} A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B\\
+		&\text{(b)} A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B, I\rightarrow_{D}O
+	\end{aligned}
+\end{displaymath}
 
-% \section{Similarity Measure}\label{sec:similarity}
+Using the combination of extended refined ordering relations with uncertainty and sequential direct adjacency, we can distinguish the two models with invisible tasks as well as many model pairs from each other efficiently.
 
-% \section{Experiments}\label{sec:experiments}
+\section{Similarity Measure}\label{sec:similarity}
 
-% \section{Conclusion}\label{sec:conclusion}
+\section{Experiments}\label{sec:experiments}
+
+\section{Conclusion}\label{sec:conclusion}
 
 
 \bibliographystyle{plain}
