@@ -262,7 +262,7 @@ We use $\sigma\uparrow X$ to denote the projection of $\sigma$ onto some event s
 $x$ and $y$ are in always concurrent relation (denoted as $x\equiv y$) iff: $\forall\sigma_{x}\in\Omega_{x}$,
 	\begin{itemize}
 		\item[-] $x$ and $y$ are in concurrency relation, i.e., $x~co~y$;
-		\item[-] $|P(\sigma_{x},x,y)|\%2=0\wedge\forall_{1\leq k<|P|/2}((P(\sigma_{x},x,y)_{2k+1}=a\wedge P(\sigma_{x},x,y)_{2k+2}=b)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=a)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=b))}$.
+		\item[-] $|P(\sigma_{x},x,y)|\%2=0\wedge\forall_{1\leq k<|P|/2}((P(\sigma_{x},x,y)_{2k+1}=a\wedge P(\sigma_{x},x,y)_{2k+2}=b)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=a)\vee(P(\sigma_{x},x,y)_{2k+1}=b\wedge P(\sigma_{x},x,y)_{2k+2}=b))$.
 	\end{itemize}
 \end{definition}
 
@@ -571,9 +571,15 @@ Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the mod
 	\end{minipage}
 \end{figure}
 
-By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}. In order to solve the problem of invisible task, we propose the concept of sequential direct adjacency.
+By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}, but not in Fig. \ref{fig:sdaExampleB}. In order to solve the problem of invisible task, we propose the concept of sequential direct adjacency.
 
 \begin{definition}[Sequential Direct Adjacency]\label{def:sda}
+Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transitions. $A$ and $B$ are in sequential direct adjacency iff:
+	\begin{itemize}
+		\item[-] $A$ and $B$ are not in cocurrency relation;
+		\item[-] $\exists\sigma=[t_{1}t_{2}...t_{n}]\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an invisible transition.
+	\end{itemize}
+$A\rightarrow_{D}B$ if they are in sequential direct adjacency while $A\rightarrow_{N}B$ if not. ($\rightarrow$ can be replaces by the denotations of causal and inverse causal relations)
 \end{definition}
 
 
