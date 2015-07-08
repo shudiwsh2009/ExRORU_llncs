@@ -578,7 +578,7 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=[t_{1}t_{2}...t_{n}]\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an invisible transition.
 	\end{itemize}
-$A\rightarrow_{D}B$ if they are in sequential direct adjacency while $A\rightarrow_{N}B$ if not. The set of all the transition pair which are in sequential direct adjacency is the SDA-set of a model.
+$A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. The set of all the transition pair which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
 
 We use sequential direct adjacency to distinguish those transition pair which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the models in Fig. \ref{fig:sdaExample}, we derive the \textit{SDA-set} as followed:
@@ -594,11 +594,50 @@ Using the combination of extended refined ordering relations with uncertainty an
 \section{Similarity Measure}\label{sec:similarity}
 In this section, we give the computation of similarity value on two process models based on extended relations and sequential direct adjacency described in Section \ref{sec:relations}.
 
-\subsection{The Importance of Relations}\label{subsec:importance}
-When we measure the similarity between two models, we actually maesure the similarity between the relations of them. However, the importance of relations should not be the same as each other. Take $I\twoheadrightarrow D$ and $I\rightharpoonup A$ in Fig. \ref{fig:examplePetri} for example, %TODO
+\subsection{The Importance of Relation}\label{subsec:importance}
+When we measure the similarity between two models, we actually measure the similarity between the relations of them. But our extended relations cannot reflect the different possibilities of transitions that may fire in concurrent and exclusive structures. Motivated by the work of TAR++ \cite{wang2015tar++}, we bring in the concepts about the importance of relation.
+
+\cite{wang2015tar++} has given enough details about the concept of the weight of an edge as well as three rules to determine it. Also, the computation of weights of a WF-net can be found in this paper. We give the definition of the importance of relation based on the weight of an edge.
+
+\begin{definition}[The Importance of Relation]\label{def:importance}
+Given a weighted WF-net $\Sigma$, for any ordered transition pair $A,B$ in an extended relation, we select one out-edge of $A$ and one in-edge of $B$, whose coefficients are $\alpha,\beta$ respectively.\\
+We use the minimum number of $\alpha$ and $\beta$ as the importance value of the extended relation, i.e., $\min\{\alpha,\beta\}$.
+\end{definition}
 
 \subsection{Computation}\label{subsec:computation}
-%TODO
+By combining extended relations, sequential direct adjacency and the importance of relation together, we give the computation of similarity value between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty ("A" for \textit{always}, "S" for \textit{sometimes} and "N" for \textit{never}), $\delta$ is the sequential direct adjacency ("D" for \textit{direct} and "I" for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair of a relation $R$.
+
+On the other hand, we think two extended relation with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to measure the influence of sequential direct adjacency.
+
+For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gamma_{2},\delta_{2},\theta_{2})$ where $R1_{pair}=R2_{pair}$,
+\begin{equation}\label{eq:relationOperations}
+	\begin{aligned}
+		R_{1}\cap R_{2}&=
+			\begin{cases}
+				0~R1_{pair}&	\gamma_{1}=\gamma_{2}=\text{"N"}\vee\gamma_{1}\neq\gamma_{2}\\
+				\lambda\times\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}\neq\delta_{2}\\
+				\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}=\delta_{2}
+			\end{cases}\\
+		R_{1}\cup R_{2}&=
+			\begin{cases}
+				0~R1_{pair}&	\gamma_{1}=\gamma_{2}=\text{"N"}\\
+				\theta_{1}~R1_{pair}&	\gamma_{1}\neq\text{"N"}\wedge\gamma_{2}=\text{"N"}\\
+				\theta_{2}~R1_{pair}&	\gamma_{1}=\text{"N"}\wedge\gamma_{2}\neq\text{"N"}\\
+				\max\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}\neq\text{"N"}\wedge\gamma_{2}\neq\text{"N"}
+			\end{cases}
+	\end{aligned}
+\end{equation}
+
+We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely $ExRelSet_{\rightarrow}(M)$, $ExRelSet_{\rightarrow^{-1}}(M)$ and $ExRelSet_{\parallel}(M)$. Now we give the definition of intersection and union operation of these sets.
+
+\begin{definition}[Intersection and Union Operation of Relation]\label{def:relSetOperations}
+Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
+	\begin{equation}\label{eq:relSetOperations}
+		\begin{aligned}
+			ExRelSet1\Cap ExRelSet2=\{\theta\}
+		\end{aligned}
+	\end{equation}
+\end{definition}
 
 \section{Experiments}\label{sec:experiments}
 
