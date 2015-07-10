@@ -608,22 +608,16 @@ By combining extended relations, sequential direct adjacency and the importance 
 
 On the other hand, we think two extended relation with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to measure the influence of sequential direct adjacency.
 
-For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gamma_{2},\delta_{2},\theta_{2})$ where $R1_{pair}=R2_{pair}$,
+For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gamma_{2},\delta_{2},\theta_{2})$ where $R1_{pair}=R2_{pair}$, we have:
 \begin{equation}\label{eq:relationOperations}
 	\begin{aligned}
 		R_{1}\cap R_{2}&=
 			\begin{cases}
-				0~R1_{pair}&	\gamma_{1}=\gamma_{2}=\text{"N"}\vee\gamma_{1}\neq\gamma_{2}\\
+				0~R1_{pair}&	\gamma_{1}\neq\gamma_{2}\\
 				\lambda\times\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}\neq\delta_{2}\\
 				\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}=\delta_{2}
 			\end{cases}\\
-		R_{1}\cup R_{2}&=
-			\begin{cases}
-				0~R1_{pair}&	\gamma_{1}=\gamma_{2}=\text{"N"}\\
-				\theta_{1}~R1_{pair}&	\gamma_{1}\neq\text{"N"}\wedge\gamma_{2}=\text{"N"}\\
-				\theta_{2}~R1_{pair}&	\gamma_{1}=\text{"N"}\wedge\gamma_{2}\neq\text{"N"}\\
-				\max\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}\neq\text{"N"}\wedge\gamma_{2}\neq\text{"N"}
-			\end{cases}
+		R_{1}\cup R_{2}&=	\max\{\theta_{1},\theta_{2}\}~R1_{pair}
 	\end{aligned}
 \end{equation}
 
@@ -633,7 +627,14 @@ We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely 
 Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
 	\begin{equation}\label{eq:relSetOperations}
 		\begin{aligned}
-			ExRelSet1\Cap ExRelSet2=\{\theta\}
+			ExRelSet1\Cap ExRelSet2=&\{\theta_{R}Ri_{pair}|\theta_{R}=\min\{\theta_{Ri},\theta_{Rj}\},Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\}\\
+			ExRelSet1\Cup ExRelSet2=&\{\theta_{R}Ri_{pair}|\theta_{R}=\max\{\theta_{Ri},\theta_{Rj}\},Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\}\\
+			&\cup\{\theta_{Ri}Ri_{pair}|Ri\in ExRelSet1\\
+			&\qquad \wedge\nexists R_{j}\in ExRelSet2,s.t.~Ri_{pair}=Rj_{pair}\}\\
+			&\cup\{\theta_{Rj}Rj_{pair}|Rj\in ExRelSet2\\
+			&\qquad \wedge\nexists R_{i}\in ExRelSet1,s.t.~Ri_{pair}=Rj_{pair}\}
 		\end{aligned}
 	\end{equation}
 \end{definition}
