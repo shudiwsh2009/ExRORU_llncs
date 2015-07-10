@@ -289,21 +289,21 @@ We have also identified several cases of concurrent relations and turn them into
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_b.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_b.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_c.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_c.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_d.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_d.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseD}
 }
@@ -443,6 +443,8 @@ Transitions $A$ and $B$ are in
 Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 
 \begin{table}[htbp]
+\caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
+\label{tab:example_relations}
 \centering
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
@@ -510,65 +512,62 @@ Using the notions and computations described in the previous sections, we can de
 			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
 			\\ \hline
 	\end{tabular}
-\caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
-\label{tab:example_relations}
 \end{table}
 
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
 We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}. 
 
+\begin{figure}[h]
+\centering
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_1.eps}
+	\label{fig:sdaExampleA}
+}
+\hspace{0.5cm}
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_2.eps}
+	\label{fig:sdaExampleB}
+}
+\caption{Models with invisible tasks}
+\label{fig:sdaExample}
+\end{figure}
+
 Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Fig. \ref{fig:sdaExampleA} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$ and $[I,B,O]$ while the full firing sequences of the model in Fig. \ref{fig:sdaExampleB} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$, $[I,B,O]$ and $[I,O]$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
 
-\begin{figure}[htbp]
-	\begin{minipage}[b]{0.5\textwidth}
-		\centering
-		\subfigure[] {
-			\centering
-			\includegraphics[width=1\textwidth]{fig_sda_example_1.eps}
-			\label{fig:sdaExampleA}
-		}
-		\subfigure[] {
-			\centering
-			\includegraphics[width=1\textwidth]{fig_sda_example_2.eps}
-			\label{fig:sdaExampleB}
-		}
-		\caption{Models with invisible tasks}
-		\label{fig:sdaExample}
-	\end{minipage}%
-	\hspace{0.5cm}%
-	\begin{minipage}[b]{0.4\textwidth}
-		\centering
-		\begin{tabular}{c|c|c|c|c} \hline
-			Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
-			$A$
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$B$
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$I$
-				& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$O$
-				& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-		\end{tabular}
-		\tabcaption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
-		\label{tab:sdaExample}
-	\end{minipage}
-\end{figure}
+\begin{table}[htbp]
+\centering
+\tabcaption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
+\label{tab:sdaExample}
+\begin{tabular}{c|c|c|c|c} \hline
+	Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
+	$A$
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$B$
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$I$
+		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$O$
+		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+\end{tabular}
+\end{table}
 
 By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}, but not in Fig. \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of invisible task.
 
