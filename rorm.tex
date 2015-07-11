@@ -639,6 +639,16 @@ Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ 
 	\end{equation}
 \end{definition}
 
+We use Jaccard equation to measure the similarity between two sets:
+\begin{equation}
+	\begin{aligned}
+		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}=\frac{\Cap_{ExRelSet}}{\Cup_{ExRelSet}}
+	\end{aligned}
+\end{equation}
+, where $|\Cap_{ExRelSet}|=\sum\theta_{R},\theta_{R}R_{pair}\in\Cap_{ExRelSet}$ and $|\Cup_{ExRelset}|$ similarly.
+
+
+
 \section{Experiments}\label{sec:experiments}
 
 \section{Conclusion}\label{sec:conclusion}
