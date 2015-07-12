@@ -604,7 +604,7 @@ We use the minimum number of $\alpha$ and $\beta$ as the importance value of the
 \end{definition}
 
 \subsection{Computation}\label{subsec:computation}
-By combining extended relations, sequential direct adjacency and the importance of relation together, we give the computation of similarity value between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty ("A" for \textit{always}, "S" for \textit{sometimes} and "N" for \textit{never}), $\delta$ is the sequential direct adjacency ("D" for \textit{direct} and "I" for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair of a relation $R$.
+By combining extended relations, sequential direct adjacency and the importance of relation together, we give the computation of similarity value between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty ("A" for \textit{always}, "S" for \textit{sometimes} and "N" for \textit{never}), $\delta$ is the sequential direct adjacency ("D" for \textit{direct} and "I" for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair in $R$.
 
 On the other hand, we think two extended relation with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to measure the influence of sequential direct adjacency.
 
@@ -627,10 +627,10 @@ We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely 
 Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
 	\begin{equation}\label{eq:relSetOperations}
 		\begin{aligned}
-			ExRelSet1\Cap ExRelSet2=&\{\theta_{R}Ri_{pair}|\theta_{R}=\min\{\theta_{Ri},\theta_{Rj}\},Ri\in ExRelSet1,\\
-			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\}\\
-			ExRelSet1\Cup ExRelSet2=&\{\theta_{R}Ri_{pair}|\theta_{R}=\max\{\theta_{Ri},\theta_{Rj}\},Ri\in ExRelSet1,\\
-			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\}\\
+			ExRelSet1\Cap ExRelSet2=&\{Ri\cap Rj|Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
+			ExRelSet1\Cup ExRelSet2=&\{Ri\cup Rj|Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
 			&\cup\{\theta_{Ri}Ri_{pair}|Ri\in ExRelSet1\\
 			&\qquad \wedge\nexists R_{j}\in ExRelSet2,s.t.~Ri_{pair}=Rj_{pair}\}\\
 			&\cup\{\theta_{Rj}Rj_{pair}|Rj\in ExRelSet2\\
@@ -642,7 +642,7 @@ Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ 
 We use Jaccard equation to measure the similarity between two sets:
 \begin{equation}
 	\begin{aligned}
-		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}=\frac{\Cap_{ExRelSet}}{\Cup_{ExRelSet}}
+		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}=\frac{|\Cap_{ExRelSet}|}{|\Cup_{ExRelSet}|}
 	\end{aligned}
 \end{equation}
 , where $|\Cap_{ExRelSet}|=\sum\theta_{R},\theta_{R}R_{pair}\in\Cap_{ExRelSet}$ and $|\Cup_{ExRelset}|$ similarly.
