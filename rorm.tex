@@ -647,7 +647,17 @@ We use Jaccard equation to measure the similarity between two sets:
 \end{equation}
 , where $|\Cap_{ExRelSet}|=\sum\theta_{R},\theta_{R}R_{pair}\in\Cap_{ExRelSet}$ and $|\Cup_{ExRelset}|$ similarly.
 
+Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\rightarrow^{-1}}(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
 
+\begin{definition}[ExRORU Similarity]\label{def:similarity}
+Given two WF-nets $M_{1}$ and $M_{2}$, the ExRORU similarity between them is:\\
+\begin{equation}\label{eq:similarity}
+Sim(M_{1},M_{2})=\sum_{h}\omega_{h}\cdot Sim_{h}(M_{1},M_{2})
+\end{equation}
+with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\omega_{h}\in\mathbf{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
+\end{definition}
+
+We will show some examples and special cases in the next section.
 
 \section{Experiments}\label{sec:experiments}
 
