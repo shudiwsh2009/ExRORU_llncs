@@ -289,21 +289,21 @@ We have also identified several cases of concurrent relations and turn them into
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_b.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_b.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_c.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_c.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_concurrent_case_d.eps}
+		\includegraphics[width=0.7\textwidth]{fig_concurrent_case_d.eps}
 	\end{minipage}
 	\label{fig:concurrentCaseD}
 }
@@ -443,6 +443,8 @@ Transitions $A$ and $B$ are in
 Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 
 \begin{table}[htbp]
+\caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
+\label{tab:example_relations}
 \centering
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
@@ -510,65 +512,62 @@ Using the notions and computations described in the previous sections, we can de
 			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
 			\\ \hline
 	\end{tabular}
-\caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
-\label{tab:example_relations}
 \end{table}
 
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
 We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}. 
 
+\begin{figure}[h]
+\centering
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_1.eps}
+	\label{fig:sdaExampleA}
+}
+\hspace{0.5cm}
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_2.eps}
+	\label{fig:sdaExampleB}
+}
+\caption{Models with invisible tasks}
+\label{fig:sdaExample}
+\end{figure}
+
 Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Fig. \ref{fig:sdaExampleA} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$ and $[I,B,O]$ while the full firing sequences of the model in Fig. \ref{fig:sdaExampleB} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$, $[I,B,O]$ and $[I,O]$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
 
-\begin{figure}[htbp]
-	\begin{minipage}[b]{0.5\textwidth}
-		\centering
-		\subfigure[] {
-			\centering
-			\includegraphics[width=1\textwidth]{fig_sda_example_1.eps}
-			\label{fig:sdaExampleA}
-		}
-		\subfigure[] {
-			\centering
-			\includegraphics[width=1\textwidth]{fig_sda_example_2.eps}
-			\label{fig:sdaExampleB}
-		}
-		\caption{Models with invisible tasks}
-		\label{fig:sdaExample}
-	\end{minipage}%
-	\hspace{0.5cm}%
-	\begin{minipage}[b]{0.4\textwidth}
-		\centering
-		\begin{tabular}{c|c|c|c|c} \hline
-			Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
-			$A$
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$B$
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$I$
-				& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-			$O$
-				& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-				& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-				\\ \hline
-		\end{tabular}
-		\tabcaption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
-		\label{tab:sdaExample}
-	\end{minipage}
-\end{figure}
+\begin{table}[htbp]
+\centering
+\tabcaption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
+\label{tab:sdaExample}
+\begin{tabular}{c|c|c|c|c} \hline
+	Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
+	$A$
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$B$
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$I$
+		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+	$O$
+		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		\\ \hline
+\end{tabular}
+\end{table}
 
 By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Fig. \ref{fig:sdaExampleA}, but not in Fig. \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of invisible task.
 
@@ -578,7 +577,7 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=[t_{1}t_{2}...t_{n}]\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an invisible transition.
 	\end{itemize}
-$A\rightarrow_{D}B$ if they are in sequential direct adjacency while $A\rightarrow_{N}B$ if not. The set of all the transition pair which are in sequential direct adjacency is the SDA-set of a model.
+$A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. The set of all the transition pair which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
 
 We use sequential direct adjacency to distinguish those transition pair which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the models in Fig. \ref{fig:sdaExample}, we derive the \textit{SDA-set} as followed:
@@ -592,6 +591,73 @@ We use sequential direct adjacency to distinguish those transition pair which ca
 Using the combination of extended refined ordering relations with uncertainty and sequential direct adjacency, we can distinguish the two models with invisible tasks as well as many model pairs from each other efficiently.
 
 \section{Similarity Measure}\label{sec:similarity}
+In this section, we give the computation of similarity value on two process models based on extended relations and sequential direct adjacency described in Section \ref{sec:relations}.
+
+\subsection{The Importance of Relation}\label{subsec:importance}
+When we measure the similarity between two models, we actually measure the similarity between the relations of them. But our extended relations cannot reflect the different possibilities of transitions that may fire in concurrent and exclusive structures. Motivated by the work of TAR++ \cite{wang2015tar++}, we bring in the concepts about the importance of relation.
+
+\cite{wang2015tar++} has given enough details about the concept of the weight of an edge as well as three rules to determine it. Also, the computation of weights of a WF-net can be found in this paper. We give the definition of the importance of relation based on the weight of an edge.
+
+\begin{definition}[The Importance of Relation]\label{def:importance}
+Given a weighted WF-net $\Sigma$, for any ordered transition pair $A,B$ in an extended relation, we select one out-edge of $A$ and one in-edge of $B$, whose coefficients are $\alpha,\beta$ respectively.\\
+We use the minimum number of $\alpha$ and $\beta$ as the importance value of the extended relation, i.e., $\min\{\alpha,\beta\}$.
+\end{definition}
+
+\subsection{Computation}\label{subsec:computation}
+By combining extended relations, sequential direct adjacency and the importance of relation together, we give the computation of similarity value between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty ("A" for \textit{always}, "S" for \textit{sometimes} and "N" for \textit{never}), $\delta$ is the sequential direct adjacency ("D" for \textit{direct} and "I" for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair in $R$.
+
+On the other hand, we think two extended relation with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to measure the influence of sequential direct adjacency.
+
+For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gamma_{2},\delta_{2},\theta_{2})$ where $R1_{pair}=R2_{pair}$, we have:
+\begin{equation}\label{eq:relationOperations}
+	\begin{aligned}
+		R_{1}\cap R_{2}&=
+			\begin{cases}
+				0~R1_{pair}&	\gamma_{1}\neq\gamma_{2}\\
+				\lambda\times\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}\neq\delta_{2}\\
+				\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}=\delta_{2}
+			\end{cases}\\
+		R_{1}\cup R_{2}&=	\max\{\theta_{1},\theta_{2}\}~R1_{pair}
+	\end{aligned}
+\end{equation}
+
+We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely $ExRelSet_{\rightarrow}(M)$, $ExRelSet_{\rightarrow^{-1}}(M)$ and $ExRelSet_{\parallel}(M)$. Now we give the definition of intersection and union operation of these sets.
+
+\begin{definition}[Intersection and Union Operation of Relation]\label{def:relSetOperations}
+Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
+	\begin{equation}\label{eq:relSetOperations}
+		\begin{aligned}
+			ExRelSet1\Cap ExRelSet2=&\{Ri\cap Rj|Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
+			ExRelSet1\Cup ExRelSet2=&\{Ri\cup Rj|Ri\in ExRelSet1,\\
+			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
+			&\cup\{\theta_{Ri}Ri_{pair}|Ri\in ExRelSet1\\
+			&\qquad \wedge\nexists R_{j}\in ExRelSet2,s.t.~Ri_{pair}=Rj_{pair}\}\\
+			&\cup\{\theta_{Rj}Rj_{pair}|Rj\in ExRelSet2\\
+			&\qquad \wedge\nexists R_{i}\in ExRelSet1,s.t.~Ri_{pair}=Rj_{pair}\}
+		\end{aligned}
+	\end{equation}
+\end{definition}
+
+We use Jaccard equation to measure the similarity between two sets:
+\begin{equation}
+	\begin{aligned}
+		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}=\frac{|\Cap_{ExRelSet}|}{|\Cup_{ExRelSet}|}
+	\end{aligned}
+\end{equation}
+, where $|\Cap_{ExRelSet}|=\sum\theta_{R},\theta_{R}R_{pair}\in\Cap_{ExRelSet}$ and $|\Cup_{ExRelset}|$ similarly.
+
+Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\rightarrow^{-1}}(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
+
+\begin{definition}[ExRORU Similarity]\label{def:similarity}
+Given two WF-nets $M_{1}$ and $M_{2}$, the ExRORU similarity between them is:\\
+\begin{equation}\label{eq:similarity}
+Sim(M_{1},M_{2})=\sum_{h}\omega_{h}\cdot Sim_{h}(M_{1},M_{2})
+\end{equation}
+with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\omega_{h}\in\mathbf{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
+\end{definition}
+
+We will show some examples and special cases in the next section.
 
 \section{Experiments}\label{sec:experiments}
 
