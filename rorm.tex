@@ -63,8 +63,9 @@ Although Tao Jin' work is elegant, it has some drawbacks. First of all, for cycl
 
 Furthermore, since our refined relations have a strong ability to represent the behavioral semantics of a process model and can efficiently measure the tiny differentiation between two models, even when they contain invisible tasks, we utilize them as a proper metric to measure the similarity between two process models.
 
-Similarity measure can be widely used in many scenarios, such as model retrieval, process mining and model classification. There have been various proposals to this topic: based on textual information, the structure of process models, and their execution semantics \cite{kunze2011behavioral}.
-% TODO: mainstream algorithms
+Similarity measure can be widely used in many scenarios, such as model retrieval, process mining and model classification. There have been various proposals to this topic: based on textual information, the structure of process models, and their execution semantics \cite{kunze2011behavioral}. We give a quick introduction to some similarity measure related to our work.
+
+Zha et al. \cite{zha2010workflow} represent a model's behavior by transition adjacency relations. They use the Jaccard coefficient of TAR sets to measure the similarity between models. But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice and invisible tasks. BP algorithm \cite{kunze2011behavioral} captures the similarity based on behaviroal profiles between transitions, but it cannot deal with invisible tasks and distinguish parallel and loop structures. PTS algorithm by Professor Wang \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of models to compute their similarity and are the most realistic results so far. But both their methods are very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hunderds of types of relations in 4C is too complex and hard to compute. It is not a practical method in measuring behavioral similarity.
 
 In this paper, we propose a behavioral similarity measure based on the extended refined ordering relations with uncertainty. It satisfies metric properties, especially the triangle inequality \cite{zezula2006similarity}. The algorithm firstly extracts three types of relations and generates the relation sets of a process model. By measuring the similarity between relation sets of process models, a similarity value is finally given by the algorithm. We conduct experiments using process models from real enterprises and the results show that our similarity measure is both efficient and effective.
 
@@ -133,7 +134,7 @@ Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,
 
 Definitions about complete prefix unfolding and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
 
-\begin{figure}[htbp]
+\begin{figure}[ht]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.7\textwidth}
@@ -210,7 +211,7 @@ In the model of Fig. \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always i
 
 We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Fig. \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with "Loop $A$" means that there is a path starting from some node after $A$ and ending in some node before $A$ so that $A$ can be executed more than once. The edge labeled with "Skip $A$" means that there is a path starting from some node before $A$ and ending in some node after $A$ so that $A$ may not be executed. In other words, transitions inside a \textit{loop} structure can be executed more than once which transitions inside a \textit{skip} structure may not be executed.
 
-\begin{figure}[htbp]
+\begin{figure}[ht]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
@@ -273,7 +274,7 @@ $x$ and $y$ are in sometimes concurrent relation (denoted as $x\Uparrow y$) iff:
 
 We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Fig. \ref{fig:concurrentCases}. In these formulas, events $A$ and $B$ are all in \textit{concurrency} relation.
 
-\begin{figure}[htbp]
+\begin{figure}[ht]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
@@ -320,7 +321,7 @@ As mentioned before, an intuitive idea to derive our relations is based on reach
 
 We may notice the fact that the computations of causal relation and inverse causal relation are similar in the way that we regard inverse causal relation as causal relation in the reversion of the unfolding. In another word, if we reverse the direction of every edge in the unfolding, then the causal relations in the new unfolding (actually the new graph is not an unfolding, but we use the saying to explain our computation here) are the same as the inverse causal relations in the original unfolding. This indicates that we can use the algorithm of causal relations to derive the inverse causal relations by backtracing nodes along the paths of an unfolding. The algorithm to derive causal relations between events of an unfolding is shown in Algorithm \ref{algo:causalRelations}. 
 
-\begin{algorithm}[htbp]
+\begin{algorithm}[ht]
 \caption{Derive Causal Relations Between Events}
 \label{algo:causalRelations}
 	\begin{algorithmic}
@@ -349,7 +350,7 @@ We may notice the fact that the computations of causal relation and inverse caus
 
 As for the extended concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We give the computation of such relations in Algorithm \ref{algo:concurrentRelations}.
 
-\begin{algorithm}[htbp]
+\begin{algorithm}[ht]
 \caption{Derive Concurrent Relations Between Events}
 \label{algo:concurrentRelations}
 	\begin{algorithmic}
@@ -440,7 +441,7 @@ Transitions $A$ and $B$ are in
 
 Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Fig. \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 
-\begin{table}[htbp]
+\begin{table}[ht]
 \caption{Extended relations of the model in Fig. \ref{fig:examplePetri}}
 \label{tab:example_relations}
 \centering
@@ -515,7 +516,7 @@ Using the notions and computations described in the previous sections, we can de
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
 We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2007mining}. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \subfigure[] {
 	\centering
@@ -534,7 +535,7 @@ We can distinguish most process models from each other by their executing semant
 
 Fig. \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Fig. \ref{fig:sdaExampleA} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$ and $[I,B,O]$ while the full firing sequences of the model in Fig. \ref{fig:sdaExampleB} are $[I,A,B,O]$, $[I,B,A,O]$, $[I,A,O]$, $[I,B,O]$ and $[I,O]$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
 
-\begin{table}[htbp]
+\begin{table}[ht]
 \centering
 \tabcaption{Extend relations of the models in Fig. \ref{fig:sdaExample}}
 \label{tab:sdaExample}
@@ -652,7 +653,7 @@ Given two WF-nets $M_{1}$ and $M_{2}$, the ExRORU similarity between them is:\\
 \begin{equation}\label{eq:similarity}
 Sim(M_{1},M_{2})=\sum_{h}\omega_{h}\cdot Sim_{h}(M_{1},M_{2})
 \end{equation}
-with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\omega_{h}\in\mathbf{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
+with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
 \end{definition}
 
 We will show some examples and special cases in the next section.
