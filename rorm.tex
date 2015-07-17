@@ -590,7 +590,8 @@ In this section, we present the experimental evaluation of our algorithm in both
 \subsection{Special Examples}\label{subsec:specialExamples}
 Before presenting the experimental results of our algorithm, we want to show some special examples such as WF-nets with non-free-choice constructs and multi-relations. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
 
-Non-free-choice constructs are difficult to discover, which is the main problems of most existing process mining approaches \cite{de2003workflow}. Processes with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net without non-free-choice constructs.
+\paragraph{Non-free-choice constructs}\label{par:nfc} 
+are difficult to discover, which is the main problems of most existing process mining approaches \cite{de2003workflow}. Processes with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net without non-free-choice constructs.
 
 \begin{figure}[ht]
 \centering
@@ -609,15 +610,31 @@ Non-free-choice constructs are difficult to discover, which is the main problems
 \caption{WF-nets with and without non-free-choice constructs}
 \end{figure}
 
-Most similarity algorithm based on relations between transitions such as TAR cannot distinguish these two models. Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle, \langle B,C\rangle, \angle C,E\rangle\}$, which means that the similarity between these two models are $1$ using TAR. However, it is obvious that they are not the same, since the trace set $\Theta$ of the model in Figure \ref{fig:nfcExampleA} is $\{<ACD>,<BCE>\}$ while the other is $\{<ACD,ACE,BCD,BCE>\}$.
+Most similarity algorithm based on relations between transitions such as TAR cannot distinguish these two models. Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle, \langle B,C\rangle, \angle C,E\rangle\}$, which means that the similarity between these two models are $1$ using TAR. However, it is obvious that they are not the same, since the trace set $\Omega$ of the model in Figure \ref{fig:nfcExampleA} is $\{<ACD>,<BCE>\}$ while the other is $\{<ACD,ACE,BCD,BCE>\}$.
+
+Actually, there are only two branching processes in the complete prefix unfolding of the model in Figure \ref{fig:nfcExampleA}, i.e., $[A\{C\}D]$ and $[B\{C\}E]$. Therefore, we have $A\twoheadrightarrow D$ and $B\twoheadrightarrow E$. On the other hand, there are four branching processes in the complete prefix unfolding of the model in Figure \ref{fig:nfcExampleB}, i.e., $[ACD],[ACE],[BCD],[BCE]$, indicating that $A\rightharpoonup D$ and $B\rightharpoonup E$. We can see the difference between these two models using our extended relations.
+
+\paragraph{Multi-relation} is another special structure we want to discuss. An example WF-net with multi-relation and its complete prefix unfolding are shown in Figure \ref{fig:exampleMultiRelation}. Transitions $A$ and $D$ are in multi-relation since they can both in causal and concurrency relation. From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two branching processes, i.e., $\sigma_{1}=[I\{AC,BD\}O]$ and $\sigma_{2}=[I\{A\}E\{D\}O]$. Using the definitions of our extended relations, we have $A\rightharpoonup D$ and $A\Uparrow D$.
 
 \begin{figure}[ht]
+\centering
+\subfigure[A WF-net with multi-relation constructs] {
+	\begin{minipage}[b]{0.8\textwidth}
+		\includegraphics[width=1\textwidth]{fig_multi_rel.eps}
+		\label{fig:multiRelExample}
+	\end{minipage}
+}
+\subfigure[The complete prefix unfolding of \subref{fig:multiRelExample}] {
+	\begin{minipage}[b]{0.8\textwidth}
+		\includegraphics[width=1\textwidth]{fig_multi_rel_cpu.eps}
+		\label{fig:multiRelExampleCpu}
+	\end{minipage}
+}
 \label{fig:exampleMultiRelation}
-\caption{A WF-net with multi-relation}
+\caption{A WF-net with multi-relation and its complete prefix unfolding}
 \end{figure}
 
-Another special structure we want to discuss is multi-relation. An example WF-net with multi-relation is shown in Figure \ref{fig:exampleMultiRelation}.
-
+Most similarity measure cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result in models like Figure \ref{fig:nfcExampleA}.
 
 \section{Conclusion}\label{sec:conclusion}
 
