@@ -584,14 +584,28 @@ We will show some examples and special cases in the next section.
 In this section, we present the experimental evaluation of our algorithm in both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing with other algorithms.
 
 \subsection{Special Examples}\label{subsec:specialExamples}
-Before presenting the experimental results of our algorithm, we want to show some special examples such as WF-nets with non-free-choice structures and multi-relations. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
+Before presenting the experimental results of our algorithm, we want to show some special examples such as WF-nets with non-free-choice constructs and multi-relations. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
+
+Non-free-choice constructs are difficult to discover, which is the main problems of most existing process mining approaches \cite{de2003workflow}. Processes with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net without non-free-choice constructs.
 
 \begin{figure}[ht]
-\label{fig:exampleNFC}
-\caption{A WF-net with non-free-choice structure}
+\centering
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_nfc_example_1.eps}
+	\label{fig:nfcExampleA}
+}
+\hspace{0.5cm}
+\subfigure[] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_nfc_example_2.eps}
+	\label{fig:nfcExampleB}
+}
+\label{fig:nfcExample}
+\caption{WF-nets with and without non-free-choice constructs}
 \end{figure}
 
-Figure \ref{fig:exampleNFC} shows a WF-net with non-free-choice structure. 
+Most similarity algorithm based on relations between transitions such as TAR cannot distinguish these two models. Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle, \langle B,C\rangle, \angle C,E\rangle\}$, which means that the similarity between these two models are $1$ using TAR. However, it is obvious that they are not the same, since the trace set $\Theta$ of the model in Figure \ref{fig:nfcExampleA} is $\{<ACD>,<BCE>\}$ while the other is $\{<ACD,ACE,BCD,BCE>\}$.
 
 \begin{figure}[ht]
 \label{fig:exampleMultiRelation}
