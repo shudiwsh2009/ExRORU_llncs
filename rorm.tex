@@ -13,6 +13,7 @@
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
 \usepackage{textcomp}
+\usepackage{multirow}
 \renewcommand{\algorithmicrequire}{\textbf{Input}}
 \renewcommand{\algorithmicensure}{\textbf{Output}}
 \makeatletter 
@@ -186,7 +187,7 @@ Events $x$ and $y$ are in always causal relation (denoted as $x\twoheadrightarro
 \end{definition}
 
 \begin{definition}[Never Causal]\label{def:neverCausal}
-Events $x$ and $y$ are in never causal relation (denoted as $x\nrightarrow y$) iff: $\forall\beta_{x}\in\Theta_{x}$, there is no $y$ in $\beta_{x}$, or $x$ and $y$ are not in \textit{response} relation, i.e., among all the branching processes containing event $x$, after the execution of every $x$, there mustn't be an instance of $y$ executed.
+Events $x$ and $y$ are in never causal relation (denoted as $x\nrightarrow y$) iff: $\forall\beta_{x}\in\Theta_{x}$, $x$ and $y$ are not in \textit{response} relation, i.e., among all the branching processes containing event $x$, after the execution of every $x$, there mustn't be an instance of $y$ executed.
 \end{definition}
 
 \begin{definition}[Sometimes Causal]\label{def:sometimesCausal}
@@ -198,19 +199,19 @@ In the model of Figure \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{always c
 \end{example}
 
 \begin{definition}[Always Inverse Causal]\label{def:alwaysInverseCausal}
-Events $x$ and $y$ are in always inverse causal relation (denoted as $y\twoheadrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the branching processes containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
+Events $y$ and $x$ are in always inverse causal relation (denoted as $y\twoheadrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the branching processes containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
 \end{definition}
 
 \begin{definition}[Never Inverse Causal]\label{def:neverInverseCausal}
-Events $x$ and $y$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, there is no $x$ in $\beta_{y}$, or $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the branching processes containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
+Events $y$ and $x$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the branching processes containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
 \end{definition}
 
 \begin{definition}[Sometimes Inverse Causal]\label{def:sometimesInverseCausal}
-Events $x$ and $y$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: neither $y\twoheadrightarrow^{-1}x$ nor $y\nrightarrow^{-1}x$.
+Events $y$ and $x$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: neither $y\twoheadrightarrow^{-1}x$ nor $y\nrightarrow^{-1}x$.
 \end{definition}
 
 \begin{example}
-In the model of Figure \ref{fig:examplePetri}, $D$ and $O$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the branching processes containing $O$. $A$ and $C$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some branching processes containing $C$ (such as $[I\{D,BC\}O]$). $C$ and $D$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
+In the model of Figure \ref{fig:examplePetri}, $O$ and $D$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the branching processes containing $O$. $C$ and $A$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some branching processes containing $C$ (such as $[I\{D,BC\}O]$). $D$ and $C$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
 \end{example}
 
 The relations above are collectively called causal relation with uncertainty (denoted as $\rightarrow$) and inverse causal relation with uncertainty (denoted as $\rightarrow^{-1}$). We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Figure \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
@@ -570,7 +571,7 @@ We use Jaccard equation to measure the similarity between two sets:
 		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}
 	\end{aligned}
 \end{equation}
-, where $|ExRelSet1\Cap ExRelSet2|=\sum\theta_{R},\theta_{R}R_{pair}\in\Cap_{ExRelSet}$ and $|ExRelSet1\Cup ExRelSet2|$ similarly.
+, where $|ExRelSet1\Cap ExRelSet2|=\sum\theta_{R},\theta_{R}R_{pair}\in ExRelSet1\Cap ExRelSet2$ and $|ExRelSet1\Cup ExRelSet2|$ similarly.
 
 Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\rightarrow^{-1}}(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
 
@@ -585,7 +586,7 @@ with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\om
 We will show some examples and special cases in the next section.
 
 \section{Experiments}\label{sec:experiments}
-In this section, we present the experimental evaluation of our algorithm in both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing with other algorithms.
+We have implemented a similarity measure algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} based on the complete prefix unfolding in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm in both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing with other algorithms.
 
 \subsection{Special Examples}\label{subsec:specialExamples}
 Before presenting the experimental results of our algorithm, we want to show some special examples such as WF-nets with non-free-choice constructs and multi-relations. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
@@ -635,6 +636,28 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 \end{figure}
 
 Most similarity measure cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result in models like Figure \ref{fig:nfcExampleA}.
+
+\subsection{Experimental Setting}
+Our experimental datasets contain both artificial-generated process models and reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total. The 72 artificial-generated models are mainly used to check the compliance of properties that a good similarity measure should satisfy which models from enterprises are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in.
+
+\begin{table}[ht]
+\centering
+\caption{The features of experimental datasets}
+\label{tab:datasets}
+\scriptsize
+\begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|} \hline
+	\multicolumn{1}{|c|}{\multirow{2}{*}{Dataset}} & \multicolumn{1}{c|}{\multirow{2}{*}{Size}} & \multicolumn{3}{|c}{Average} & \multicolumn{3}{|c}{Minimum} & \multicolumn{3}{|c|}{Maximum}\\ \cline{3-11}
+	\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\#transitions} & \multicolumn{1}{c|}{\#place} & \multicolumn{1}{c|}{\#arcs} & \multicolumn{1}{c|}{\#transitions} & \multicolumn{1}{c|}{\#place} & \multicolumn{1}{c|}{\#arcs} & \multicolumn{1}{c|}{\#transitions} & \multicolumn{1}{c|}{\#place} & \multicolumn{1}{c|}{\#arcs}\\ \hline
+	TC & 89 & 11.472 & 10.281 & 22.933 & 6 & 5 & 11 & 28 & 29 & 58 \\ \hline
+	DG & 94 & 8.553 & 8.883 & 17.777 & 1 & 3 & 3 & 34 & 33 & 70 \\ \hline
+	SAP & 389 & 4.465 & 7.504 & 11.514 & 1 & 2 & 2 & 21 & 31 & 56 \\ \hline
+	Arti- & 72 & 10.457 & 10.305 & 21.139 & 3 & 4 & 6 & 13 & 13 & 26 \\ \hline
+\end{tabular}
+\end{table}
+
+Our experiments are divided into two parts. Firstly, we use reference models to check triangle inequality property, which is an importance aspect of distance metric. We repeatedly extract every three models from the dataset, calculate similarities between each pair of them, transfer these values to distance values ($distance=1-similarity$) and test whether they satisfy the triangle inequality property, which means the sum of any two distances values is large than the third one. Secondly, we use artificial-generated models to check seven properties. More details on the properties and experimental methods can be found in \cite{wang2013ssdt,wang2014tager,wang2015tar++}.
+
+As for comparison, TAR and BP algorithms are based on the relations between transitions as we do while PTS and CFS are based on the abstract trace sets which seems more close to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness.
 
 \section{Conclusion}\label{sec:conclusion}
 
