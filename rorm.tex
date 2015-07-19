@@ -657,8 +657,7 @@ We evaluate our algorithm by checking the satisfaction of several properties tha
 \begin{property}[Sequential structure drift invariance]\label{prop:1}
 As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the new transition is inserted, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
 \end{property}
-
-\textbf{Experiment Models} As shown in Figure \ref{fig:property1}, make the number of transitions be $10$ in $N1$, then add a new transition to $11$ intervals including the beginning and the end. Thus we obtain $N2-N12$, totally $11$ models. The similarity results are shown in Figure \ref{fig:property1comp}.
+\textbf{Experiment Models} In Figure \ref{fig:property1}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new transition to the $11$ intervals in $N1'$ including the beginning and the end. Thus we obtain $N2'-N12'$, totally $11$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property1comp}.
 
 \begin{figure}[ht]
 \centering
@@ -679,7 +678,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 2
 \begin{property}[Negative correlation by conflict span]\label{prop:2}
+As shown in Figure \ref{fig:property2}, given a WF-net, as the span of new exclusive branch increases, the similarity of the new model and the old ones decreases. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property2}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new exclusive branch which skips over $T_{0}$, then $T_{0},T_{1}$, then $T_{0},T_{1},T_{2}$, and so on until it skips over all the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property2comp}.
 
 \begin{figure}[ht]
 \centering
@@ -700,7 +701,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 3
 \begin{property}[Unrelated task regression]\label{prop:3}
+As shown in Figure \ref{fig:property3}, given a WF-net, add new branches to the same model in the original model, the more the branches are added, the less the similarity of the new model and the old one is. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property3}, add new branches to $T_{2}$ in $N1'$, a copy of model $N1$. Add one branch as $N2'$, two branches as $N3'$, and so on. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property3comp}.
 
 \begin{figure}[ht]
 \centering
@@ -721,7 +724,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 4
 \begin{property}[Negative correlation by loop length]\label{prop:4}
+As shown in Figure \ref{fig:property4}, given a WF-net, add a new loop branch to the original model, the more the span of the branch is, the less the similarity of the new model and the old one is. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property4}, extend the number of transitions to $10$ in $N1'$ and obtain model $N1'$, then add a new loop branch which loops over $T_{1}$, then $T_{1},T_{2}$, then $T_{1},T_{2},T_{3}$, and so on until it loops over all the $9$ transitions from $T_{1}$ to $T_{9}$. Thus we obtrain $N2'-N10'$, totally $9$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property4comp}.
 
 \begin{figure}[ht]
 \centering
@@ -742,7 +747,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 5
 \begin{property}[Conflict structure drift invariance]\label{prop:5}
+As shown in Figure \ref{fig:property5}, given a WF-net, add a new exclusive branch which skips over only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property5}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new exclusive branch to each of the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property5comp}.
 
 \begin{figure}[ht]
 \centering
@@ -763,7 +770,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 6
 \begin{property}[Loop structure drift invariance]\label{prop:6}
+As shown in Figure \ref{fig:property6}, given a WF-net, add a new loop branch which loops over only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property6}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new loop branch to loop over each of transitions $T2-T9$. Thus we obtain $N2'-N9'$, totally $8$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property6comp}.
 
 \begin{figure}[ht]
 \centering
@@ -784,7 +793,9 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 
 %property 7
 \begin{property}[Parallel structure drift invariance]\label{prop:7}
+As shown in Figure \ref{fig:property7}, given a WF-net, add a new parallel branch which parallels with only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)$.
 \end{property}
+\textbf{Experiment Models} In Figure \ref{fig:property7}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new parallel branch to parallel with each of transitions $T2-T9$. Thus we obtain $N2'-N9'$, totally $8$ models. The similarity results between $N1'$  and other models are shown in Figure \ref{fig:property7comp}.
 
 \begin{figure}[ht]
 \centering
@@ -802,6 +813,23 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 	\label{fig:property7comp}
 \end{minipage}
 \end{figure}
+
+Table \ref{tab:summary} gives an overview of the quality evaluation on existing algorithms.
+%TODO analysis
+
+\begin{table}[ht]
+\centering
+\caption{Summary of the quality evaluation\label{tab:summary}}
+\begin{tabular}{l c c c c c c c} 
+\hline
+ Algorithm &Property1&Property2&Property3&Property4&Property5&Property6&Property7\\ \hline
+ TAR &\texttimes&\texttimes&\checkmark&\texttimes&\texttimes&\checkmark&\checkmark \\ 
+ PTS &\checkmark&\checkmark&\texttimes&\texttimes&\checkmark&\texttimes&\checkmark\\ 
+ BP  &\checkmark&\texttimes&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark \\
+ CFS &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\
+ ExRORU &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\ \hline
+\end{tabular}
+\end{table}
 
 \section{Conclusion}\label{sec:conclusion}
 
