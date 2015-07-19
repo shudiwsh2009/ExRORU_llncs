@@ -138,16 +138,14 @@ Definitions about complete prefix unfolding and related concepts come from the w
 \begin{figure}[ht]
 \centering
 \subfigure[A sound WF-net] {
-	\begin{minipage}[b]{0.7\textwidth}
-		\includegraphics[width=1\textwidth]{fig_example_petri.eps}
-		\label{fig:examplePetri}
-	\end{minipage}
+	\centering
+	\includegraphics[width=0.7\textwidth]{fig_example_petri.eps}
+	\label{fig:examplePetri}
 }
 \subfigure[The complete prefix unfolding of \subref{fig:examplePetri}] {
-	\begin{minipage}[b]{0.7\textwidth}
-		\includegraphics[width=1\textwidth]{fig_example_cpu.eps}
-		\label{fig:exampleCpu}
-	\end{minipage}
+	\centering
+	\includegraphics[width=0.7\textwidth]{fig_example_cpu.eps}
+	\label{fig:exampleCpu}
 }
 \caption{A sound WF-net example and its complete prefix unfolding\label{fig:examplePetriAndCpu}}
 \end{figure}
@@ -610,23 +608,21 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 \begin{figure}[ht]
 \centering
 \subfigure[A WF-net with multi-relation constructs] {
-	\begin{minipage}[b]{0.8\textwidth}
-		\includegraphics[width=1\textwidth]{fig_multi_rel.eps}
-		\label{fig:multiRelExample}
-	\end{minipage}
+	\centering
+	\includegraphics[width=0.8\textwidth]{fig_multi_rel.eps}
+	\label{fig:multiRelExample}
 }
 \subfigure[The complete prefix unfolding of \subref{fig:multiRelExample}] {
-	\begin{minipage}[b]{0.8\textwidth}
-		\includegraphics[width=1\textwidth]{fig_multi_rel_cpu.eps}
-		\label{fig:multiRelExampleCpu}
-	\end{minipage}
+	\centering
+	\includegraphics[width=0.8\textwidth]{fig_multi_rel_cpu.eps}
+	\label{fig:multiRelExampleCpu}
 }
 \caption{A WF-net with multi-relation and its complete prefix unfolding\label{fig:exampleMultiRelation}}
 \end{figure}
 
 Most similarity measure cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
 
-\subsection{Experimental Setting}
+\subsection{Experimental Setting}\label{subsec:setting}
 Our experimental datasets contain both artificial-generated process models and reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total. The 72 artificial-generated models are mainly used to check the compliance of properties that a good similarity measure should satisfy which models from enterprises are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
 \begin{table}[ht]
