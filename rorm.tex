@@ -647,6 +647,162 @@ Our experiments are divided into two parts. Firstly, we use reference models to 
 
 As for comparison, TAR and BP algorithms are based on the relations between transitions as we do while PTS and CFS are based on the abstract trace sets which seems more close to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness.
 
+\subsection{Performance Evaluation on Real-Life Models}\label{subsec:performance}
+The performance of our algorithm on real-life
+
+\subsection{Quality Evaluation on Artificial Models}\label{subsec:quality}
+We evaluate our algorithm by checking the satisfaction of several properties that a good similarity algorithm should meet. The following properties come from \cite{wang2013ssdt,wang2014tager,wang2015tar++}. We compare our algorithm with TAR, BP, PTS and CFS, which are implemented in BeehiveZ\footnote{https://github.com/shudiwsh2009/BeehiveZ}.
+
+%property 1
+\begin{property}[Sequential structure drift invariance]\label{prop:1}
+As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the new transition is inserted, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
+\end{property}
+
+\textbf{Experiment Models} As shown in Figure \ref{fig:property1}, make the number of transitions be $10$ in $N1$, then add a new transition to $11$ intervals including the beginning and the end. Thus we obtain $N2-N12$, totally $11$ models. The similarity results are shown in Figure \ref{fig:property1comp}.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_1.eps}
+	\caption{Sequential structure drift invariance}
+	\label{fig:property1}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_1.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:1}}
+	\label{fig:property1comp}
+\end{minipage}
+\end{figure}
+
+%property 2
+\begin{property}[Negative correlation by conflict span]\label{prop:2}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_2.eps}
+	\caption{[Negative correlation by conflict span}
+	\label{fig:property2}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_2.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:2}}
+	\label{fig:property2comp}
+\end{minipage}
+\end{figure}
+
+%property 3
+\begin{property}[Unrelated task regression]\label{prop:3}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_3.eps}
+	\caption{Unrelated task regression}
+	\label{fig:property3}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_3.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:3}}
+	\label{fig:property3comp}
+\end{minipage}
+\end{figure}
+
+%property 4
+\begin{property}[Negative correlation by loop length]\label{prop:4}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_4.eps}
+	\caption{Negative correlation by loop length}
+	\label{fig:property4}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_4.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:4}}
+	\label{fig:property4comp}
+\end{minipage}
+\end{figure}
+
+%property 5
+\begin{property}[Conflict structure drift invariance]\label{prop:5}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_5.eps}
+	\caption{Conflict structure drift invariance}
+	\label{fig:property5}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_5.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:5}}
+	\label{fig:property5comp}
+\end{minipage}
+\end{figure}
+
+%property 6
+\begin{property}[Loop structure drift invariance]\label{prop:6}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_6.eps}
+	\caption{Loop structure drift invariance}
+	\label{fig:property6}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_6.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:6}}
+	\label{fig:property6comp}
+\end{minipage}
+\end{figure}
+
+%property 7
+\begin{property}[Parallel structure drift invariance]\label{prop:7}
+\end{property}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_7.eps}
+	\caption{Parallel structure drift invariance}
+	\label{fig:property7}
+\end{minipage}
+\hspace{0.1in}
+\begin{minipage}[t]{0.45\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{fig_property_7.eps}
+	\caption{Comparison of Algorithms with Property \ref{prop:7}}
+	\label{fig:property7comp}
+\end{minipage}
+\end{figure}
+
 \section{Conclusion}\label{sec:conclusion}
 
 
