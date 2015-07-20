@@ -768,52 +768,6 @@ As shown in Figure \ref{fig:property5}, given a WF-net, add a new exclusive bran
 \end{minipage}
 \end{figure}
 
-%property 6
-\begin{property}[Loop structure drift invariance]\label{prop:6}
-As shown in Figure \ref{fig:property6}, given a WF-net, add a new loop branch which loops over only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property6}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new loop branch to loop over each of transitions $T2-T9$. Thus we obtain $N2'-N9'$, totally $8$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property6comp}.
-
-\begin{figure}[ht]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_6.eps}
-	\caption{Loop structure drift invariance}
-	\label{fig:property6}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_6.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:6}}
-	\label{fig:property6comp}
-\end{minipage}
-\end{figure}
-
-%property 7
-\begin{property}[Parallel structure drift invariance]\label{prop:7}
-As shown in Figure \ref{fig:property7}, given a WF-net, add a new parallel branch which parallels with only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property7}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new parallel branch to parallel with each of transitions $T2-T9$. Thus we obtain $N2'-N9'$, totally $8$ models. The similarity results between $N1'$  and other models are shown in Figure \ref{fig:property7comp}.
-
-\begin{figure}[ht]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_7.eps}
-	\caption{Parallel structure drift invariance}
-	\label{fig:property7}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_7.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:7}}
-	\label{fig:property7comp}
-\end{minipage}
-\end{figure}
-
 Table \ref{tab:summary} gives an overview of the quality evaluation on existing algorithms.
 %TODO analysis
 
