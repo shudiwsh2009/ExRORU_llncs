@@ -16,6 +16,10 @@
 \usepackage{multirow}
 \renewcommand{\algorithmicrequire}{\textbf{Input}}
 \renewcommand{\algorithmicensure}{\textbf{Output}}
+\renewcommand{\textfraction}{0.15} 
+\renewcommand{\topfraction}{0.85} 
+\renewcommand{\bottomfraction}{0.65} 
+\renewcommand{\floatpagefraction}{0.60}
 \makeatletter 
   \newcommand\figcaption{\def\@captype{figure}\caption} 
   \newcommand\tabcaption{\def\@captype{table}\caption} 
@@ -135,7 +139,7 @@ Let $\beta=(B,E,A,f)$ be a branching process of a Petri net system $\Sigma=(P,T,
 
 Definitions about complete prefix unfolding and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[A sound WF-net] {
 	\begin{minipage}[b]{0.7\textwidth}
@@ -215,7 +219,7 @@ In the model of Figure \ref{fig:examplePetri}, $O$ and $D$ are in \textit{always
 
 The relations above are collectively called causal relation with uncertainty (denoted as $\rightarrow$) and inverse causal relation with uncertainty (denoted as $\rightarrow^{-1}$). We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Figure \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
@@ -277,7 +281,7 @@ $x$ and $y$ are in sometimes concurrent relation (denoted as $x\Uparrow y$) iff:
 
 The relations above are collectively called concurrent relations with uncertainty (denoted as $\parallel$). We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Figure \ref{fig:concurrentCases}. In these formulas, events $A$ and $B$ are all in \textit{concurrency} relation.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
@@ -358,7 +362,7 @@ Transitions $A$ and $B$ are in
 Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Figure \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
 \end{example}
 
-\begin{table}[ht]
+\begin{table}[htbp]
 \caption{Extended relations of the model in Figure \ref{fig:examplePetri}\label{tab:example_relations}}
 \centering
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
@@ -432,7 +436,7 @@ Using the notions and computations described in the previous sections, we can de
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
 We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2010mining}. 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\centering
@@ -452,7 +456,7 @@ We can distinguish most process models from each other by their executing semant
 Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Figure \ref{fig:sdaExampleA} are $<I,A,B,O>$, $<I,B,A,O>$, $<I,A,O>$ and $<I,B,O>$ while the full firing sequences of the model in Figure \ref{fig:sdaExampleB} are $<I,A,B,O>$, $<I,B,A,O>$, $<I,A,O>$, $<I,B,O>$ and $<I,O>$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
 \end{example}
 
-\begin{table}[ht]
+\begin{table}[htbp]
 \centering
 \tabcaption{Extended relations of the two models in Figure \ref{fig:sdaExample}\label{tab:sdaExample}}
 \begin{tabular}{c|c|c|c|c} \hline
@@ -584,7 +588,7 @@ Before presenting the experimental results of our algorithm, we want to show som
 \paragraph{Non-free-choice constructs}\label{par:nfc} 
 are difficult to discover, which are the main problems of most existing process mining approaches \cite{de2003workflow}. Process models with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[] {
 	\centering
@@ -607,7 +611,7 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 
 \paragraph{Multi-relation} is another special structure we want to discuss. An example WF-net with multi-relation and its complete prefix unfolding are shown in Figure \ref{fig:exampleMultiRelation}. Transitions $A$ and $D$ are in multi-relation since they can both in causal and concurrency relation. From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two branching processes, i.e., $\sigma_{1}=[I\{AC,BD\}O]$ and $\sigma_{2}=[I\{A\}E\{D\}O]$. Using the definitions of our extended relations, we have $A\rightharpoonup D$ and $A\Uparrow D$.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \subfigure[A WF-net with multi-relation constructs] {
 	\begin{minipage}[b]{0.8\textwidth}
@@ -629,7 +633,7 @@ Most similarity measure cannot recognize the multi-relation in a process model s
 \subsection{Experimental Setting}
 Our experimental datasets contain both artificial-generated process models and reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total. The 72 artificial-generated models are mainly used to check the compliance of properties that a good similarity measure should satisfy which models from enterprises are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
-\begin{table}[ht]
+\begin{table}[htbp]
 \centering
 \caption{The features of experimental datasets\label{tab:datasets}}
 \scriptsize
@@ -659,7 +663,7 @@ As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the 
 \end{property}
 \textbf{Experiment Models} In Figure \ref{fig:property1}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new transition to the $11$ intervals in $N1'$ including the beginning and the end. Thus we obtain $N2'-N12'$, totally $11$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property1comp}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.45\textwidth}
 	\centering
@@ -682,7 +686,7 @@ As shown in Figure \ref{fig:property2}, given a WF-net, as the span of new exclu
 \end{property}
 \textbf{Experiment Models} In Figure \ref{fig:property2}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new exclusive branch which skips over $T_{0}$, then $T_{0},T_{1}$, then $T_{0},T_{1},T_{2}$, and so on until it skips over all the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property2comp}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.45\textwidth}
 	\centering
@@ -705,7 +709,7 @@ As shown in Figure \ref{fig:property3}, given a WF-net, add new branches to the 
 \end{property}
 \textbf{Experiment Models} In Figure \ref{fig:property3}, add new branches to $T_{2}$ in $N1'$, a copy of model $N1$. Add one branch as $N2'$, two branches as $N3'$, and so on. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property3comp}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.45\textwidth}
 	\centering
@@ -728,7 +732,7 @@ As shown in Figure \ref{fig:property4}, given a WF-net, add a new loop branch to
 \end{property}
 \textbf{Experiment Models} In Figure \ref{fig:property4}, extend the number of transitions to $10$ in $N1'$ and obtain model $N1'$, then add a new loop branch which loops over $T_{1}$, then $T_{1},T_{2}$, then $T_{1},T_{2},T_{3}$, and so on until it loops over all the $9$ transitions from $T_{1}$ to $T_{9}$. Thus we obtrain $N2'-N10'$, totally $9$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property4comp}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.45\textwidth}
 	\centering
@@ -751,7 +755,7 @@ As shown in Figure \ref{fig:property5}, given a WF-net, add a new exclusive bran
 \end{property}
 \textbf{Experiment Models} In Figure \ref{fig:property5}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new exclusive branch to each of the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property5comp}.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}[t]{0.45\textwidth}
 	\centering
@@ -768,20 +772,19 @@ As shown in Figure \ref{fig:property5}, given a WF-net, add a new exclusive bran
 \end{minipage}
 \end{figure}
 
-Table \ref{tab:summary} gives an overview of the quality evaluation on existing algorithms.
-%TODO analysis
+Table \ref{tab:summary} gives an overview of the quality evaluation on existing algorithms. Our algorithm ExRORU is the only one which satisfies all the five properties.
 
-\begin{table}[ht]
+\begin{table}[htbp]
 \centering
 \caption{Summary of the quality evaluation\label{tab:summary}}
 \begin{tabular}{l c c c c c c c} 
 \hline
- Algorithm &Property1&Property2&Property3&Property4&Property5&Property6&Property7\\ \hline
- TAR &\texttimes&\texttimes&\checkmark&\texttimes&\texttimes&\checkmark&\checkmark \\ 
- PTS &\checkmark&\checkmark&\texttimes&\texttimes&\checkmark&\texttimes&\checkmark\\ 
- BP  &\checkmark&\texttimes&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark \\
- CFS &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\
- ExRORU &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\ \hline
+ Algorithm &Property1&Property2&Property3&Property4&Property5\\ \hline
+ TAR &\texttimes&\texttimes&\checkmark&\texttimes&\texttimes \\ 
+ PTS &\checkmark&\checkmark&\checkmark&\texttimes&\checkmark\\ 
+ CFS &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\
+ BP  &\checkmark&\texttimes&\checkmark&\checkmark&\checkmark \\
+ ExRORU &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\ \hline
 \end{tabular}
 \end{table}
 
