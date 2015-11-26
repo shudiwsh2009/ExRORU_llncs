@@ -1,5 +1,4 @@
-rorm.pdf
-tager.pdf
+*.pdf
 ~*
 .DS_Store
 
