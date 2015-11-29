@@ -1,7 +1,7 @@
 \documentclass{llncs}
 \usepackage{makeidx}
 \usepackage{enumerate}
-\usepackage[dvips]{graphicx}
+\usepackage{graphicx}
 \usepackage{subfigure}
 \usepackage{authblk}
 \usepackage{amssymb}
@@ -14,6 +14,7 @@
 \usepackage{algpseudocode}
 \usepackage{textcomp}
 \usepackage{multirow}
+\usepackage{xcolor}
 \renewcommand{\algorithmicrequire}{\textbf{Input}}
 \renewcommand{\algorithmicensure}{\textbf{Output}}
 \renewcommand{\textfraction}{0.15} 
@@ -41,22 +42,26 @@
 \title{ExRORU: A Behavioral Similarity Measure for Process Models based on Extended Refined Ordering Relations with Uncertainty}
 \titlerunning{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
-\author[$\$$]{Shuhao Wang}
-\author[$\$$]{Lijie Wen}
-\author[$\$$]{Jianmin Wang}
-\author[$\#$]{Jianwen Su}
+\author[$1$]{Shuhao Wang}
+\author[$1$]{Lijie Wen}
+\author[$1$]{Jianmin Wang}
+\author[$2$]{Jianwen Su}
+\author[$3$]{Akhil Kumar}
 \authorrunning{Shuhao Wang et al.}
-\tocauthor{Shuhao Wang, Lijie Wen, Jianmin Wang and Jianwen Su}
-\affil[$\$$]{School of Software, Tsinghua University, Beijing 100084, P.R. China \authorcr
+\tocauthor{Shuhao Wang, Lijie Wen, Jianmin Wang, Jianwen Su, and Akhil Kumar}
+\affil[$1$]{School of Software, Tsinghua University, Beijing 100084, P.R. China \authorcr
 \texttt{shudiwsh2009@gmail.com,\{wenlj,jimwang\}@tsinghua.edu.cn}}
-\affil[$\#$]{Department of Computer Science, UC Santa Barbara, USA \authorcr
+\affil[$2$]{Department of Computer Science, UC Santa Barbara, USA \authorcr
 \texttt{su@cs.ucsb.edu}}
+\affil[$3$]{Smeal College of Business, Penn State University, University Park, \authorcr
+State College, PA 16802, USA \authorcr
+\texttt{akhilkumar@psu.edu}}
 \institute{}
 
 \maketitle
 
 \begin{abstract}
-Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the refined ordering relations based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with invisible tasks. We extend his work and present a refinement of the relations. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary WF-nets and utilize them to measure the similarity between process models. Experiments on artificial models and real-life models from enterprises show that compared to existing algorithms, our measure is both efficient and effective.
+Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the refined ordering relations based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with silent transitions. We extend his work and present a refinement of the relations. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary WF-nets and utilize them to measure the similarity between process models. Experiments on real-life models from enterprises show that compared to existing algorithms, our measure is both efficient and effective.
 \keywords{Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Similarity}
 \end{abstract}
 
@@ -200,22 +205,22 @@ In the model of Figure \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{always c
 \end{example}
 
 \begin{definition}[Always Inverse Causal]\label{def:alwaysInverseCausal}
-Events $y$ and $x$ are in always inverse causal relation (denoted as $y\twoheadrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the branching processes containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
+Events $y$ and $x$ are in always inverse causal relation (denoted as $y\twoheadleftarrow x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the branching processes containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
 \end{definition}
 
 \begin{definition}[Never Inverse Causal]\label{def:neverInverseCausal}
-Events $y$ and $x$ are in never inverse causal relation (denoted as $y\nrightarrow^{-1}x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the branching processes containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
+Events $y$ and $x$ are in never inverse causal relation (denoted as $y\nleftarrow x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are not in \textit{precedence} relation, i.e., among all the branching processes containing event $y$, before the execution of every $y$, there mustn't be an instance of $a$ executed.
 \end{definition}
 
 \begin{definition}[Sometimes Inverse Causal]\label{def:sometimesInverseCausal}
-Events $y$ and $x$ are in sometimes inverse causal relation (denoted as $y\rightharpoonup^{-1}x$) iff: neither $y\twoheadrightarrow^{-1}x$ nor $y\nrightarrow^{-1}x$.
+Events $y$ and $x$ are in sometimes inverse causal relation (denoted as $y\leftharpoonup x$) iff: neither $y\twoheadleftarrow x$ nor $y\nleftarrow x$.
 \end{definition}
 
 \begin{example}
-In the model of Figure \ref{fig:examplePetri}, $O$ and $D$ are in \textit{always inverse causal} relation ($O\twoheadrightarrow^{-1}D$) since they are in \textit{alternate precedence} relation among all the branching processes containing $O$. $C$ and $A$ are in \textit{sometimes inverse causal} relation ($C\rightharpoonup^{-1}A$) since there may be no instance of transition $A$ in some branching processes containing $C$ (such as $[I\{D,BC\}O]$). $D$ and $C$ are in \textit{never inverse causal} relation ($D\nrightarrow^{-1}C$).
+In the model of Figure \ref{fig:examplePetri}, $O$ and $D$ are in \textit{always inverse causal} relation ($O\twoheadleftarrow D$) since they are in \textit{alternate precedence} relation among all the branching processes containing $O$. $C$ and $A$ are in \textit{sometimes inverse causal} relation ($C\leftharpoonup A$) since there may be no instance of transition $A$ in some branching processes containing $C$ (such as $[I\{D,BC\}O]$). $D$ and $C$ are in \textit{never inverse causal} relation ($D\nleftarrow C$).
 \end{example}
 
-The relations above are collectively called causal relation with uncertainty (denoted as $\rightarrow$) and inverse causal relation with uncertainty (denoted as $\rightarrow^{-1}$). We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Figure \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
+The relations above are collectively called causal relation with uncertainty (denoted as $\rightarrow$) and inverse causal relation with uncertainty (denoted as $\leftarrow $). We have identified several cases of causal and inverse causal relations and turn them into abstract formulas, as shown in Figure \ref{fig:causalCases}. In thses cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
 
 \begin{figure}[htbp]
 \centering
@@ -249,12 +254,12 @@ The relations above are collectively called causal relation with uncertainty (de
 	\end{minipage}
 	\label{fig:causalCaseD}
 }
-\caption{Abstract formulas of causal and inverse causal relations. \subref{fig:causalCaseA} $A\rightharpoonup B, B\twoheadrightarrow^{-1}A$; \subref{fig:causalCaseB} $A\twoheadrightarrow B, B\rightharpoonup^{-1}A$; \subref{fig:causalCaseC} $A\twoheadrightarrow B, B\twoheadrightarrow^{-1}A$; \subref{fig:causalCaseD} $A\rightharpoonup B, B\rightharpoonup^{-1}A$.\label{fig:causalCases}}
+\caption{Abstract formulas of causal and inverse causal relations. \subref{fig:causalCaseA} $A\rightharpoonup B, B\twoheadleftarrow A$; \subref{fig:causalCaseB} $A\twoheadrightarrow B, B\leftharpoonup A$; \subref{fig:causalCaseC} $A\twoheadrightarrow B, B\twoheadleftarrow A$; \subref{fig:causalCaseD} $A\rightharpoonup B, B\leftharpoonup A$.\label{fig:causalCases}}
 \end{figure}
 
-For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have branching processes such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadrightarrow^{-1}A$. In Figure \ref{fig:causalCaseB}, we have branching processes such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\rightharpoonup^{-1}A$.
+For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have branching processes such as $[A*B],[A*A*B],[A*A*A*B]...$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\rightharpoonup B,B\twoheadleftarrow A$. In Figure \ref{fig:causalCaseB}, we have branching processes such as $[A*B],[A*B*B],[A*B*B*B]...$ for the upper unfolding and $[A*B],[*B]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{always causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\twoheadrightarrow B,B\leftharpoonup A$.
 
-In the unfolding of Figure \ref{fig:causalCaseC}, a loop structure in the middle part of a branching process will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure, i.e., $A\twoheadrightarrow B,B\twoheadrightarrow^{-1}A$. However, if there are exclusive structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has branching processes such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\rightharpoonup^{-1}A$.
+In the unfolding of Figure \ref{fig:causalCaseC}, a loop structure in the middle part of a branching process will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure, i.e., $A\twoheadrightarrow B,B\twoheadleftarrow A$. However, if there are exclusive structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has branching processes such as $[A*B],[A*],[*B],[*]$, events $A$ and $B$ are in \textit{sometimes causal} relation and \textit{sometimes inverse causal} relation, i.e., $A\rightharpoonup B,B\leftharpoonup A$.
 
 \subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
 A trace, or a full firing sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of $\beta$, and $\Omega_{x}$ be the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined using the notion of $\Omega_{x}$.
@@ -341,9 +346,9 @@ Transitions $A$ and $B$ are in
 \begin{definition}[Extended Inverse Causal Relations Between Transitions]\label{def:inverseCausalRelations}
 Transitions $B$ and $A$ are in
 	\begin{itemize}
-		\item[-] always inverse causal relation (denoted as $B\twoheadrightarrow^{-1}A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\twoheadrightarrow^{-1}a$;
-		\item[-] never inverse causal relation (denoted as $B\nrightarrow^{-1}A$) iff: $\forall b\in Corr_{E}(B), a\in Corr_{E}(A), b\nrightarrow^{-1}a$;
-		\item[-] sometimes inverse causal relation (denoted as $B\rightharpoonup^{-1}A$) iff: neither $B\twoheadrightarrow^{-1}A$ nor $B\nrightarrow^{-1}A$.
+		\item[-] always inverse causal relation (denoted as $B\twoheadleftarrow A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\twoheadleftarrow a$;
+		\item[-] never inverse causal relation (denoted as $B\nleftarrow A$) iff: $\forall b\in Corr_{E}(B), a\in Corr_{E}(A), b\nleftarrow a$;
+		\item[-] sometimes inverse causal relation (denoted as $B\leftharpoonup A$) iff: neither $B\twoheadleftarrow A$ nor $B\nleftarrow A$.
 	\end{itemize}
 \end{definition}
 
@@ -357,7 +362,7 @@ Transitions $A$ and $B$ are in
 \end{definition}
 
 \begin{example}\label{ex:examplePetriRelations}
-Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Figure \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nrightarrow^{-1}O,A\nparallel O$.
+Using the notions and computations described in the previous sections, we can derive the extended relations of the model in Figure \ref{fig:examplePetri}. For convenience, we use a matrix to present three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in the first column are the former ones in a relation while transitions in the first row are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nleftarrow O,A\nparallel O$.
 \end{example}
 
 \begin{table}[htbp]
@@ -366,67 +371,67 @@ Using the notions and computations described in the previous sections, we can de
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
 		$A$ 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
 			\\ \hline
 		$B$ 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
 			\\ \hline
 		$C$ 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\equiv$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
 			\\ \hline
 		$D$ 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$}
 			\\ \hline
 		$E$ 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+			& \tabincell{c}{$\twoheadrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$}
 			\\ \hline
 		$I$ 
-			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
 			\\ \hline
 		$O$ 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-			& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$}
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$}
 			\\ \hline
 	\end{tabular}
 \end{table}
@@ -460,28 +465,28 @@ Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the m
 \begin{tabular}{c|c|c|c|c} \hline
 	Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
 	$A$
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
 		\\ \hline
 	$B$
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\Uparrow$} 
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
 		\\ \hline
 	$I$
-		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\rightharpoonup$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
+		& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
 		\\ \hline
 	$O$
-		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\rightharpoonup^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\twoheadrightarrow^{-1}$\\$\nparallel$} 
-		& \tabincell{c}{$\nrightarrow$\\$\nrightarrow^{-1}$\\$\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
+		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
 		\\ \hline
 \end{tabular}
 \end{table}
@@ -512,16 +517,6 @@ Using the combination of extended refined ordering relations with uncertainty an
 \section{Similarity Measure}\label{sec:similarity}
 In this section, we give the definitions about the similarity of two process models based on extended relations and sequential direct adjacency.
 
-\subsection{The Importance of Relation}\label{subsec:importance}
-When we measure the similarity of two models, we actually measure the similarity between the relations of them. But our extended relations cannot reflect the different possibilities of transitions that may fire in concurrent and exclusive structures. Motivated by the work of TAR++ \cite{wang2015tar++}, we bring in the concepts about the importance of relation.
-
-\cite{wang2015tar++} has given enough details about the concept about the weight of an edge as well as three rules to determine it. Also, the computation of weights of a WF-net can be found in this paper. We give the definition about the importance of relation based on the weight of an edge.
-
-\begin{definition}[The Importance of Relation]\label{def:importance}
-Given a weighted WF-net $\Sigma$, for any ordered transition pair $A,B$ in an extended relation, we select one out-edge of $A$ and one in-edge of $B$, whose coefficients are $\alpha,\beta$ respectively. We use the minimum number of $\alpha$ and $\beta$ as the importance value of the extended relation, i.e., $\min\{\alpha,\beta\}$.
-\end{definition}
-
-\subsection{Computation of Similarity}\label{subsec:computation}
 By combining extended relations, sequential direct adjacency and the importance of relations together, we give the computation of the similarity between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty (``A'' for \textit{always}, ``S'' for \textit{sometimes} and ``N'' for \textit{never}), $\delta$ is the sequential direct adjacency (``D'' for \textit{direct} and ``I'' for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair in $R$.
 
 On the other hand, we think two extended relations with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to balance the influence of sequential direct adjacency.
@@ -539,7 +534,7 @@ For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gam
 	\end{aligned}
 \end{equation}
 
-We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely $ExRelSet_{\rightarrow}(M)$, $ExRelSet_{\rightarrow^{-1}}(M)$ and $ExRelSet_{\parallel}(M)$. Now we give the definition of intersection and union operation of these sets.
+We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely $ExRelSet_{\rightarrow}(M)$, $ExRelSet_{\leftarrow }(M)$ and $ExRelSet_{\parallel}(M)$. Now we give the definition of intersection and union operation of these sets.
 
 \begin{definition}[Intersection and Union Operation of Relation Sets]\label{def:relSetOperations}
 Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
@@ -565,14 +560,14 @@ We use Jaccard equation to measure the similarity between two sets:
 \end{equation}
 , where $|ExRelSet1\Cap ExRelSet2|=\sum\theta_{R},\theta_{R}R_{pair}\in ExRelSet1\Cap ExRelSet2$ and $|ExRelSet1\Cup ExRelSet2|$ similarly.
 
-Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\rightarrow^{-1}}(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
+Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\leftarrow }(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
 
 \begin{definition}[ExRORU Similarity]\label{def:similarity}
 Given two WF-nets $M_{1}$ and $M_{2}$, the ExRORU similarity between them is:\\
 \begin{equation}\label{eq:similarity}
 Sim(M_{1},M_{2})=\sum_{h}\omega_{h}\cdot Sim_{h}(M_{1},M_{2})
 \end{equation}
-with $h\in\{\rightarrow,\rightarrow^{-1},\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
+with $h\in\{\rightarrow,\leftarrow ,\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
 \end{definition}
 
 We will show some examples and special cases in the next section.
@@ -581,7 +576,7 @@ We will show some examples and special cases in the next section.
 We have implemented a similarity measure algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} based on the complete prefix unfolding in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing it with other algorithms.
 
 \subsection{Special Examples}\label{subsec:specialExamples}
-Before presenting the experimental results of our algorithm, we want to show some special examples such as WF-nets with non-free-choice constructs and multi-relations. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
+Before presenting the experimental results of our algorithm, we want to show some special examples. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
 
 \paragraph{Non-free-choice constructs}\label{par:nfc} 
 are difficult to discover, which are the main problems of most existing process mining approaches \cite{de2003workflow}. Process models with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
@@ -627,7 +622,7 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 Most similarity measure cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
 
 \subsection{Experimental Setting}\label{subsec:setting}
-Our experimental datasets contain both artificial-generated process models and reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total. The 72 artificial-generated models are mainly used to check the compliance of properties that a good similarity measure should satisfy which models from enterprises are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
+Our experimental dataset contain reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total, which are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
 \begin{table}[htbp]
 \centering
@@ -639,150 +634,15 @@ Our experimental datasets contain both artificial-generated process models and r
 	TC & 89 & 11.472 & 10.281 & 22.933 & 6 & 5 & 11 & 28 & 29 & 58 \\ \hline
 	DG & 94 & 8.553 & 8.883 & 17.777 & 1 & 3 & 3 & 34 & 33 & 70 \\ \hline
 	SAP & 389 & 4.465 & 7.504 & 11.514 & 1 & 2 & 2 & 21 & 31 & 56 \\ \hline
-	Arti- & 72 & 10.457 & 10.305 & 21.139 & 3 & 4 & 6 & 13 & 13 & 26 \\ \hline
 \end{tabular}
 \end{table}
 
-Our experiments are divided into two parts. Firstly, we use reference models to check triangle inequality property, which is an importance aspect of distance metric. We repeatedly extract every three models from the dataset, calculate similarities between each pair of them, transfer these values to distance values ($distance=1-similarity$) and test whether they satisfy the triangle inequality property, which means the sum of any two distances values is large than the third one. Secondly, we use artificial-generated models to check seven properties. More details on the properties and experimental methods can be found in \cite{wang2013ssdt,wang2014tager,wang2015tar++}.
+We use reference models to check triangle inequality property, which is an importance aspect of distance metric. We repeatedly extract every three models from the dataset, calculate similarities between each pair of them, transfer these values to distance values ($distance=1-similarity$) and test whether they satisfy the triangle inequality property, which means the sum of any two distances values is large than the third one. 
 
 As for comparison, TAR and BP algorithms are based on the relations between transitions as we do while PTS and CFS are based on the abstract trace sets which seems more close to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness.
 
 \subsection{Performance Evaluation on Real-Life Models}\label{subsec:performance}
 The performance of our algorithm on real-life
-
-\subsection{Quality Evaluation on Artificial Models}\label{subsec:quality}
-We evaluate our algorithm by checking the satisfaction of several properties that a good similarity algorithm should meet. The following properties come from \cite{wang2013ssdt,wang2014tager,wang2015tar++}. We compare our algorithm with TAR, BP, PTS and CFS, which are implemented in BeehiveZ\footnote{https://github.com/shudiwsh2009/BeehiveZ}.
-
-%property 1
-\begin{property}[Sequential structure drift invariance]\label{prop:1}
-As shown in Figure \ref{fig:property1}, given a sequential WF-net, wherever the new transition is inserted, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property1}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new transition to the $11$ intervals in $N1'$ including the beginning and the end. Thus we obtain $N2'-N12'$, totally $11$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property1comp}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_1.eps}
-	\caption{Sequential structure drift invariance}
-	\label{fig:property1}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_1_comp.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:1}}
-	\label{fig:property1comp}
-\end{minipage}
-\end{figure}
-
-%property 2
-\begin{property}[Negative correlation by conflict span]\label{prop:2}
-As shown in Figure \ref{fig:property2}, given a WF-net, as the span of new exclusive branch increases, the similarity of the new model and the old ones decreases. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property2}, extend the number of transitions to $10$ in $N1$ to obtain model $N1'$, then add a new exclusive branch which skips over $T_{0}$, then $T_{0},T_{1}$, then $T_{0},T_{1},T_{2}$, and so on until it skips over all the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property2comp}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_2.eps}
-	\caption{[Negative correlation by conflict span}
-	\label{fig:property2}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_2_comp.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:2}}
-	\label{fig:property2comp}
-\end{minipage}
-\end{figure}
-
-%property 3
-\begin{property}[Unrelated task regression]\label{prop:3}
-As shown in Figure \ref{fig:property3}, given a WF-net, add new branches to the same model in the original model, the more the branches are added, the less the similarity of the new model and the old one is. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property3}, add new branches to $T_{2}$ in $N1'$, a copy of model $N1$. Add one branch as $N2'$, two branches as $N3'$, and so on. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property3comp}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_3.eps}
-	\caption{Unrelated task regression}
-	\label{fig:property3}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_3_comp.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:3}}
-	\label{fig:property3comp}
-\end{minipage}
-\end{figure}
-
-%property 4
-\begin{property}[Negative correlation by loop length]\label{prop:4}
-As shown in Figure \ref{fig:property4}, given a WF-net, add a new loop branch to the original model, the more the span of the branch is, the less the similarity of the new model and the old one is. Namely, $Sim(N1,N2)>Sim(N1,N3)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property4}, extend the number of transitions to $10$ in $N1'$ and obtain model $N1'$, then add a new loop branch which loops over $T_{1}$, then $T_{1},T_{2}$, then $T_{1},T_{2},T_{3}$, and so on until it loops over all the $9$ transitions from $T_{1}$ to $T_{9}$. Thus we obtrain $N2'-N10'$, totally $9$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property4comp}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_4.eps}
-	\caption{Negative correlation by loop length}
-	\label{fig:property4}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_4_comp.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:4}}
-	\label{fig:property4comp}
-\end{minipage}
-\end{figure}
-
-%property 5
-\begin{property}[Conflict structure drift invariance]\label{prop:5}
-As shown in Figure \ref{fig:property5}, given a WF-net, add a new exclusive branch which skips over only one transition to the original model, wherever the new branch is added to, the similarity of the new model and the old one does not change. Namely, $Sim(N1,N2)=Sim(N1,N3)=Sim(N1,N4)$.
-\end{property}
-\textbf{Experiment Models} In Figure \ref{fig:property5}, extend the number of transitions to $10$ in $N1$ and obtain model $N1'$, then add new exclusive branch to each of the $10$ transitions. Thus we obtain $N2'-N11'$, totally $10$ models. The similarity results between $N1'$ and other models are shown in Figure \ref{fig:property5comp}.
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_5.eps}
-	\caption{Conflict structure drift invariance}
-	\label{fig:property5}
-\end{minipage}
-\hspace{0.1in}
-\begin{minipage}[t]{0.45\textwidth}
-	\centering
-	\includegraphics[width=1\textwidth]{fig_property_5_comp.eps}
-	\caption{Comparison of Algorithms with Property \ref{prop:5}}
-	\label{fig:property5comp}
-\end{minipage}
-\end{figure}
-
-Table \ref{tab:summary} gives an overview of the quality evaluation on existing algorithms. Our algorithm ExRORU is the only one which satisfies all the five properties.
-
-\begin{table}[htbp]
-\centering
-\caption{Summary of the quality evaluation\label{tab:summary}}
-\begin{tabular}{l c c c c c c c} 
-\hline
- Algorithm &Property1&Property2&Property3&Property4&Property5\\ \hline
- TAR &\texttimes&\texttimes&\checkmark&\texttimes&\texttimes \\ 
- PTS &\checkmark&\checkmark&\checkmark&\texttimes&\checkmark\\ 
- CFS &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\
- BP  &\checkmark&\texttimes&\checkmark&\checkmark&\checkmark \\
- ExRORU &\checkmark&\checkmark&\checkmark&\checkmark&\checkmark\\ \hline
-\end{tabular}
-\end{table}
 
 \section{Conclusion}\label{sec:conclusion}
 
