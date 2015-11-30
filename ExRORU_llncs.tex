@@ -14,7 +14,12 @@
 \usepackage{algpseudocode}
 \usepackage{textcomp}
 \usepackage{multirow}
+\usepackage[usenames,dvipsnames]{color}
 \usepackage{xcolor}
+\usepackage{colortbl}
+\definecolor{gray1}{gray}{.9}
+\definecolor{gray2}{gray}{.8}
+\definecolor{gray3}{gray}{.7}
 \renewcommand{\algorithmicrequire}{\textbf{Input}}
 \renewcommand{\algorithmicensure}{\textbf{Output}}
 \renewcommand{\textfraction}{0.15} 
@@ -148,12 +153,12 @@ Definitions about complete prefix unfolding and related concepts come from the w
 \centering
 \subfigure[A sound WF-net] {
 	\centering
-	\includegraphics[width=0.7\textwidth]{fig_example_petri.eps}
+	\includegraphics[width=0.7\textwidth]{fig_example_petri}
 	\label{fig:examplePetri}
 }
 \subfigure[The complete prefix unfolding of \subref{fig:examplePetri}] {
 	\centering
-	\includegraphics[width=0.7\textwidth]{fig_example_cpu.eps}
+	\includegraphics[width=0.7\textwidth]{fig_example_cpu}
 	\label{fig:exampleCpu}
 }
 \caption{A sound WF-net example and its complete prefix unfolding\label{fig:examplePetriAndCpu}}
@@ -227,30 +232,30 @@ The relations above are collectively called causal relation with uncertainty (de
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_1.eps}\\
-		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_2.eps}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_1}\\
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_a_2}
 	\end{minipage}
 	\label{fig:causalCaseA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_1.eps}
-		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_2.eps}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_1}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_b_2}
 	\end{minipage}
 	\label{fig:causalCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_c.eps}
+		\includegraphics[width=0.8\textwidth]{fig_causal_case_c}
 	\end{minipage}
 	\label{fig:causalCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_d.eps}
+		\includegraphics[width=0.8\textwidth]{fig_causal_case_d}
 	\end{minipage}
 	\label{fig:causalCaseD}
 }
@@ -289,30 +294,30 @@ The relations above are collectively called concurrent relations with uncertaint
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
 		\centering
-		\includegraphics[width=0.24\textwidth]{fig_concurrent_case_a_1.eps}%
+		\includegraphics[width=0.24\textwidth]{fig_concurrent_case_a_1}%
 		\hspace{0.5in}%
-		\includegraphics[width=0.24\textwidth]{fig_concurrent_case_a_2.eps}
+		\includegraphics[width=0.24\textwidth]{fig_concurrent_case_a_2}
 	\end{minipage}
 	\label{fig:concurrentCaseA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.3\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_b.eps}
+		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_b}
 	\end{minipage}
 	\label{fig:concurrentCaseB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.3\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_c.eps}
+		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_c}
 	\end{minipage}
 	\label{fig:concurrentCaseC}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.3\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_d.eps}
+		\includegraphics[width=0.9\textwidth]{fig_concurrent_case_d}
 	\end{minipage}
 	\label{fig:concurrentCaseD}
 }
@@ -371,67 +376,67 @@ Using the notions and computations described in the previous sections, we can de
 	\begin{tabular}{c|c|c|c|c|c|c|c} \hline
 		Transitions & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$\\ \hline
 		$A$ 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\Updownarrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
 			\\ \hline
 		$B$ 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\Updownarrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
 			\\ \hline
 		$C$ 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\Updownarrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
 			\\ \hline
 		$D$ 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$}
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\rightharpoonup\leftharpoonup\nparallel$
+			& $\rightharpoonup\leftharpoonup\nparallel$
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\rightharpoonup\nleftarrow\nparallel$
 			\\ \hline
 		$E$ 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-			& \tabincell{c}{$\twoheadrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$}
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\nrightarrow\nleftarrow\Uparrow$
+			& $\twoheadrightarrow\twoheadleftarrow\nparallel$
+			& $\rightharpoonup\leftharpoonup\nparallel$
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\rightharpoonup\nleftarrow\nparallel$
 			\\ \hline
 		$I$ 
-			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& $\rightharpoonup\nleftarrow\nparallel$
+			& $\rightharpoonup\nleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
+			& $\rightharpoonup\nleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\nparallel$
+			& $\twoheadrightarrow\nleftarrow\nparallel$
 			\\ \hline
 		$O$ 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$}
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\nrightarrow\leftharpoonup\nparallel$
+			& $\nrightarrow\twoheadleftarrow\nparallel$
+			& $\nrightarrow\nleftarrow\nparallel$
 			\\ \hline
 	\end{tabular}
 \end{table}
@@ -443,13 +448,13 @@ We can distinguish most process models from each other by their executing semant
 \centering
 \subfigure[] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_sda_example_1.eps}
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_1}
 	\label{fig:sdaExampleA}
 }
 \hspace{0.5cm}
 \subfigure[] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_sda_example_2.eps}
+	\includegraphics[width=0.45\textwidth]{fig_sda_example_2}
 	\label{fig:sdaExampleB}
 }
 \caption{Two WF-nets with invisible tasks\label{fig:sdaExample}}
@@ -465,28 +470,28 @@ Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the m
 \begin{tabular}{c|c|c|c|c} \hline
 	Transitions & $A$ & $B$ & $I$ & $O$\\ \hline
 	$A$
-		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+		& $\nrightarrow\nleftarrow\nparallel$
+		& $\nrightarrow\nleftarrow\Uparrow$
+		& $\nrightarrow\twoheadleftarrow\nparallel$
+		& $\twoheadrightarrow\nleftarrow\nparallel$
 		\\ \hline
 	$B$
-		& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
-		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+		& $\nrightarrow\nleftarrow\Uparrow$
+		& $\nrightarrow\nleftarrow\nparallel$
+		& $\nrightarrow\twoheadleftarrow\nparallel$
+		& $\twoheadrightarrow\nleftarrow\nparallel$
 		\\ \hline
 	$I$
-		& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
-		& \tabincell{c}{$\rightharpoonup\nleftarrow\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-		& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
+		& $\rightharpoonup\nleftarrow\nparallel$
+		& $\rightharpoonup\nleftarrow\nparallel$
+		& $\nrightarrow\nleftarrow\nparallel$
+		& $\twoheadrightarrow\nleftarrow\nparallel$
 		\\ \hline
 	$O$
-		& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
-		& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
+		& $\nrightarrow\leftharpoonup\nparallel$
+		& $\nrightarrow\leftharpoonup\nparallel$
+		& $\nrightarrow\twoheadleftarrow\nparallel$
+		& $\nrightarrow\nleftarrow\nparallel$
 		\\ \hline
 \end{tabular}
 \end{table}
@@ -499,14 +504,16 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=<t_{1},t_{2},...,t_{n}>\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an silent transition.
 	\end{itemize}
-$A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. The set of all the transition pairs which are in sequential direct adjacency is the SDA-set of a model.
+$A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. Similarly, we can also define SDA on $\leftarrow$ relation, denoted as $B\leftarrow_{D}A$. The set of all the transition pairs which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
 
 We use sequential direct adjacency to distinguish those transition pairs which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the two models in Figure \ref{fig:sdaExample}, we derive the \textit{SDA-set} as follows:
 \begin{displaymath}
 	\begin{aligned}
-		&\text{(a)} A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B\\
-		&\text{(b)} A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B, I\rightarrow_{D}O
+		\text{(a)} & A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B\\
+		& O\leftarrow_{D}A, O\leftarrow_{D}B, A\leftarrow_{D}I, B\leftarrow_{D}I\\
+		\text{(b)} & A\rightarrow_{D}O, B\rightarrow_{D}O, I\rightarrow_{D}A, I\rightarrow_{D}B, I\rightarrow_{D}O\\
+		& O\leftarrow_{D}A, O\leftarrow_{D}B, A\leftarrow_{D}I, B\leftarrow_{D}I, O\leftarrow_{D}I
 	\end{aligned}
 \end{displaymath}
 
@@ -538,11 +545,11 @@ Relations of the same type are gathered in the same extended relation set. There
 
 \begin{definition}[Intersection and Union Operation of Relation Sets]\label{def:relSetOperations}
 Given two extended relation sets $RS_{h}^{P}$ and $RS_{h}^{Q}$ from two models $P$ and $Q$ with the same $h$. Then we have:
-		\begin{align}\label{eq:relSetOperations}
-			RS_{h}^{P}\Cap RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cap R_{h}^{Q}}\\
-			RS_{h}^{P}\Cup RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cup R_{h}^{Q}}\\
-			& +|\{R_{h}^{P}\in RS_{h}^{P}|\nexists R_{h}^{Q}\in RS_{h}^{Q},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\\
-			& +|\{R_{h}^{Q}\in RS_{h}^{Q}|\nexists R_{h}^{P}\in RS_{h}^{P},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|
+		\begin{align}
+			RS_{h}^{P}\Cap RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cap R_{h}^{Q}}\label{eq:RSintersection}\\
+			RS_{h}^{P}\Cup RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cup R_{h}^{Q}}\label{eq:RSunion1}\\
+			& +|\{R_{h}^{P}\in RS_{h}^{P}|\nexists R_{h}^{Q}\in RS_{h}^{Q},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion2}\\
+			& +|\{R_{h}^{Q}\in RS_{h}^{Q}|\nexists R_{h}^{P}\in RS_{h}^{P},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion3}
 		\end{align}
 \end{definition}
 
@@ -559,7 +566,97 @@ Sim(RS_{h}^{P},RS_{h}^{Q})=\frac{|RS_{h}^{P}\Cap RS_{h}^{Q}|}{|RS_{h}^{P}\Cup RS
 \end{equation}
 \end{definition}
 
-We will show some examples and special cases in the next section.
+\begin{example}\label{ex:similarity}
+For the two models in Figure \ref{fig:similarityExample}, we can capture their extended relations as shown in Table \ref{tab:similarityExample} and \textit{SDA-sets} as follows:
+\begin{displaymath}
+	\begin{aligned}
+		\text{(a)} & A\rightarrow_{D}B, B\rightarrow_{D}C, B\rightarrow_{D}D, D\rightarrow_{D}B\\
+		& B\leftarrow_{D}A, C\leftarrow_{D}B, D\leftarrow_{D}B, B\leftarrow_{D}D\\
+		\text{(b)} & A\rightarrow_{D}B, A\rightarrow_{D}E, B\rightarrow_{D}C, E\rightarrow_{D}E\\
+		& B\leftarrow_{D}A, E\leftarrow_{D}A, C\leftarrow_{D}B, C\leftarrow_{D}E
+	\end{aligned}
+\end{displaymath}
+According to our definitions above, Formula \ref{eq:RSintersection} and \ref{eq:RSunion1} will be applied on the light gray area, while Formula \ref{eq:RSunion2} on the medium gray area and Formula \ref{eq:RSunion3} on the dark gray area. For example, $Sim(RS_{\rightarrow}^{P},RS_{\rightarrow}^{Q})=\frac{6}{9+7+7}=\frac{6}{23}$. Similarly, we have $Sim(RS_{\leftarrow}^{P},RS_{\leftarrow}^{Q})=\frac{6}{23}$ and $Sim(RS_{\parallel}^{P},RS_{\parallel}^{Q})=\frac{9}{23}$. If we use $\omega_{h}=\frac{1}{3}$ as our weighting factors, we get a similarity value between $P$ and $Q$ as $\frac{6/23+6/23+9/23}{3}\approx 0.304$.
+\end{example}
+
+\begin{figure}[htbp]
+\centering
+\subfigure[Model $P$] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_similarity_1}
+	\label{fig:similarityExampleA}
+}
+\hspace{0.5cm}
+\subfigure[Model $Q$] {
+	\centering
+	\includegraphics[width=0.45\textwidth]{fig_similarity_2}
+	\label{fig:similarityExampleB}
+}
+\caption{Example petri nets $P$ and $Q$ for similarity measure\label{fig:similarityExample}}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\tabcaption{Extended relations of the two models in Figure \ref{fig:similarityExample}\label{tab:similarityExample}}
+\subtable[Extended relation matrix of $P$] {
+	\begin{tabular}{c|c|c|c|c} \hline
+		Transitions & $A$ & $B$ & $C$ & $D$\\ \hline
+		$A$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+			\\ \hline
+		$B$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+			\\ \hline
+		$C$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+			\\ \hline
+		$D$
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\twoheadrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+			\\ \hline
+	\end{tabular}
+}
+\subtable[Extend relation matrix of $Q$] {
+	\begin{tabular}{c|c|c|c|c} \hline
+		Transitions & $A$ & $B$ & $C$ & $E$\\ \hline
+		$A$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+			\\ \hline
+		$B$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			\\ \hline
+		$C$
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+			\\ \hline
+		$E$
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+			\\ \hline
+	\end{tabular}
+}
+\end{table}
 
 \section{Experimental Evaluation}\label{sec:experiments}
 We have implemented a similarity measure algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} based on the complete prefix unfolding in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing it with other algorithms.
@@ -574,13 +671,13 @@ are difficult to discover, which are the main problems of most existing process 
 \centering
 \subfigure[] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_nfc_example_1.eps}
+	\includegraphics[width=0.45\textwidth]{fig_nfc_example_1}
 	\label{fig:nfcExampleA}
 }
 \hspace{0.5cm}
 \subfigure[] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_nfc_example_2.eps}
+	\includegraphics[width=0.45\textwidth]{fig_nfc_example_2}
 	\label{fig:nfcExampleB}
 }
 \caption{WF-nets with and without non-free-choice constructs\label{fig:nfcExample}}
@@ -597,18 +694,18 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 \centering
 \subfigure[A WF-net with multi-relation constructs] {
 	\centering
-	\includegraphics[width=0.8\textwidth]{fig_multi_rel.eps}
+	\includegraphics[width=0.8\textwidth]{fig_multi_rel}
 	\label{fig:multiRelExample}
 }
 \subfigure[The complete prefix unfolding of \subref{fig:multiRelExample}] {
 	\centering
-	\includegraphics[width=0.8\textwidth]{fig_multi_rel_cpu.eps}
+	\includegraphics[width=0.8\textwidth]{fig_multi_rel_cpu}
 	\label{fig:multiRelExampleCpu}
 }
 \caption{A WF-net with multi-relation and its complete prefix unfolding\label{fig:exampleMultiRelation}}
 \end{figure}
 
-Most similarity measure cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
+Most similarity measure such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
 
 \subsection{Experimental Setting}\label{subsec:setting}
 Our experimental dataset contain reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total, which are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
