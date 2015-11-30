@@ -67,11 +67,11 @@ Tao Jin has proposed new ordering relations with uncertainty between execution o
 
 \section{Introduction}\label{sec:introduction}
 
-In a seminal paper \cite{jin2014computing}, Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He refines the causal and concurrency relations between two events in a concurrent system with uncertainty according to whether one task is always executed with the other task in the same instance. He then proposes some rules for adjacent tasks and some transitive laws for nonadjacent tasks, based on which he proposes an algorithm to compute the refined ordering relations for acyclic process models. The algorithm is done on the unfolding of a WF-net \cite{mcmillan1995technique,esparza1996improvement}.
+In a seminal paper \cite{jin2014computing}, Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He refines the causal and concurrency relations between two tasks in a concurrent system with uncertainty according to whether one task is always executed with the other task in the same instance. He then proposes some rules for adjacent tasks and some transitive laws for non-adjacent tasks, based on which he proposes an algorithm to compute the refined ordering relations for acyclic process models. The algorithm is done on the unfolding of a WF-net \cite{mcmillan1995technique,esparza1996improvement}.
 
 Although Tao Jin' work is elegant, it has some drawbacks. First of all, for cyclic Petri nets, his algorithm cannot work correctly. According to his paper, the problem arises from the Global Fairness Assumption \cite{kindler1999liveness}. Secondly, invisible tasks have not been taken into consideration so that two models with different behavioral semantics may have the same set of ordering relations. Thirdly, sequential relations do not satisfy transitivity in some mdoels with non-free-choice constructs. To solve these problems, we extend his ordering relations to more trivial cases which is inspired by the work of DecSerFlow \cite{van2006decserflow}, and introduce the concept of sequential direct adjacency to better differentiate the behavioral semantics of two process models. Also, we propose an algorithm to compute the new relations in arbitrary WF-nets.
 
-Furthermore, since our refined relations have a strong ability to represent the behavioral semantics of a process model and can efficiently measure the tiny differentiation between two models, even when they contain invisible tasks, we utilize them as a proper metric to measure the similarity of two process models.
+Furthermore, since our refined relations have a strong ability to represent the behavioral semantics of a process model and can efficiently measure the tiny differentiation between two models, even when they contain silent transitions, we utilize them as a proper metric to measure the similarity of two process models.
 
 Similarity measure can be widely used in many scenarios, such as model retrieval, process mining and model classification. There have been various proposals to this topic based on textual information, the topology of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some similarity measure related to our work.
 
@@ -79,7 +79,7 @@ Zha et al. \cite{zha2010workflow} represent a model's behavior by transition adj
 
 In this paper, we propose a behavioral similarity measure based on the extended refined ordering relations with uncertainty. It satisfies metric properties, especially the triangle inequality \cite{zezula2006similarity}. The algorithm firstly extracts three types of relations and generates the relation sets of a process model. By measuring the similarity between relation sets of process models, a similarity value is finally computed. We conduct experiments using process models from real enterprises and the results show that our similarity measure is both efficient and effective.
 
-The remainder of this paper is structured as follows. The next section gives preliminaries that will be used in this paper. The concept and computation of extended refined ordering relations as well as sequential direct adjacency are introduced in Section \ref{sec:relations}. We present the method to measure process model similarity in Section \ref{sec:similarity}. Section \ref{sec:experiments} shows the results of an experimental evaluation, before we conclude the paper and give an outlook on future work in Section \ref{sec:conclusion}.
+The remainder of this paper is structured as follows. The next section gives preliminaries that will be used in this paper. The concept and computation of extended refined ordering relations as well as sequential direct adjacency are introduced in Section \ref{sec:relations}. We present the method to measure process model similarity in Section \ref{sec:similarity}. Section \ref{sec:experiments} shows the results of an experimental evaluation, before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
 
 \section{Preliminaries}\label{sec:preliminaries}
 Our work is to measure the similarity between two process models. There are many different notations to describe the business process, such as Business Process Model and Notation (BPMN), Event-driven Process Chain (EPC), Yet Another Workflow Language (YAWL) and Petri Net. Since Petri net is suitable to analyze the behavior of process models, we will show our algorithm on Petri net. The concept of the Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
@@ -103,7 +103,7 @@ A Petri net $PN=(P,T,F)$ is a WF-net (Workflow net) if and only if:
 	\end{itemize}
 \end{definition}
 
-We extract the relations between activities in a WF-net. An intuitive idea is to generate the reachability graph of a model. We need to consider all possible interleavings of concurrent events, which causes the state explosion problem in a concurrent system \cite{mcmillan1995technique}. Javier Esparza proposed the notion of complete prefix unfolding to avoid this \cite{esparza1996improvement}, based on the improvement of McMillan's unfolding algorithm \cite{mcmillan1995technique}. Therefore, we use his work instead.
+We extract the relations between transitions in a WF-net. An intuitive idea is to generate the reachability graph of a model. We need to consider all possible interleavings of concurrent transitions, which causes the state explosion problem in a concurrent system \cite{mcmillan1995technique}. Javier Esparza proposed the notion of complete prefix unfolding to avoid this \cite{esparza1996improvement}, based on the improvement of McMillan's unfolding algorithm \cite{mcmillan1995technique}. Therefore, we use his work instead.
 
 \begin{definition}[Ordering Relations]\label{def:orderingRelations}
 There are three types of ordering relations between nodes of a net,
@@ -267,10 +267,10 @@ A trace, or a full firing sequence is a finite sequence of events $\sigma\in E^{
 We use $\sigma\uparrow X$ to denote the projection of $\sigma$ onto some event set $X\subseteq E$, i.e., a trace $\sigma'\subseteq\sigma$ which only contains those events in $X$ and remains their order in $\sigma$. Let $P(\sigma,x,y)=\sigma\uparrow\{x,y\}$ be the projection of $\sigma$ onto events $x$ and $y$.
 
 \begin{definition}[Always Concurrent]\label{def:alwaysConcurrent}
-$x$ and $y$ are in always concurrent relation (denoted as $x\equiv y$) iff: $\forall\sigma_{x}\in\Omega_{x}$,
+$x$ and $y$ are in always concurrent relation (denoted as $x\Updownarrow y$) iff: $\forall\sigma_{x}\in\Omega_{x}$,
 	\begin{itemize}
 		\item[-] $x$ and $y$ are in concurrency relation, i.e., $x~co~y$;
-		\item[-] $|P(\sigma_{x},x,y)|\%2=0\wedge\forall_{1\leq k<|P|/2}((P(\sigma_{x},x,y)_{2k+1}=x\wedge P(\sigma_{x},x,y)_{2k+2}=y)\vee(P(\sigma_{x},x,y)_{2k+1}=y\wedge P(\sigma_{x},x,y)_{2k+2}=x)\vee(P(\sigma_{x},x,y)_{2k+1}=y\wedge P(\sigma_{x},x,y)_{2k+2}=y))$.
+		\item[-] $|P(\sigma_{x},x,y)|\%2=0\wedge\forall_{0\leq k<|P|/2}((P(\sigma_{x},x,y)_{2k+1}=x\wedge P(\sigma_{x},x,y)_{2k+2}=y)\vee(P(\sigma_{x},x,y)_{2k+1}=y\wedge P(\sigma_{x},x,y)_{2k+2}=x)\vee(P(\sigma_{x},x,y)_{2k+1}=y\wedge P(\sigma_{x},x,y)_{2k+2}=y))$.
 	\end{itemize}
 \end{definition}
 
@@ -279,7 +279,7 @@ $x$ and $y$ are in never concurrent relation (denoted as $x\nparallel y$) iff: $
 \end{definition}
 
 \begin{definition}[Sometimes Concurrent]\label{def:sometimesConcurrent}
-$x$ and $y$ are in sometimes concurrent relation (denoted as $x\Uparrow y$) iff: neither $x\equiv y$ nor $x\nparallel y$.
+$x$ and $y$ are in sometimes concurrent relation (denoted as $x\Uparrow y$) iff: neither $x\Updownarrow y$ nor $x\nparallel y$.
 \end{definition}
 
 The relations above are collectively called concurrent relations with uncertainty (denoted as $\parallel$). We have also identified several cases of concurrent relations and turn them into abstract formulas, as shown in Figure \ref{fig:concurrentCases}. In these formulas, events $A$ and $B$ are all in \textit{concurrency} relation.
@@ -316,10 +316,10 @@ The relations above are collectively called concurrent relations with uncertaint
 	\end{minipage}
 	\label{fig:concurrentCaseD}
 }
-\caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B$; \subref{fig:concurrentCaseB} $A\equiv B$; \subref{fig:concurrentCaseC} $A\equiv B$; \subref{fig:concurrentCaseD} $A\Uparrow B$.\label{fig:concurrentCases}}
+\caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B$; \subref{fig:concurrentCaseB} $A\Updownarrow B$; \subref{fig:concurrentCaseC} $A\Updownarrow B$; \subref{fig:concurrentCaseD} $A\Uparrow B$.\label{fig:concurrentCases}}
 \end{figure}
 
-In Figure \ref{fig:concurrentCaseA}, we have traces such as $<I*A*B*>,<I*B*A*>,<I*A*>$ for the first unfolding and traces such as $<I*A*B*>,<I*A*A*B*>,<I*A*A*A*B*>...$ for the second unfolding, which do not satisfy the second condition in Definition \ref{def:alwaysConcurrent}. Therefore, events $A$ and $B$ of the unfoldings in Figure \ref{fig:concurrentCaseA} are in \textit{sometimes concurrent} relation, i.e., $A\Uparrow B$. As for the unfolding in Figure \ref{fig:concurrentCaseB}, events $A$ and $B$ may be executed both once or not executed at all, i.e., there are traces such as $<I*A*B*>,<I*B*A*>,<I*X*>$, indicating that $A\equiv B$. It is easily seen that traces in the unfolding of Figure \ref{fig:concurrentCaseC} satisfy the second rule in Definition \ref{def:alwaysConcurrent}, so $A$ and $B$ are in \textit{always concurrent} relation, i.e., $A\equiv B$. The unfolding in Figure \ref{fig:concurrentCaseD} shows a special structure called non-free choice construct, and we will go into details later.
+In Figure \ref{fig:concurrentCaseA}, we have traces such as $<I*A*B*>,<I*B*A*>,<I*A*>$ for the first unfolding and traces such as $<I*A*B*>,<I*A*A*B*>,<I*A*A*A*B*>...$ for the second unfolding, which do not satisfy the second condition in Definition \ref{def:alwaysConcurrent}. Therefore, events $A$ and $B$ of the unfoldings in Figure \ref{fig:concurrentCaseA} are in \textit{sometimes concurrent} relation, i.e., $A\Uparrow B$. As for the unfolding in Figure \ref{fig:concurrentCaseB}, events $A$ and $B$ may be executed both once or not executed at all, i.e., there are traces such as $<I*A*B*>,<I*B*A*>,<I*X*>$, indicating that $A\Updownarrow B$. It is easily seen that traces in the unfolding of Figure \ref{fig:concurrentCaseC} satisfy the second rule in Definition \ref{def:alwaysConcurrent}, so $A$ and $B$ are in \textit{always concurrent} relation, i.e., $A\Updownarrow B$. The unfolding in Figure \ref{fig:concurrentCaseD} shows a special structure called non-free choice construct, and we will go into details later.
 
 \subsection{Computing Extended Refined Ordering Relations Based on Unfolding}\label{subsec:computationOfRelations}
 As mentioned before, an intuitive idea to derive our relations is based on reachability graphs. Such technique would face a state explosion problem, especially when the WF-net contains a parallel with large scale of transitions. Theoretically, the reachability graph will derive all the reachable states by combining the executions of transitions within a parallel structure. Another problem is that we actually cannot distinguish the causal relation caused by loop structure and parallel structure using the reachability technique. By definitions, causal relations caused by parallel structure are not considered in our extended refined ordering relations. So we adopt the unfolding technology in this paper. The reason why we do not derive the relations based on sound WF-net itself is that WF-net describe the structure of a process rather than behavior, which is just the focus of unfolding technique.
@@ -355,9 +355,9 @@ Transitions $B$ and $A$ are in
 \begin{definition}[Extended Concurrent Relations Between Transitions]\label{def:concurrentRelations}
 Transitions $A$ and $B$ are in
 	\begin{itemize}
-		\item[-] always concurrent relation (denoted as $A\equiv B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\equiv b$;
+		\item[-] always concurrent relation (denoted as $A\Updownarrow B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\Updownarrow b$;
 		\item[-] never concurrent relation (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),b\in Corr_{E}(B),a\nparallel b$;
-		\item[-] sometimes concurrent relation (denoted as $A\Uparrow B$) iff: neither $A\equiv B$ nor $A\nparallel B$.
+		\item[-] sometimes concurrent relation (denoted as $A\Uparrow B$) iff: neither $A\Updownarrow B$ nor $A\nparallel B$.
 	\end{itemize}
 \end{definition}
 
@@ -374,7 +374,7 @@ Using the notions and computations described in the previous sections, we can de
 			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
 			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
 			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
 			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
@@ -383,7 +383,7 @@ Using the notions and computations described in the previous sections, we can de
 			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
 			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
 			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
 			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
@@ -392,7 +392,7 @@ Using the notions and computations described in the previous sections, we can de
 			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
 			& \tabincell{c}{$\nrightarrow\leftharpoonup\nparallel$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\nparallel$} 
-			& \tabincell{c}{$\nrightarrow\nleftarrow\equiv$} 
+			& \tabincell{c}{$\nrightarrow\nleftarrow\Updownarrow$} 
 			& \tabincell{c}{$\nrightarrow\nleftarrow\Uparrow$} 
 			& \tabincell{c}{$\nrightarrow\twoheadleftarrow\nparallel$} 
 			& \tabincell{c}{$\twoheadrightarrow\nleftarrow\nparallel$}
@@ -437,7 +437,7 @@ Using the notions and computations described in the previous sections, we can de
 \end{table}
 
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
-We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when invisible tasks are introduced. Invisible tasks do not appear in any log trace \cite{de2003workflow} . For more details about invisible tasks and their mining, please refer to the work of Wen \cite{wen2010mining}. 
+We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when silent transitions are introduced. Silent transitions do not appear in any log trace \cite{de2003workflow} . For more details about silent transitions and their mining, please refer to the work of Wen \cite{wen2010mining}. 
 
 \begin{figure}[htbp]
 \centering
@@ -491,13 +491,13 @@ Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the m
 \end{tabular}
 \end{table}
 
-By looking into the executing semantics of these models, we find that the introduction of invisible tasks influences the adjacency of transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleA}, but not in Figure \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of invisible task.
+By looking into the executing semantics of these models, we find that the introduction of silent transitions influences the adjacency of visible transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleA}, but not in Figure \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of silent transition.
 
 \begin{definition}[Sequential Direct Adjacency]\label{def:sda}
 Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transitions. $A$ and $B$ are in sequential direct adjacency iff:
 	\begin{itemize}
 		\item[-] $A$ and $B$ are not in cocurrency relation;
-		\item[-] $\exists\sigma=<t_{1},t_{2},...,t_{n}>\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an invisible transition.
+		\item[-] $\exists\sigma=<t_{1},t_{2},...,t_{n}>\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an silent transition.
 	\end{itemize}
 $A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. The set of all the transition pairs which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
@@ -512,62 +512,51 @@ We use sequential direct adjacency to distinguish those transition pairs which c
 
 However, sequential direct adjacency has the same drawback as TAR that adding new transition to the middle part or the head and tail part of a model has different influence on the scale of SDA-set \cite{wang2015tar++}. To avoid this, we use the method in TAR++ \cite{wang2015tar++}. We add four nodes and four edges to the original WF-net including two places $Ps$ and $Pn$, two transitions $Ts$ and $Tn$ and four edges $Ps\rightarrow Ts$, $Ts\rightarrow Pi$, $Po\rightarrow Te$, $Te\rightarrow Pe$, where $Pi$ and $Po$ are the source place and sink place of the WF-net. This will make the similarity value between two WF-nets more reasonable. For convenience, we do not show the relations between $Ts$, $Tn$ and transitions in the original WF-net in our examples.
 
-Using the combination of extended refined ordering relations with uncertainty and sequential direct adjacency, we can distinguish the two models with invisible tasks as well as many model pairs from each other efficiently.
+Using the combination of extended refined ordering relations with uncertainty and sequential direct adjacency, we can distinguish the two models with silent transitions as well as many model pairs from each other efficiently.
 
 \section{Similarity Measure}\label{sec:similarity}
-In this section, we give the definitions about the similarity of two process models based on extended relations and sequential direct adjacency.
+In this section, we introduce how extened relations and sequential direct adjacency are used to measure the similarity between two process models.
 
-By combining extended relations, sequential direct adjacency and the importance of relations together, we give the computation of the similarity between two WF-nets. For any ordered transition pair $A,B$, we use a triple $R(A,B)=(\gamma,\delta,\theta)$ to represent their extended relation, where $\gamma$ is the uncertainty (``A'' for \textit{always}, ``S'' for \textit{sometimes} and ``N'' for \textit{never}), $\delta$ is the sequential direct adjacency (``D'' for \textit{direct} and ``I'' for \textit{indirect}), $\theta$ is the importance (between $0$ and $1$). For convenience, we use $R_{pair}$ to denote the transition pair in $R$.
+By combining extended relations and sequential direct adjacency together, we give the computation of the similarity between two WF-nets. For any ordered transition pair $A,B$ in a process model $M$, we can capture three types of extended relations between them, i.e., $R_{\rightarrow}^{M}(A,B)$, $R_{\leftarrow}^{M}(A,B)$ and $R_{\parallel}^{M}(A,B)$. We use a couple $R_{h}^{M}(A,B)=(\gamma,\delta)$ to represent their extended relations, where $h\in\{\rightarrow,\leftarrow,\parallel\}$, $\gamma$ is the uncertainty (``A'' for \textit{always}, ``S'' for \textit{sometimes} and ``N'' for \textit{never}), $\delta$ is the sequential direct adjacency (``D'' for \textit{direct} if $A\rightarrow_{D}B\in SDA-set$ and ``I'' for \textit{indirect} otherwise). For convenience, we use ${R_{h}^{M}}_{pair}$ to denote the transition pair in $R_{h}^{M}$.
 
 On the other hand, we think two extended relations with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to balance the influence of sequential direct adjacency.
 
-For two extended relations $R1=(\gamma_{1},\delta_{1},\theta_{1})$ and $R2=(\gamma_{2},\delta_{2},\theta_{2})$ where $R1_{pair}=R2_{pair}$, we have:
+For two extended relations $R_{h}^{P}=(\gamma_{P},\delta_{P})$ and $R_{h}^{Q}=(\gamma_{Q},\delta_{Q})$ with the same $h$ and transition pair from two models $P$ and $Q$ respectively, we have:
 \begin{equation}\label{eq:relationOperations}
 	\begin{aligned}
-		R_{1}\cap R_{2}&=
+		R_{h}^{P}\cap R_{h}^{Q}&=
 			\begin{cases}
-				0~R1_{pair}&	\gamma_{1}\neq\gamma_{2}\\
-				\lambda\times\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}\neq\delta_{2}\\
-				\min\{\theta_{1},\theta_{2}\}~R1_{pair}&	\gamma_{1}=\gamma_{2}\wedge\delta_{1}=\delta_{2}
-			\end{cases}\\
-		R_{1}\cup R_{2}&=	\max\{\theta_{1},\theta_{2}\}~R1_{pair}
+				0 & \gamma_{P}\neq\gamma_{Q}\\
+				\lambda & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}\neq\delta_{Q}\\
+				1 & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}=\delta_{Q}
+			\end{cases}
+		R_{1}\cup R_{2}&=1
 	\end{aligned}
 \end{equation}
 
-We derive three sets $ExRelSet(M)$ of extended relations of a model $M$, namely $ExRelSet_{\rightarrow}(M)$, $ExRelSet_{\leftarrow }(M)$ and $ExRelSet_{\parallel}(M)$. Now we give the definition of intersection and union operation of these sets.
+Relations of the same type are gathered in the same extended relation set. Therefore, we have three extended relation set, namely $RS_{\rightarrow}^{M}$, $RS_{\leftarrow}^{M}$ and $RS_{\parallel}^{M}$.  Now we give the definition of intersection and union operation of these sets.
 
 \begin{definition}[Intersection and Union Operation of Relation Sets]\label{def:relSetOperations}
-Given two extended relation sets $ExRelSet1$ and $ExRelSet2$, which contain $m$ and $n$ elements respectively. The relations in these sets are marked $R=(\gamma_{R},\delta_{R},\theta_{R})$, whose transition pair is denoted as $R_{pair}$. Then we have:
-	\begin{equation}\label{eq:relSetOperations}
-		\begin{aligned}
-			ExRelSet1\Cap ExRelSet2=&\{Ri\cap Rj|Ri\in ExRelSet1,\\
-			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
-			ExRelSet1\Cup ExRelSet2=&\{Ri\cup Rj|Ri\in ExRelSet1,\\
-			&\quad Rj\in ExRelSet2,Ri_{pair}=Rj_{pair}\}\\
-			&\cup\{\theta_{Ri}Ri_{pair}|Ri\in ExRelSet1\\
-			&\qquad \wedge\nexists R_{j}\in ExRelSet2,s.t.~Ri_{pair}=Rj_{pair}\}\\
-			&\cup\{\theta_{Rj}Rj_{pair}|Rj\in ExRelSet2\\
-			&\qquad \wedge\nexists R_{i}\in ExRelSet1,s.t.~Ri_{pair}=Rj_{pair}\}
-		\end{aligned}
-	\end{equation}
+Given two extended relation sets $RS_{h}^{P}$ and $RS_{h}^{Q}$ from two models $P$ and $Q$ with the same $h$. Then we have:
+		\begin{align}\label{eq:relSetOperations}
+			RS_{h}^{P}\Cap RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cap R_{h}^{Q}}\\
+			RS_{h}^{P}\Cup RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cup R_{h}^{Q}}\\
+			& +|\{R_{h}^{P}\in RS_{h}^{P}|\nexists R_{h}^{Q}\in RS_{h}^{Q},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\\
+			& +|\{R_{h}^{Q}\in RS_{h}^{Q}|\nexists R_{h}^{P}\in RS_{h}^{P},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|
+		\end{align}
 \end{definition}
 
-We use Jaccard equation to measure the similarity between two sets:
-\begin{equation}
-	\begin{aligned}
-		Sim(ExRelSet1,ExRelSet2)=\frac{|ExRelSet1\Cap ExRelSet2|}{|ExRelSet1\Cup ExRelSet2|}
-	\end{aligned}
-\end{equation}
-, where $|ExRelSet1\Cap ExRelSet2|=\sum\theta_{R},\theta_{R}R_{pair}\in ExRelSet1\Cap ExRelSet2$ and $|ExRelSet1\Cup ExRelSet2|$ similarly.
-
-Since there are three sets of extended relations in a model, three similarity values are computed for two models $M_{1}$ and $M_{2}$, namely $Sim_{\rightarrow}(M_{1},M_{2})$, $Sim_{\leftarrow }(M_{1},M_{2})$ and $Sim_{\parallel}(M_{1},M_{2})$. We assign different weights to these values and derive the final similarity value between $M_{1}$ and $M_{2}$.
+Finally, we give the similarity measure as follows:
 
 \begin{definition}[ExRORU Similarity]\label{def:similarity}
-Given two WF-nets $M_{1}$ and $M_{2}$, the ExRORU similarity between them is:\\
+Given two WF-nets $P$ and $Q$, the ExRORU similarity between them is:\\
 \begin{equation}\label{eq:similarity}
-Sim(M_{1},M_{2})=\sum_{h}\omega_{h}\cdot Sim_{h}(M_{1},M_{2})
+Sim(P,Q)=\sum_{h}\omega_{h}\cdot Sim(RS_{h}^{P},RS_{h}^{Q})
 \end{equation}
-with $h\in\{\rightarrow,\leftarrow ,\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$.
+with $h\in\{\rightarrow,\leftarrow,\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$. The similarity between relation set is:\\
+\begin{equation}\label{eq:setsimilarity}
+Sim(RS_{h}^{P},RS_{h}^{Q})=\frac{|RS_{h}^{P}\Cap RS_{h}^{Q}|}{|RS_{h}^{P}\Cup RS_{h}^{Q}|}
+\end{equation}
 \end{definition}
 
 We will show some examples and special cases in the next section.
