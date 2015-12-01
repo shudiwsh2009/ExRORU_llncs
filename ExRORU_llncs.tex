@@ -14,6 +14,7 @@
 \usepackage{algpseudocode}
 \usepackage{textcomp}
 \usepackage{multirow}
+\usepackage{diagbox}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{xcolor}
 \usepackage{colortbl}
@@ -707,8 +708,8 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 
 Most similarity measure such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
 
-\subsection{Experimental Setting}\label{subsec:setting}
-Our experimental dataset contain reference models from several enterprises such as TC, DG and SAP. These collections has 644 models (expressed in Petri nets) in total, which are used to check the distance metric requirement and efficiency. The basic features of these models are summarized in Table \ref{tab:datasets}.
+\subsection{Efficiency Comparison}\label{subsec:setting}
+Our experimental dataset contains real-life models from several enterprises such as TC, DG and SAP. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
 \begin{table}[htbp]
 \centering
@@ -723,15 +724,31 @@ Our experimental dataset contain reference models from several enterprises such 
 \end{tabular}
 \end{table}
 
-We use reference models to check triangle inequality property, which is an importance aspect of distance metric. We repeatedly extract every three models from the dataset, calculate similarities between each pair of them, transfer these values to distance values ($distance=1-similarity$) and test whether they satisfy the triangle inequality property, which means the sum of any two distances values is large than the third one. 
+As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets which seems closer to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness. The average time costs on computing the similarity between each pair of models from each dataset are show in Table \ref{tab:efficiency}.
 
-As for comparison, TAR and BP algorithms are based on the relations between transitions as we do while PTS and CFS are based on the abstract trace sets which seems more close to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness.
+\begin{table}[htbp]
+\centering
+\caption{Efficiency comparison of five algorithms\label{tab:efficiency}}
+\begin{threeparttable}
+\begin{tabular}{|c|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|} \hline
+	\diagbox{Dataset}{Cost(ms)}{Algo} & TAR & BP & PTS & CFS & ExRORU\\ \hline
+	DG & 0.34 & 3.93 & 0.43 & ---\tnote{1} & 32.33\\ \hline
+	TC & 0.26 & 4.98 & 0.44 & ---\tnote{1} & 48.95\\ \hline
+	SAP & 0.05 & 0.92 & 0.06 & 63.21 & 6.05\\ \hline
+\end{tabular}
+\begin{tablenotes}
+	\footnotesize
+	\item[1] CFS costs too much time to compute the similarity value among part of the models that we cannot capture the precise average time.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
 
-\subsection{Performance Evaluation on Real-Life Models}\label{subsec:performance}
-The performance of our algorithm on real-life
+As we can see from the result, ExRORU is the second slowest algorithm among all five. However, considering that ExRORU has much more details about relations between tasks than other algorithms, the time consuming of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special cases such as silent transitions, non-free-choice constructs and multi-relation, which shows the outstanding effectiveness of it.
 
 \section{Conclusion}\label{sec:conclusion}
+To better describe the relations between the execution of tasks in a process model, we extend Tao Jin's work on refined ordering relations with uncertainty. In our paper, we define three types of extended relations, all of which can be refined into three sub types. We give the computation of our extedned relations based on the unfolding technology. In order to better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. We also propose an algorithm to measure the similarity between models using our extended relations. Our algorithm is the only existing algorithm that can handle many special cases and has an acceptable time performance, as shown in the experiments conducted with three real-life model datasets.
 
+Our algorithm is still not fast enough, compared to other mainstream algorithms which also ultilize the relations between tasks. On the other hand, we leave out the proof of some theorems due to space limitation. We will solve these in the future.
 
 \bibliographystyle{plain}
 \bibliography{ref}
