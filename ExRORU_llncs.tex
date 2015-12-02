@@ -45,7 +45,7 @@
 \addtocmark{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
 \mainmatter
-\title{ExRORU: A Behavioral Similarity Measure for Process Models based on Extended Refined Ordering Relations with Uncertainty}
+\title{ExRORU: Using Extended Refined Ordering Relations with Uncertainty for Detecting Differentiation between Process Models}
 \titlerunning{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
 \author[$1$]{Shuhao Wang}
@@ -67,8 +67,8 @@ State College, PA 16802, USA \authorcr
 \maketitle
 
 \begin{abstract}
-Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the refined ordering relations based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with silent transitions. We extend his work and present a refinement of the relations for cyclic process models. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary sound WF-nets and utilize them to measure the similarity between process models. Experiments on real-life models from enterprises show that compared to existing algorithms, our measure is both efficient and effective.
-\keywords{Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Similarity}
+Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the refined ordering relations based on unfolding technology. However, his algorithm cannot work well for cyclic WF-nets and process models with silent transitions. We extend his work and present a refinement of the relations for cyclic process models. To better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Also, we propose an algorithm to compute relations in arbitrary sound WF-nets and utilize them to detect the differentiation between process models. Experiments on real-life models from enterprises show that compared to existing algorithms, our measure is both effective and efficient.
+\keywords{Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
@@ -438,7 +438,7 @@ Using the notions and computations described in the previous sections, we can de
 \end{table}
 
 \subsection{Sequential Direct Adjacency}\label{subsec:sda}
-We can distinguish most process models from each other by their executing semantics using the extended refined ordering relations with uncertainty. However, there are still models with different semantics but the same extended relations, especially when silent transitions are introduced. Silent transitions do not appear in any log trace \cite{de2003workflow} . For more details about silent transitions and their mining, please refer to the work of Wen \cite{wen2010mining}. 
+We can distinguish most process models from each other by their executing semantics using ExRORU. However, there are still models with different semantics but the same extended relations, especially when silent transitions are introduced. Silent transitions do not appear in any log trace \cite{de2003workflow} . For more details about silent transitions and their mining, please refer to the work of Wen \cite{wen2010mining}. 
 
 \begin{figure}[htbp]
 \centering
@@ -453,11 +453,11 @@ We can distinguish most process models from each other by their executing semant
 	\includegraphics[width=0.45\textwidth]{fig_sda_example_2}
 	\label{fig:sdaExampleB}
 }
-\caption{Two WF-nets with invisible tasks\label{fig:sdaExample}}
+\caption{Two WF-nets with silent transitions\label{fig:sdaExample}}
 \end{figure}
 
 \begin{example}\label{ex:sda}
-Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Figure \ref{fig:sdaExampleA} are $<I,A,B,O>$, $<I,B,A,O>$, $<I,A,O>$ and $<I,B,O>$ while the full firing sequences of the model in Figure \ref{fig:sdaExampleB} are $<I,A,B,O>$, $<I,B,A,O>$, $<I,A,O>$, $<I,B,O>$ and $<I,O>$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
+Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the model in Figure \ref{fig:sdaExampleA} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$ and $\langle I,B,O\rangle$, while the full firing sequences of the model in Figure \ref{fig:sdaExampleB} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$ and $\langle I,O\rangle$. But the extended relations of these two models are the same, as shown in Table \ref{tab:sdaExample}.
 \end{example}
 
 \begin{table}[htbp]
@@ -492,7 +492,7 @@ Figure \ref{fig:sdaExample} shows an example. The full firing sequences of the m
 \end{tabular}
 \end{table}
 
-By looking into the executing semantics of these models, we find that the introduction of silent transitions influences the adjacency of visible transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleA}, but not in Figure \ref{fig:sdaExampleB}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of silent transition.
+By looking into the executing semantics of these models, we find that the introduction of silent transitions influences the adjacency of visible transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleB}, but not in Figure \ref{fig:sdaExampleA}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of silent transitions.
 
 \begin{definition}[Sequential Direct Adjacency]\label{def:sda}
 Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transitions. $A$ and $B$ are in sequential direct adjacency iff:
@@ -500,7 +500,7 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=<t_{1},t_{2},...,t_{n}>\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is an silent transition.
 	\end{itemize}
-$A\rightarrow_{D}B$ ("D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ ("I" for \textit{indirect}) if not. Similarly, we can also define SDA on $\leftarrow$ relation, denoted as $B\leftarrow_{D}A$. The set of all the transition pairs which are in sequential direct adjacency is the SDA-set of a model.
+$A\rightarrow_{D}B$ (``D" for \textit{direct}) if they are in sequential direct adjacency while $A\rightarrow_{I}B$ (``I" for \textit{indirect}) if not. Similarly, we can also define SDA on $\leftarrow$ relation, denoted as $B\leftarrow_{D}A$. The set of all the transition pairs which are in sequential direct adjacency is the SDA-set of a model.
 \end{definition}
 
 We use sequential direct adjacency to distinguish those transition pairs which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the two models in Figure \ref{fig:sdaExample}, we derive the \textit{SDA-set} as follows:
@@ -513,155 +513,153 @@ We use sequential direct adjacency to distinguish those transition pairs which c
 	\end{aligned}
 \end{displaymath}
 
-However, sequential direct adjacency has the same drawback as TAR that adding new transition to the middle part or the head and tail part of a model has different influence on the scale of SDA-set \cite{wang2015tar++}. To avoid this, we use the method in TAR++ \cite{wang2015tar++}. We add four nodes and four edges to the original WF-net including two places $Ps$ and $Pn$, two transitions $Ts$ and $Tn$ and four edges $Ps\rightarrow Ts$, $Ts\rightarrow Pi$, $Po\rightarrow Te$, $Te\rightarrow Pe$, where $Pi$ and $Po$ are the source place and sink place of the WF-net. This will make the similarity value between two WF-nets more reasonable. For convenience, we do not show the relations between $Ts$, $Tn$ and transitions in the original WF-net in our examples.
+Using the combination of ExRORUs and SDAs, we can distinguish the two models with silent transitions as well as many similar model pairs from each other efficiently.
 
-Using the combination of extended refined ordering relations with uncertainty and sequential direct adjacency, we can distinguish the two models with silent transitions as well as many model pairs from each other efficiently.
+% \section{Similarity Measure}\label{sec:similarity}
+% In this section, we introduce how extened relations and sequential direct adjacency are used to measure the similarity between two process models.
 
-\section{Similarity Measure}\label{sec:similarity}
-In this section, we introduce how extened relations and sequential direct adjacency are used to measure the similarity between two process models.
+% By combining extended relations and sequential direct adjacency together, we give the computation of the similarity between two WF-nets. For any ordered transition pair $A,B$ in a process model $M$, we can capture three types of extended relations between them, i.e., $R_{\rightarrow}^{M}(A,B)$, $R_{\leftarrow}^{M}(A,B)$ and $R_{\parallel}^{M}(A,B)$. We use a couple $R_{h}^{M}(A,B)=(\gamma,\delta)$ to represent their extended relations, where $h\in\{\rightarrow,\leftarrow,\parallel\}$, $\gamma$ is the uncertainty (``A'' for \textit{always}, ``S'' for \textit{sometimes} and ``N'' for \textit{never}), $\delta$ is the sequential direct adjacency (``D'' for \textit{direct} if $A\rightarrow_{D}B\in SDA-set$ and ``I'' for \textit{indirect} otherwise). For convenience, we use ${R_{h}^{M}}_{pair}$ to denote the transition pair in $R_{h}^{M}$.
 
-By combining extended relations and sequential direct adjacency together, we give the computation of the similarity between two WF-nets. For any ordered transition pair $A,B$ in a process model $M$, we can capture three types of extended relations between them, i.e., $R_{\rightarrow}^{M}(A,B)$, $R_{\leftarrow}^{M}(A,B)$ and $R_{\parallel}^{M}(A,B)$. We use a couple $R_{h}^{M}(A,B)=(\gamma,\delta)$ to represent their extended relations, where $h\in\{\rightarrow,\leftarrow,\parallel\}$, $\gamma$ is the uncertainty (``A'' for \textit{always}, ``S'' for \textit{sometimes} and ``N'' for \textit{never}), $\delta$ is the sequential direct adjacency (``D'' for \textit{direct} if $A\rightarrow_{D}B\in SDA-set$ and ``I'' for \textit{indirect} otherwise). For convenience, we use ${R_{h}^{M}}_{pair}$ to denote the transition pair in $R_{h}^{M}$.
+% On the other hand, we think two extended relations with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to balance the influence of sequential direct adjacency.
 
-On the other hand, we think two extended relations with the same $\delta$ are more similar than two extended relation with different $\delta$, so we set a weight $\lambda$ to balance the influence of sequential direct adjacency.
+% For two extended relations $R_{h}^{P}=(\gamma_{P},\delta_{P})$ and $R_{h}^{Q}=(\gamma_{Q},\delta_{Q})$ with the same $h$ and transition pair from two models $P$ and $Q$ respectively, we have:
+% \begin{equation}\label{eq:relationOperations}
+% 	\begin{aligned}
+% 		R_{h}^{P}\cap R_{h}^{Q}&=
+% 			\begin{cases}
+% 				0 & \gamma_{P}\neq\gamma_{Q}\\
+% 				\lambda & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}\neq\delta_{Q}\\
+% 				1 & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}=\delta_{Q}
+% 			\end{cases}\\
+% 		R_{h}^{P}\cup R_{h}^{Q}&=1
+% 	\end{aligned}
+% \end{equation}
 
-For two extended relations $R_{h}^{P}=(\gamma_{P},\delta_{P})$ and $R_{h}^{Q}=(\gamma_{Q},\delta_{Q})$ with the same $h$ and transition pair from two models $P$ and $Q$ respectively, we have:
-\begin{equation}\label{eq:relationOperations}
-	\begin{aligned}
-		R_{h}^{P}\cap R_{h}^{Q}&=
-			\begin{cases}
-				0 & \gamma_{P}\neq\gamma_{Q}\\
-				\lambda & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}\neq\delta_{Q}\\
-				1 & \gamma_{P}=\gamma_{Q}\wedge\delta_{P}=\delta_{Q}
-			\end{cases}\\
-		R_{h}^{P}\cup R_{h}^{Q}&=1
-	\end{aligned}
-\end{equation}
+% Relations of the same type are gathered in the same extended relation set. Therefore, we have three extended relation set, namely $RS_{\rightarrow}^{M}$, $RS_{\leftarrow}^{M}$ and $RS_{\parallel}^{M}$.  Now we give the definition of intersection and union operation of these sets.
 
-Relations of the same type are gathered in the same extended relation set. Therefore, we have three extended relation set, namely $RS_{\rightarrow}^{M}$, $RS_{\leftarrow}^{M}$ and $RS_{\parallel}^{M}$.  Now we give the definition of intersection and union operation of these sets.
+% \begin{definition}[Intersection and Union Operation of Relation Sets]\label{def:relSetOperations}
+% Given two extended relation sets $RS_{h}^{P}$ and $RS_{h}^{Q}$ from two models $P$ and $Q$ with the same $h$. Then we have:
+% 		\begin{align}
+% 			RS_{h}^{P}\Cap RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cap R_{h}^{Q}}\label{eq:RSintersection}\\
+% 			RS_{h}^{P}\Cup RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cup R_{h}^{Q}}\label{eq:RSunion1}\\
+% 			& +|\{R_{h}^{P}\in RS_{h}^{P}|\nexists R_{h}^{Q}\in RS_{h}^{Q},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion2}\\
+% 			& +|\{R_{h}^{Q}\in RS_{h}^{Q}|\nexists R_{h}^{P}\in RS_{h}^{P},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion3}
+% 		\end{align}
+% \end{definition}
 
-\begin{definition}[Intersection and Union Operation of Relation Sets]\label{def:relSetOperations}
-Given two extended relation sets $RS_{h}^{P}$ and $RS_{h}^{Q}$ from two models $P$ and $Q$ with the same $h$. Then we have:
-		\begin{align}
-			RS_{h}^{P}\Cap RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cap R_{h}^{Q}}\label{eq:RSintersection}\\
-			RS_{h}^{P}\Cup RS_{h}^{Q}= & \sum_{R_{h}^{P}\in RS_{h}^{P},R_{h}^{Q}\in RS_{h}^{Q},{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}}{R_{h}^{P}\cup R_{h}^{Q}}\label{eq:RSunion1}\\
-			& +|\{R_{h}^{P}\in RS_{h}^{P}|\nexists R_{h}^{Q}\in RS_{h}^{Q},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion2}\\
-			& +|\{R_{h}^{Q}\in RS_{h}^{Q}|\nexists R_{h}^{P}\in RS_{h}^{P},s.t.~{R_{h}^{P}}_{pair}={R_{h}^{Q}}_{pair}\}|\label{eq:RSunion3}
-		\end{align}
-\end{definition}
+% Finally, we give the similarity measure as follows:
 
-Finally, we give the similarity measure as follows:
+% \begin{definition}[ExRORU Similarity]\label{def:similarity}
+% Given two WF-nets $P$ and $Q$, the ExRORU similarity between them is:\\
+% \begin{equation}\label{eq:similarity}
+% Sim(P,Q)=\sum_{h}\omega_{h}\cdot Sim(RS_{h}^{P},RS_{h}^{Q})
+% \end{equation}
+% with $h\in\{\rightarrow,\leftarrow,\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$. The similarity between relation set is:\\
+% \begin{equation}\label{eq:setsimilarity}
+% Sim(RS_{h}^{P},RS_{h}^{Q})=\frac{|RS_{h}^{P}\Cap RS_{h}^{Q}|}{|RS_{h}^{P}\Cup RS_{h}^{Q}|}
+% \end{equation}
+% \end{definition}
 
-\begin{definition}[ExRORU Similarity]\label{def:similarity}
-Given two WF-nets $P$ and $Q$, the ExRORU similarity between them is:\\
-\begin{equation}\label{eq:similarity}
-Sim(P,Q)=\sum_{h}\omega_{h}\cdot Sim(RS_{h}^{P},RS_{h}^{Q})
-\end{equation}
-with $h\in\{\rightarrow,\leftarrow,\parallel\}$ and weighting factors $\omega_{h}\in\mathbb{R},0<\omega_{h}<1$ such that $\sum\limits_{h}\omega_{h}=1$. The similarity between relation set is:\\
-\begin{equation}\label{eq:setsimilarity}
-Sim(RS_{h}^{P},RS_{h}^{Q})=\frac{|RS_{h}^{P}\Cap RS_{h}^{Q}|}{|RS_{h}^{P}\Cup RS_{h}^{Q}|}
-\end{equation}
-\end{definition}
+% \begin{example}\label{ex:similarity}
+% For the two models in Figure \ref{fig:similarityExample}, we can capture their extended relations as shown in Table \ref{tab:similarityExample} and \textit{SDA-sets} as follows:
+% \begin{displaymath}
+% 	\begin{aligned}
+% 		\text{(a)} & A\rightarrow_{D}B, B\rightarrow_{D}C, B\rightarrow_{D}D, D\rightarrow_{D}B\\
+% 		& B\leftarrow_{D}A, C\leftarrow_{D}B, D\leftarrow_{D}B, B\leftarrow_{D}D\\
+% 		\text{(b)} & A\rightarrow_{D}B, A\rightarrow_{D}E, B\rightarrow_{D}C, E\rightarrow_{D}E\\
+% 		& B\leftarrow_{D}A, E\leftarrow_{D}A, C\leftarrow_{D}B, C\leftarrow_{D}E
+% 	\end{aligned}
+% \end{displaymath}
+% According to our definitions above, Formula \ref{eq:RSintersection} and \ref{eq:RSunion1} will be applied on the light gray area, while Formula \ref{eq:RSunion2} on the medium gray area and Formula \ref{eq:RSunion3} on the dark gray area. For example, $Sim(RS_{\rightarrow}^{P},RS_{\rightarrow}^{Q})=\frac{6}{9+7+7}=\frac{6}{23}$. Similarly, we have $Sim(RS_{\leftarrow}^{P},RS_{\leftarrow}^{Q})=\frac{6}{23}$ and $Sim(RS_{\parallel}^{P},RS_{\parallel}^{Q})=\frac{9}{23}$. If we use $\omega_{h}=\frac{1}{3}$ as our weighting factors, we get a similarity value between $P$ and $Q$ as $\frac{6/23+6/23+9/23}{3}\approx 0.304$.
+% \end{example}
 
-\begin{example}\label{ex:similarity}
-For the two models in Figure \ref{fig:similarityExample}, we can capture their extended relations as shown in Table \ref{tab:similarityExample} and \textit{SDA-sets} as follows:
-\begin{displaymath}
-	\begin{aligned}
-		\text{(a)} & A\rightarrow_{D}B, B\rightarrow_{D}C, B\rightarrow_{D}D, D\rightarrow_{D}B\\
-		& B\leftarrow_{D}A, C\leftarrow_{D}B, D\leftarrow_{D}B, B\leftarrow_{D}D\\
-		\text{(b)} & A\rightarrow_{D}B, A\rightarrow_{D}E, B\rightarrow_{D}C, E\rightarrow_{D}E\\
-		& B\leftarrow_{D}A, E\leftarrow_{D}A, C\leftarrow_{D}B, C\leftarrow_{D}E
-	\end{aligned}
-\end{displaymath}
-According to our definitions above, Formula \ref{eq:RSintersection} and \ref{eq:RSunion1} will be applied on the light gray area, while Formula \ref{eq:RSunion2} on the medium gray area and Formula \ref{eq:RSunion3} on the dark gray area. For example, $Sim(RS_{\rightarrow}^{P},RS_{\rightarrow}^{Q})=\frac{6}{9+7+7}=\frac{6}{23}$. Similarly, we have $Sim(RS_{\leftarrow}^{P},RS_{\leftarrow}^{Q})=\frac{6}{23}$ and $Sim(RS_{\parallel}^{P},RS_{\parallel}^{Q})=\frac{9}{23}$. If we use $\omega_{h}=\frac{1}{3}$ as our weighting factors, we get a similarity value between $P$ and $Q$ as $\frac{6/23+6/23+9/23}{3}\approx 0.304$.
-\end{example}
+% \begin{figure}[htbp]
+% \centering
+% \subfigure[Model $P$] {
+% 	\centering
+% 	\includegraphics[width=0.45\textwidth]{fig_similarity_1}
+% 	\label{fig:similarityExampleA}
+% }
+% \hspace{0.5cm}
+% \subfigure[Model $Q$] {
+% 	\centering
+% 	\includegraphics[width=0.45\textwidth]{fig_similarity_2}
+% 	\label{fig:similarityExampleB}
+% }
+% \caption{Example petri nets $P$ and $Q$ for similarity measure\label{fig:similarityExample}}
+% \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\subfigure[Model $P$] {
-	\centering
-	\includegraphics[width=0.45\textwidth]{fig_similarity_1}
-	\label{fig:similarityExampleA}
-}
-\hspace{0.5cm}
-\subfigure[Model $Q$] {
-	\centering
-	\includegraphics[width=0.45\textwidth]{fig_similarity_2}
-	\label{fig:similarityExampleB}
-}
-\caption{Example petri nets $P$ and $Q$ for similarity measure\label{fig:similarityExample}}
-\end{figure}
-
-\begin{table}[htbp]
-\centering
-\tabcaption{Extended relations of the two models in Figure \ref{fig:similarityExample}\label{tab:similarityExample}}
-\subtable[Extended relation matrix of $P$] {
-	\begin{tabular}{c|c|c|c|c} \hline
-		Transitions & $A$ & $B$ & $C$ & $D$\\ \hline
-		$A$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
-			\\ \hline
-		$B$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
-			\\ \hline
-		$C$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
-			\\ \hline
-		$D$
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\twoheadrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
-			\\ \hline
-	\end{tabular}
-}
-\subtable[Extend relation matrix of $Q$] {
-	\begin{tabular}{c|c|c|c|c} \hline
-		Transitions & $A$ & $B$ & $C$ & $E$\\ \hline
-		$A$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
-			\\ \hline
-		$B$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			\\ \hline
-		$C$
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
-			\\ \hline
-		$E$
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
-			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
-			\\ \hline
-	\end{tabular}
-}
-\end{table}
+% \begin{table}[htbp]
+% \centering
+% \tabcaption{Extended relations of the two models in Figure \ref{fig:similarityExample}\label{tab:similarityExample}}
+% \subtable[Extended relation matrix of $P$] {
+% 	\begin{tabular}{c|c|c|c|c} \hline
+% 		Transitions & $A$ & $B$ & $C$ & $D$\\ \hline
+% 		$A$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+% 			\\ \hline
+% 		$B$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+% 			\\ \hline
+% 		$C$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+% 			\\ \hline
+% 		$D$
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\twoheadrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray2}}c|}{$\rightharpoonup\leftharpoonup\nparallel$}
+% 			\\ \hline
+% 	\end{tabular}
+% }
+% \subtable[Extend relation matrix of $Q$] {
+% 	\begin{tabular}{c|c|c|c|c} \hline
+% 		Transitions & $A$ & $B$ & $C$ & $E$\\ \hline
+% 		$A$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\rightharpoonup\nleftarrow\nparallel$}
+% 			\\ \hline
+% 		$B$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			\\ \hline
+% 		$C$
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray1}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\leftharpoonup\nparallel$}
+% 			\\ \hline
+% 		$E$
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\twoheadleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\twoheadrightarrow\nleftarrow\nparallel$}
+% 			& \multicolumn{1}{>{\columncolor{gray3}}c|}{$\nrightarrow\nleftarrow\nparallel$}
+% 			\\ \hline
+% 	\end{tabular}
+% }
+% \end{table}
 
 \section{Experimental Evaluation}\label{sec:experiments}
-We have implemented a similarity measure algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} based on the complete prefix unfolding in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both performance and quality perspectives. We evaluate the performance by applying our algorithm on real-life dataset and evaluate the quality by comparing it with other algorithms.
+We have implemented a similarity measure algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} based on the complete prefix unfolding in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both effectiveness and efficiency perspectives. We evaluate the effectiveness by comparing it with other algorithms and evaluate the efficiency by applying our algorithm on real-life datasets.
 
-\subsection{Special Examples}\label{subsec:specialExamples}
-Before presenting the experimental results of our algorithm, we want to show some special examples. Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to present the behaviors of a process model.
+\subsection{Effectiveness Comparison}\label{subsec:effectivenessComparison}
+Examples in this section together with the models in Figure \ref{fig:sdaExample} show the powerful capability of our algorithm to represent the behaviors of a process model.
 
 \paragraph{Non-free-choice constructs}\label{par:nfc} 
-are difficult to discover, which are the main problems of most existing process mining approaches \cite{de2003workflow}. Process models with non-free-choice constructs contain a mixture of synchronization and choice, i.e., synchronization and choice are not separated which may create implicit dependencies \cite{wen2007mining}. Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
+Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs \cite{wen2007mining} and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
 
 \begin{figure}[htbp]
 \centering
@@ -679,10 +677,9 @@ are difficult to discover, which are the main problems of most existing process 
 \caption{WF-nets with and without non-free-choice constructs\label{fig:nfcExample}}
 \end{figure}
 
-Most similarity algorithms based on relations between transitions such as TAR cannot distinguish these two models. Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle, \langle B,C\rangle, \langle C,E\rangle\}$, which means that the similarity between these two models are $1$ using TAR. However, it is obvious that they are not the same, since the trace set $\Omega$ of the model in Figure \ref{fig:nfcExampleA} is $\{<A,C,D>,<B,C,E>\}$ while the other is $\{<A,C,D>,<A,C,E>,<B,C,D>,<B,C,E>\}$.
+Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle, \langle B,C\rangle, \langle C,E\rangle\}$. However, it is obvious that their behaviors are not the same, since the trace set $\Omega$ of the model in Figure \ref{fig:nfcExampleA} is $\{<A,C,D>,<B,C,E>\}$ while the other is $\{<A,C,D>,<A,C,E>,<B,C,D>,<B,C,E>\}$.
 
 Actually, there are only two branching processes in the complete prefix unfolding of the model in Figure \ref{fig:nfcExampleA}, i.e., $[A\{C\}D]$ and $[B\{C\}E]$. Therefore, we have $A\twoheadrightarrow D$ and $B\twoheadrightarrow E$. On the other hand, there are four branching processes in the complete prefix unfolding of the model in Figure \ref{fig:nfcExampleB}, i.e., $[ACD],[ACE],[BCD],[BCE]$, indicating that $A\rightharpoonup D$ and $B\rightharpoonup E$. We can see the difference between these two models using our extended relations.
-% TODO 给一个相似性值
 
 \paragraph{Multi-relation} is another special structure we want to discuss. An example WF-net with multi-relation and its complete prefix unfolding are shown in Figure \ref{fig:exampleMultiRelation}. Transitions $A$ and $D$ are in multi-relation since they can both in causal and concurrency relation. From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two branching processes, i.e., $\sigma_{1}=[I\{AC,BD\}O]$ and $\sigma_{2}=[I\{A\}E\{D\}O]$. Using the definitions of our extended relations, we have $A\rightharpoonup D$ and $A\Uparrow D$.
 
@@ -701,7 +698,7 @@ Actually, there are only two branching processes in the complete prefix unfoldin
 \caption{A WF-net with multi-relation and its complete prefix unfolding\label{fig:exampleMultiRelation}}
 \end{figure}
 
-Most similarity measure such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems and may lead to confusing similarity result for models like Figure \ref{fig:multiRelExample}.
+Most similarity measure such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which causes problems.
 
 \subsection{Efficiency Comparison}\label{subsec:setting}
 Our experimental dataset contains real-life models from several enterprises such as TC, DG and SAP. The basic features of these models are summarized in Table \ref{tab:datasets}.
@@ -719,7 +716,7 @@ Our experimental dataset contains real-life models from several enterprises such
 \end{tabular}
 \end{table}
 
-As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets which seems closer to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare them in both efficiency and effectiveness. The average time costs on computing the similarity between each pair of models from each dataset are show in Table \ref{tab:efficiency}.
+As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets which seems closer to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare their efficiency. The average time costs on extracting behavioral features of each process model are shown in Table \ref{tab:efficiency}.
 
 \begin{table}[htbp]
 \centering
@@ -733,7 +730,7 @@ As for comparison, TAR and BP algorithms are based on the relations between task
 \end{tabular}
 \begin{tablenotes}
 	\footnotesize
-	\item[1] CFS costs too much time to compute the similarity value among part of the models that we cannot capture the precise average time.
+	\item[1] CFS costs too much time to extract behavioral features from part of the models that we cannot capture the precise average time.
 \end{tablenotes}
 \end{threeparttable}
 \end{table}
