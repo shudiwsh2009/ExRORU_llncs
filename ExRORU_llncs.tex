@@ -32,11 +32,11 @@
   \newcommand\tabcaption{\def\@captype{table}\caption} 
   \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \makeatother
-% \setlength{\abovecaptionskip}{4pt} 
-% \setlength{\belowcaptionskip}{4pt}
-% \setlength{\floatsep}{4pt}
-% \setlength{\textfloatsep}{4pt}
-% \setlength{\intextsep}{4pt}
+\setlength{\abovecaptionskip}{4pt} 
+\setlength{\belowcaptionskip}{4pt}
+\setlength{\floatsep}{4pt}
+\setlength{\textfloatsep}{4pt}
+\setlength{\intextsep}{4pt}
 \begin{document}
 \frontmatter 
 \pagestyle{headings}
@@ -733,7 +733,7 @@ Most similarity measure such as BP and TAR cannot recognize the multi-relation i
 \end{figure}
 
 \subsection{Efficiency Comparison}\label{subsec:setting}
-Our experimental dataset contains real-life models from several enterprises such as TC, DG, SAP and IBM. The basic features of these models are summarized in Table \ref{tab:datasets}.
+Our experimental dataset contains real-life models from several enterprises such as TC, DG and SAP. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
 \begin{table}[htbp]
 \centering
@@ -756,18 +756,14 @@ As for comparison, TAR and BP algorithms are based on the relations between task
 \begin{threeparttable}
 \begin{tabular}{|c|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|} \hline
 	\diagbox{Dataset}{Cost(ms)}{Algo} & TAR & BP & PTS & CFS & ExRORU\\ \hline
-	DG & 0.34 & 3.93 & 0.43 & ---\tnote{1} & 32.33\\ \hline
-	TC & 0.26 & 4.98 & 0.44 & ---\tnote{1} & 48.95\\ \hline
-	SAP & 0.05 & 0.92 & 0.06 & 63.21 & 6.05\\ \hline
+	DG & 0.11 & 2.15 & 0.52 & 0.42 & 10.89\\ \hline
+	TC & 0.10 & 2.01 & 0.39 & 0.40 & 15.34\\ \hline
+	SAP & 0.05 & 0.37 & 0.06 & 0.07 & 1.43\\ \hline
 \end{tabular}
-\begin{tablenotes}
-	\footnotesize
-	\item[1] CFS costs too much time to extract behavioral features from part of the models that we cannot capture the precise average time.
-\end{tablenotes}
 \end{threeparttable}
 \end{table}
 
-As we can see from the result, ExRORU is the second slowest algorithm among all five. However, considering that ExRORU has much more details about relations between tasks than other algorithms, the time consuming of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special cases such as silent transitions, non-free-choice constructs and multi-relation, which shows the outstanding effectiveness of it.
+As we can see from the result, ExRORU is the slowest algorithm among all five due to some reasons. Firstly, models in these datasets are mostly acyclic and lack parallel constructs so that the state explosion problem may not happen in algorithms utilizing reachability graph such as PTS and CFS. Secondly, most of the time consuming in simialrity measure such as CFS are spent in the similarity computation between the behavioral features of models. On the other hand, comparison between two models using ExRORU is extremely fast. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time consuming of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special cases such as silent transitions, non-free-choice constructs and multi-relation, which shows the outstanding effectiveness of it.
 
 \section{Conclusion}\label{sec:conclusion}
 To better describe the relations between the execution of tasks in a process model, we extend Tao Jin's work on refined ordering relations with uncertainty. In our paper, we define three types of extended relations, all of which can be refined into three sub types. We give the computation of our extedned relations based on the unfolding technology. In order to better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Our algorithm is the only existing algorithm that can handle many special cases and has an acceptable time performance, as shown in the experiments conducted with four real-life model datasets.
