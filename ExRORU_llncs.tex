@@ -751,7 +751,7 @@ As for comparison, TAR and BP algorithms are based on the relations between task
 As we can see from the result, ExRORU is the slowest algorithm among all five due to some reasons. Firstly, models in these datasets are mostly acyclic and lack parallel constructs so that the state explosion problem may not happen in algorithms utilizing reachability graph or coverability tree such as PTS and CFS. Secondly, most of the time consuming in simialrity measure such as CFS are spent in the similarity computation between the behavioral features of models. On the other hand, comparison between two models using ExRORU is extremely fast. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time consuming of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special cases such as silent transitions, non-free-choice constructs and multi-relation, which shows the outstanding effectiveness of it.
 
 \subsection{Scalability Comparison}\label{subsec:scalability}
-We have artificially constructed two sets of process models to test the scalability of five algorithms. The first set contains 11 models with increasing numbers($5, 10, ..., 55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers($1, 2, 3, ..., 11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time cost on extracting behavioral features of both dataset are shown in Figure \ref{fig:scalability}. The time cost of algorithms using the technique of reachability graph such as TAR or coverability tree such as PTS and CFS increases extremely fast while ExRORU has an acceptable efficiency performance.
+We have artificially constructed two sets of process models to test the scalability of five algorithms. The first set contains 11 models with increasing numbers($5,10,$ $...,55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers($1,2,3,...,11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time cost on extracting behavioral features of both dataset are shown in Figure \ref{fig:scalability}. The time cost of algorithms using the technique of reachability graph such as TAR or coverability tree such as PTS and CFS increases extremely fast due to state explosion problem while ExRORU has an acceptable efficiency performance.
 
 \begin{figure}[htbp]
 \centering
@@ -771,20 +771,6 @@ We have artificially constructed two sets of process models to test the scalabil
 }
 \caption{Scalability comparison of five algorithms\label{fig:scalability}}
 \end{figure}
-
-% By Wen
-% \begin{figure}
-%   \centering
-%   \subfigure[Breadth-scalability dataset]{
-%     \label{subfig:CompBreadth}
-%     \includegraphics[width=2.0in]{fig_scalability_breadth}}
-%     \hspace{0.25in}
-%   \subfigure[five concurrent branches in total]{
-%     \label{subfig:CompDepth}
-%     \includegraphics[width=2.0in]{fig_scalability_depth}}
-%   \caption{Scalability comparison of BP$^+$ and BP on synthesized models}
-%   \label{fig:scalability}
-% \end{figure}
 
 
 \section{Conclusion}\label{sec:conclusion}
