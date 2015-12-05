@@ -659,16 +659,16 @@ Using further refined ExRORU, we can distinguish the two models with silent tran
 We have implemented an algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} to extract ExRORUs from a process model based on the CPU in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both effectiveness and efficiency perspectives. We evaluate the effectiveness by comparing it with other algorithms and evaluate the efficiency by applying our algorithm on real-life datasets.
 
 \subsection{Effectiveness Comparison}\label{subsec:effectiveness}
-Examples in this section together with the models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} show the powerful capability of our algorithm to represent the behaviors of a process model.
+Examples in this section together with the models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} show the powerful capability of ExRORU to represent the behaviors of a process model.
 
 \paragraph{Non-free-choice constructs}\label{par:nfc} 
 Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs \cite{de2003workflow} and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
 
 Take TAR algorithm for example, the TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle$, $\langle B,C\rangle, \langle C,E\rangle\}$. However, it is obvious that their behaviors are not the same, since the trace set $\Omega$ of the model in Figure \ref{fig:nfcExampleA} is $\{\langle A,C,D\rangle,\langle B,C,E\rangle\}$ while the other is $\{\langle A,C,D\rangle,\langle A,C,E\rangle,\langle B,C,D\rangle,\langle B,C,E\rangle\}$.
 
-Actually, there are only two branching processes in the CPU of the model in Figure \ref{fig:nfcExampleA}, i.e., $[A\{C\}D]$ and $[B\{C\}E]$. Therefore, we have $A\twoheadrightarrow D$ and $B\twoheadrightarrow E$. On the other hand, there are four branching processes in the CPU of the model in Figure \ref{fig:nfcExampleB}, i.e., $[ACD],[ACE],[BCD],[BCE]$, indicating $A\rightharpoonup D$ and $B\rightharpoonup E$. ExRORU can detect the differences between these two models.
+Actually, there are only two branching processes in the CPU of the model in Figure \ref{fig:nfcExampleA}, i.e., $[A\{C\}D]$ and $[B\{C\}E]$. Therefore, we have $A\overset{I}{\twoheadrightarrow}D$ and $B\overset{I}{\twoheadrightarrow}E$. On the other hand, there are four branching processes in the CPU of the model in Figure \ref{fig:nfcExampleB}, i.e., $[ACD],[ACE],[BCD],[BCE]$, indicating $A\overset{I}{\rightharpoonup}D$ and $B\overset{I}{\rightharpoonup}E$. ExRORU can detect the differences between these two models.
 
-\paragraph{Multi-relation} is another special structure we want to discuss. An example WF-net with multi-relation and its CPU are shown in Figure \ref{fig:exampleMultiRelation}. Transitions $A$ and $D$ are in multi-relation since they can both in causal and concurrency relation. From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two branching processes, i.e., $[I\{AC,BD\}O]$ and $[I\{A\}E\{D\}O]$. Using ExRORU, we have $A\rightharpoonup D$ and $A\Uparrow D$.
+\paragraph{Multi-relation} is another special structure we want to discuss. An example WF-net with multi-relation and its CPU are shown in Figure \ref{fig:exampleMultiRelation}. Transitions $A$ and $D$ are in multi-relation since they can be both in causal and concurrency relation. From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two branching processes, i.e., $[I\{AC,BD\}O]$ and $[I\{A\}E\{D\}O]$. Using ExRORU, we have $A\overset{I}{\rightharpoonup}D$ and $A\Uparrow D$ simultaneously.
 
 \begin{figure}[htbp]
 \centering
@@ -685,11 +685,11 @@ Actually, there are only two branching processes in the CPU of the model in Figu
 \caption{A WF-net with multi-relation and its CPU\label{fig:exampleMultiRelation}}
 \end{figure}
 
-Most algorithms such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which may cause problems.
+Most algorithms such as BP and TAR cannot recognize the multi-relation in a process model since they categorize transition pair into one type of relation, which may cause unexpected problems.
 
-\paragraph{Silent transitions} can also influence the behavior of a model, as mentioned before. In the model pairs of Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} as well as \ref{fig:silentExamples}, BP fails to recognize the differences between all four cases while TAR fails in Figure \ref{fig:silentExampleB} and \ref{fig:silentExampleC}. 
+\paragraph{Silent transitions} can also influence the behavior of a model, as mentioned before. In the model pairs of Figure \ref{fig:sdaExampleA}, \ref{fig:sdaExampleB} and \ref{fig:silentExamples}, BP fails to recognize the differences between all four cases while TAR fails in Figure \ref{fig:silentExampleB} and \ref{fig:silentExampleC}. 
 
-On the other hand, ExRORU easily detects the behavioral differentiation between the model pairs. In Figure \ref{fig:silentExampleA}, we have $A\twoheadrightarrow B$ in the left model but $A\rightharpoonup B$ in the right. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right in both Figure \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
+On the other hand, ExRORU easily detects the behavioral differentiation between the model pairs. In Figure \ref{fig:silentExampleA}, we have $A\overset{D}{\twoheadrightarrow}B$ and $A\overset{I}{\twoheadrightarrow}C$ in the left model but $A\overset{D}{\rightharpoonup}B$ and $A\overset{D}{\twoheadrightarrow}C$ in the right one. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right one in both Figure \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
 
 \begin{figure}[htbp]
 \centering
@@ -718,11 +718,11 @@ On the other hand, ExRORU easily detects the behavioral differentiation between 
 \end{figure}
 
 \subsection{Efficiency Comparison}\label{subsec:efficiency}
-Our experimental dataset contains real-life models from several enterprises such as TC, DG and SAP. The basic features of these models are summarized in Table \ref{tab:datasets}.
+Our dataset contains real-life models from several enterprises such as TC, DG and SAP. The basic features of these models are summarized in Table \ref{tab:datasets}.
 
 \begin{table}[htbp]
 \centering
-\caption{The features of experimental datasets\label{tab:datasets}}
+\caption{The structural features of real-life process model datasets\label{tab:datasets}}
 \scriptsize
 \begin{tabular}{|c|r|r|r|r|r|r|r|r|r|r|} \hline
 	\multicolumn{1}{|c|}{\multirow{2}{*}{Dataset}} & \multicolumn{1}{c|}{\multirow{2}{*}{Size}} & \multicolumn{3}{|c}{Average} & \multicolumn{3}{|c}{Minimum} & \multicolumn{3}{|c|}{Maximum}\\ \cline{3-11}
@@ -733,7 +733,7 @@ Our experimental dataset contains real-life models from several enterprises such
 \end{tabular}
 \end{table}
 
-As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets which seems closer to reality. Therefore, we conduct experiments using our algorithm together with the four above and compare their efficiency. The average time costs on extracting behavioral features of each process model are shown in Table \ref{tab:efficiency}.
+As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets which seems closer to reality. Therefore, we conduct experiments using ExRORU together with the four above and compare their efficiency. The average time costs on extracting behavioral features of each process model are shown in Table \ref{tab:efficiency}.
 
 \begin{table}[htbp]
 \centering
@@ -748,10 +748,10 @@ As for comparison, TAR and BP algorithms are based on the relations between task
 \end{threeparttable}
 \end{table}
 
-As we can see from the result, ExRORU is the slowest algorithm among all five due to some reasons. Firstly, models in these datasets are mostly acyclic and lack parallel constructs so that the state explosion problem may not happen in algorithms utilizing reachability graph or coverability tree such as PTS and CFS. Secondly, most of the time consuming in simialrity measure such as CFS are spent in the similarity computation between the behavioral features of models. On the other hand, comparison between two models using ExRORU is extremely fast. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time consuming of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special cases such as silent transitions, non-free-choice constructs and multi-relation, which shows the outstanding effectiveness of it.
+As we can see from the result, ExRORU is the slowest algorithm due to some reasons. Firstly, models in these datasets are mostly acyclic and lack parallel constructs so that the state explosion problem may not happen in algorithms utilizing reachability graph or coverability tree such as PTS, CFS and TAR. Secondly, most of the time consumption in simialrity measure such as CFS is spent in the similarity computation between the behavioral features of models. While comparison between two models using ExRORU is extremely fast. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time cost of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special structures such as silent transitions, non-free-choice constructs and multi-relation, which shows its outstanding effectiveness.
 
 \subsection{Scalability Comparison}\label{subsec:scalability}
-We have artificially constructed two sets of process models to test the scalability of five algorithms. The first set contains 11 models with increasing numbers($5,10,$ $...,55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers($1,2,3,...,11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time cost on extracting behavioral features of both dataset are shown in Figure \ref{fig:scalability}. The time cost of algorithms using the technique of reachability graph such as TAR or coverability tree such as PTS and CFS increases extremely fast due to state explosion problem while ExRORU has an acceptable efficiency performance.
+We have artificially constructed two sets of process models to test the scalability of five algorithms. The first set contains 11 models with increasing numbers ($5,10,...,55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers ($1,2,3,...,11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time costs on extracting behavioral features of both datasets are shown in Figure \ref{fig:scalability}. The time costs of TAR, PTS and CFS increase extremely fast due to state explosion problem while ExRORU has an acceptable efficiency performance compared to BP.
 
 \begin{figure}[htbp]
 \centering
@@ -769,14 +769,16 @@ We have artificially constructed two sets of process models to test the scalabil
 	\end{minipage}
 	\label{fig:scalabilityB}
 }
-\caption{Scalability comparison of five algorithms\label{fig:scalability}}
+\caption[Scalability comparison of five algorithms]{Scalability comparison of five algorithms\footnotemark\label{fig:scalability}}
 \end{figure}
+
+\footnotetext{We can only capture the time costs of TAR, PTS and CFS on the first two or three models of both datasets because the state explosion problem occurs.}
 
 
 \section{Conclusion}\label{sec:conclusion}
-To better describe the relations between the execution of tasks in a process model, we extend Tao Jin's work on refined ordering relations with uncertainty. In our paper, we define three types of extended relations, all of which can be refined into three sub types. We give the computation of our extedned relations based on the unfolding technology. In order to better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Our algorithm is the only existing algorithm that can handle many special cases and has an acceptable time performance, as shown in the experiments conducted with four real-life model datasets.
+To better describe the relations between the execution of tasks in a process model, we extend Tao Jin's work on refined ordering relations with uncertainty. In our paper, we define three types of extended relations, all of which can be refined into three sub types. We give the computation of our extedned relations based on the unfolding technology. In order to better measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Our algorithm is the only existing algorithm that can handle many complex structures and has an acceptable time performance, as shown in the experiments conducted with three real-life model datasets.
 
-Our algorithm is still not fast enough, compared to other mainstream algorithms which also utilize the relations between tasks. On the other hand, we omit the proof of some theorems due to space limitation. We will solve these in the future.
+Our algorithm is still not fast enough, compared to other mainstream algorithms which also utilize the relations between tasks. Further, we leave the proofs of some theorems for future. Finally, we will apply ExRORU on more datasets having process models with various sizes.
 
 \bibliographystyle{plain}
 \bibliography{ref}
