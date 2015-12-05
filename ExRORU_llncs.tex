@@ -65,7 +65,7 @@ State College, PA 16802, USA \authorcr
 \maketitle
 
 \begin{abstract}
-Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the relations based on unfolding technology. However, his algorithm cannot work well for cyclic process models and those with silent transitions and non-free-choice constructs. We extend his work and present a refinement of the relations(i.e., extended refined ordering relations with uncertainty, ExRORU for short) for cyclic process models. To better measure the differentiation between process models, we further introduce the notion of sequential direct adjacency. All these relations can detect the behavioral differentiation between process models. Experiments on synthesized and real-life models show that compared to existing algorithms, our measure is both effective and efficient.
+Tao Jin has proposed new ordering relations with uncertainty between execution of tasks in acyclic process models. He also gave an algorithm to compute the relations based on unfolding technology. However, his algorithm cannot work well for cyclic process models and those with silent transitions and non-free-choice constructs. We extend his work and present a refinement of the relations (i.e., extended refined ordering relations with uncertainty, ExRORU for short) for cyclic process models. To better measure the differentiation between process models, we further introduce the notion of sequential direct adjacency. All these relations can detect the behavioral differentiation between process models. Experiments on synthesized and real-life models show that compared to existing algorithms, our measure is both effective and scalable.
 \keywords{Process Model, Refined Ordering Relations with Uncertainty, Sequential Direct Adjacency, Behavioral Differentiation Detection}
 \end{abstract}
 
@@ -103,15 +103,15 @@ In a seminal paper \cite{jin2014computing}, Tao Jin has proposed new ordering re
 	\end{minipage}
 	\label{fig:nfcExampleB}
 }
-\caption{Examples where Jin'work fails to compute\label{fig:drawbacks}}
+\caption{Examples where Jin's work fails to differentiate\label{fig:drawbacks}}
 \end{figure}
 
 \begin{example}\label{ex:drawback1}
-The model of Figure \ref{fig:examplePetri} is a Petri net with a cycle (through transition ``E''). According to Jin'paper, his algorithm cannot work well with cyclic Petri nets. The problem arises from the Global Fairness Assumption \cite{kindler1999liveness}.
+The model of Figure \ref{fig:examplePetri} is a Petri net with a cycle (through transition ``E''). According to Jin's paper, his algorithm cannot work well with cyclic Petri nets. The problem arises from the Global Fairness Assumption \cite{kindler1999liveness}.
 \end{example}
 
 \begin{example}\label{ex:drawback2}
-Further, silent transitions have not been taken into consideration so that two models with different behavioral sementics may be regarded as the same in Jin's work. For example, the full firing sequences of the model in Figure \ref{fig:sdaExampleA} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$ and $\langle I,B,O\rangle$, while the full firing sequences of the model in Figure \ref{fig:sdaExampleB} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$ and $\langle I,O\rangle$. But Jin'work cannot distinguish them from each other.
+Further, silent transitions have not been taken into consideration so that two models with different behavioral sementics may be regarded as the same in Jin's work. For example, the full firing sequences of the model in Figure \ref{fig:sdaExampleA} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$ and $\langle I,B,O\rangle$, while the full firing sequences of the model in Figure \ref{fig:sdaExampleB} are $\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$ and $\langle I,O\rangle$. But Jin's work cannot distinguish them from each other.
 \end{example}
 
 \begin{example}\label{ex:drawback3}
@@ -124,7 +124,7 @@ Differentiation detection can be widely used in many scenarios and it can be tre
 
 Zha et al. \cite{zha2010workflow} represent a model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a model based on behaviroal profiles between transitions, but it cannot deal with silent transitions and distinguish parallel and loop structures. PTS algorithm by Professor Wang \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods are very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hunderds of types of relations in 4C are too complex for comprehension and hard to compute. %It is not a practical method in differentiation detection.
 
-In this paper, we propose a new method called ExRORU to represent the relations between transitions in a process model, which has better precision than the ones in Jin's work. Further, we introduce the notion of sequential direct adjacency to make our method even more precise. Using ExRORU and SDA, we can detect the behavioral differentiation between process models. Our method is much more effective than other methods ultilizing relations between transitions and efficient than those which should capture the huge trace sets.
+In this paper, we propose a new method called ExRORU to represent the relations between transitions in a process model, which has better precision than the ones in Jin's work. Further, we introduce the notion of sequential direct adjacency to make our method even more precise. Using ExRORU and SDA, we can detect the behavioral differentiation between process models. Our method is much more effective than other methods ultilizing relations between transitions and scalable than those which should capture the huge trace sets.
 
 The remainder of this paper is structured as follows. The next section gives preliminaries that will be used in this paper. The concept and computation of ExRORU as well as SDA are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation, before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
 
@@ -141,7 +141,7 @@ We use $M:P\rightarrow\mathbb{N}$ to denote a marking of Petri net $N$, where $\
 A Petri net $PN=(P,T,F)$ is a WF-net (Workflow net) if and only if $PN$ has two special places: $i$ and $o$, place $i$ is a source place: $\bullet i=\emptyset$ and place $o$ is a sink place: $o\bullet =\emptyset$. If we add a transition $t^{*}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet t^{*}=\{o\}$ and $t^{*}\bullet=\{i\}$), then the resulting Petri net is strongly connected.
 \end{definition}
 
-An intuitive idea to extrace the relations between transitions is to generate the reachability graph of a model, which may cause the state explosion problem \cite{mcmillan1995technique}. Javier Esparze proposed the notion of complete prefix unfolding to avoid this \cite{esparza1996improvement}. Therefore, we use his work instead.
+An intuitive idea to extract the relations between transitions is to generate the reachability graph of a model, which may cause the state explosion problem \cite{mcmillan1995technique}. Javier Esparze proposed the notion of complete prefix unfolding to avoid this \cite{esparza1996improvement}. Therefore, we use his work instead.
 
 \begin{definition}[Ordering Relations]\label{def:orderingRelations}
 There are three types of ordering relations between nodes of a net,
@@ -189,12 +189,12 @@ Definitions about CPU and related concepts come from the work of Esparza \cite{e
 	\includegraphics[width=0.45\textwidth]{fig_example_petri}
 	\label{fig:examplePetri}
 }
-\subfigure[The complete prefix unfolding of \subref{fig:examplePetri}] {
+\subfigure[The CPU of \subref{fig:examplePetri}] {
 	\centering
 	\includegraphics[width=0.45\textwidth]{fig_example_cpu}
 	\label{fig:exampleCpu}
 }
-\caption{A sound WF-net example and its complete prefix unfolding\label{fig:examplePetriAndCpu}}
+\caption{A sound WF-net example and its CPU\label{fig:examplePetriAndCpu}}
 \end{figure}
 
 \begin{example}\label{ex:petriAndCpu}
@@ -207,8 +207,8 @@ Let $A$ and $B$ be two activities of a process, $A$ and $B$ are in the following
 	\begin{itemize}
 		\item[-] Response: when $A$ executes, $B$ has to be executed after it.
 		\item[-] Precedence: $B$ could not have been executed until $A$ was executed.
-		\item[-] Alternate Response: after the execution of $A$, $B$ has to be executed and between each two $A$s at least one $B$ has to be executed.
-		\item[-] Alternate Precedence: before the execution of $B$, $A$ has to be executed first and between each two $B$s at least one $A$ has to be executed.
+		\item[-] Alternate Response: after the execution of $A$, $B$ has to be executed and between each two $A$ at least one $B$ has to be executed.
+		\item[-] Alternate Precedence: before the execution of $B$, $A$ has to be executed first and between each two $B$ at least one $A$ has to be executed.
 	\end{itemize}
 \end{definition}
 
@@ -220,7 +220,7 @@ In the model of Figure \ref{fig:examplePetri}, $D,E$ in the execution sequence $
 In this section, we introduce the concept of ExRORU and its calculation from a WF-net. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $U=(B,E,A,f)$ be $\Sigma$'s CPU. Let $x,y\in E$ be two events of the unfolding $U$.
 
 \subsection{Extended Refined Causal Relations with Uncertainty}\label{subsec:causalAndInverseCausal}
-CPU use the technique of cutoff event to avoid state explosion problem. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the branching process expressed in a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
+CPU uses the technique of cutoff events to avoid state explosion problem. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the branching process expressed in a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
 
 We use expressions like $[ab\{c,d\}e]$ to represent the semantics of a branching process. Successive letters denote the sequential structure while letters in a brace mean a parallel structure. Different branches of a parallel structure are separated by a comma and could be nested. For example, in the CPU of Figure \ref{fig:exampleCpu}, $[I\{D,AC\}O]$, $[I\{D,BC\}O]$ and $[I\{DED,AC\}O]$ are some branching processes.
 
@@ -373,18 +373,18 @@ We may notice the fact that the computations of causal relations and inverse cau
 
 As for the extended concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We firstly find the gate of the parallel structure, and trace the path from the gate to $a$ and $b$. By checking every condition to find out all the \textit{loop} and \textit{skip} structure, we can derive the extended concurrent relations between them.
 
-We have defined the relations between events in a CPU, which will be utilized to compute the relations between transitions in WF-net next. There may be more than one corresponding event in the CPU related to a transition in the original WF-net. These corresponding events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of corresponding events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let $Corr_{E}(A)$ be the set containing all the corresponding events of transition $A$.
+We have defined the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. There may be more than one corresponding event in the CPU related to a transition in the original WF-net. These corresponding events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of corresponding events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let $Corr_{E}(A)$ be the set containing all the corresponding events of transition $A$.
 
 \begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
-Transitions $A$ and $B$ are in \textbf{always causal relation} (denoted as $A\twoheadrightarrow B$) iff: $\forall a\in Corr_{E}(A), \exists b\in Corr_{E}(B), s.t.~a\twoheadrightarrow b$; \textbf{never causal relation} (denoted as $A\nrightarrow B$) iff: $\forall a\in Corr_{E}(A), b\in Corr_{E}(B), a\nrightarrow b$; \textbf{sometimes causal relation} (denoted as $A\rightharpoonup B$) iff: neither $A\twoheadrightarrow B$ nor $A\nrightarrow B$.
+Transitions $A$ and $B$ are in: \textbf{always causal relation} (denoted as $A\twoheadrightarrow B$) iff: $\forall a\in Corr_{E}(A), \exists b\in Corr_{E}(B), s.t.~a\twoheadrightarrow b$; \textbf{never causal relation} (denoted as $A\nrightarrow B$) iff: $\forall a\in Corr_{E}(A), b\in Corr_{E}(B), a\nrightarrow b$; \textbf{sometimes causal relation} (denoted as $A\rightharpoonup B$) iff: neither $A\twoheadrightarrow B$ nor $A\nrightarrow B$.
 \end{definition}
 
 \begin{definition}[Extended Inverse Causal Relations Between Transitions]\label{def:inverseCausalRelations}
-Transitions $B$ and $A$ are in \textbf{always inverse causal relation} (denoted as $B\twoheadleftarrow A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\twoheadleftarrow a$; \textbf{never inverse causal relation} (denoted as $B\nleftarrow A$) iff: $\forall b\in Corr_{E}(B), a\in Corr_{E}(A), b\nleftarrow a$; \textbf{sometimes inverse causal relation} (denoted as $B\leftharpoonup A$) iff: neither $B\twoheadleftarrow A$ nor $B\nleftarrow A$.
+Transitions $B$ and $A$ are in: \textbf{always inverse causal relation} (denoted as $B\twoheadleftarrow A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\twoheadleftarrow a$; \textbf{never inverse causal relation} (denoted as $B\nleftarrow A$) iff: $\forall b\in Corr_{E}(B), a\in Corr_{E}(A), b\nleftarrow a$; \textbf{sometimes inverse causal relation} (denoted as $B\leftharpoonup A$) iff: neither $B\twoheadleftarrow A$ nor $B\nleftarrow A$.
 \end{definition}
 
 \begin{definition}[Extended Concurrent Relations Between Transitions]\label{def:concurrentRelations}
-Transitions $A$ and $B$ are in \textbf{always concurrent relation} (denoted as $A\Updownarrow B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\Updownarrow b$; \textbf{never concurrent relation} (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),b\in Corr_{E}(B),a\nparallel b$; \textbf{sometimes concurrent relation} (denoted as $A\Uparrow B$) iff: neither $A\Updownarrow B$ nor $A\nparallel B$.
+Transitions $A$ and $B$ are in: \textbf{always concurrent relation} (denoted as $A\Updownarrow B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\Updownarrow b$; \textbf{never concurrent relation} (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),b\in Corr_{E}(B),a\nparallel b$; \textbf{sometimes concurrent relation} (denoted as $A\Uparrow B$) iff: neither $A\Updownarrow B$ nor $A\nparallel B$.
 \end{definition}
 
 Using the notions and computations described in the previous sections, we can derive ExRORUs of the model in Figure \ref{fig:examplePetri}. For convenience, we use a matrix to represent the three types of relations, as shown in Table \ref{tab:example_relations}. Transitions in rows are the former ones in a relation while transitions in columns are the latter ones in a relation. For example, the second row are the relations between $A$ and the other transitions. Due to limited space, we show three types of relations in one table cell. The rightmost table cell with relation symbols represents the relations between $A$ and $O$, i.e., $A\twoheadrightarrow O,A\nleftarrow O,A\nparallel O$.
@@ -461,7 +461,7 @@ Using the notions and computations described in the previous sections, we can de
 \end{table}
 
 \subsection{Sequential Direct Adjacency between Transitions}\label{subsec:sda}
-We can distinguish most process models from each other by their executing semantics using ExRORU if silent transitions are not introduced. Silent transitions do not appear in any log trace \cite{de2003workflow}.
+We can distinguish most process models from each other by their executing semantics using ExRORU if silent transitions are not introduced. Silent transitions do not appear in any log trace but have effects on the behavior of a WF-net \cite{de2003workflow}.
 
 \begin{table}[htbp]
 \centering
@@ -495,7 +495,7 @@ We can distinguish most process models from each other by their executing semant
 \end{tabular}
 \end{table}
 
-As shown in Table \ref{tab:sdaExample}, the ExRORUs of the two models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are the same, but the behavioral sementics of them are not (refer to Example \ref{ex:drawback2}). By looking into the executing semantics of these models, we find that the introduction of silent transitions influences the adjacency of visible transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleB}, but not in Figure \ref{fig:sdaExampleA}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to solve the problem of silent transitions.
+As shown in Table \ref{tab:sdaExample}, the ExRORUs of the two models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are the same, but the behavioral sementics of them are not (refer to Example \ref{ex:drawback2}). By looking into the executing semantics of these models, we find that the introduction of silent transitions influences the adjacency of visible transitions, i.e., $I$ can be directly followed by $O$ in Figure \ref{fig:sdaExampleB}, but not in Figure \ref{fig:sdaExampleA}. Inspired by the idea of TAR \cite{zha2010workflow}, we propose the concept of sequential direct adjacency to take the effects of silent transitions into consideration.
 
 \begin{definition}[Sequential Direct Adjacency]\label{def:sda}
 Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transitions. $A$ and $B$ are in sequential direct adjacency iff:
@@ -503,10 +503,10 @@ Let $\Sigma=(P,T,F,M_{0})$ be a WF-net and $A,B\in T$ are two visible transition
 		\item[-] $A$ and $B$ are not in cocurrency relation;
 		\item[-] $\exists\sigma=\langle t_{1},t_{2},...,t_{n}\rangle\in\Omega,1\leq i<j\leq n,t_{i}=A,t_{j}=B,s.t.~\forall k\in(i,j),t_{k}$ is a silent transition.
 	\end{itemize}
-$A\overset{D}{\rightarrow}B$ (``D" for \textit{direct}) if they are in sequential direct adjacency while $A\overset{I}{\rightarrow}B$ (``I" for \textit{indirect}) if not. Similarly, we can also define SDA on $\leftarrow$ relation, denoted as $B\overset{D}{\leftarrow}A$.
+$A\overset{D}{\rightarrow}B$ (``D" for \textit{direct}) if they are in sequential direct adjacency while $A\overset{I}{\rightarrow}B$ (``I" for \textit{indirect}) if not. Similarly, we can also define SDA on $\leftarrow$ relation, denoted as $B\overset{D}{\leftarrow}A$ and $B\overset{I}{\leftarrow}A$.
 \end{definition}
 
-We use SDA to distinguish those transition pairs which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the two models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}, we derive further refined ExRORU as follows:
+We use SDA to distinguish those transition pairs which can be executed adjacently from those which cannot. By applying Definition \ref{def:sda} on the two models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}, we derive further refined ExRORUs as follows:
 \begin{displaymath}
 	\begin{aligned}
 		\text{(a)} & A\overset{D}{\twoheadrightarrow}O, B\overset{D}{\twoheadrightarrow}O, I\overset{D}{\rightharpoonup}A, I\overset{D}{\rightharpoonup}B, I\overset{I}{\twoheadrightarrow}O\\
@@ -516,7 +516,7 @@ We use SDA to distinguish those transition pairs which can be executed adjacentl
 	\end{aligned}
 \end{displaymath}
 
-For convienience, we only show the transition pairs that are in sequential direct adjacency. Using further refined ExRORU, we can distinguish the two models with silent transitions.
+Using further refined ExRORU, we can distinguish the two models with silent transitions.
 
 % \section{Similarity Measure}\label{sec:similarity}
 % In this section, we introduce how extened relations and sequential direct adjacency are used to measure the similarity between two process models.
@@ -656,7 +656,7 @@ For convienience, we only show the transition pairs that are in sequential direc
 % \end{table}
 
 \section{Experimental Evaluation}\label{sec:experiments}
-We have implemented an algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} to extract ExRORU from a process model based on the CPU in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both effectiveness and efficiency perspectives. We evaluate the effectiveness by comparing it with other algorithms and evaluate the efficiency by applying our algorithm on real-life datasets.
+We have implemented an algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} to extract ExRORUs from a process model based on the CPU in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both effectiveness and efficiency perspectives. We evaluate the effectiveness by comparing it with other algorithms and evaluate the efficiency by applying our algorithm on real-life datasets.
 
 \subsection{Effectiveness Comparison}\label{subsec:effectiveness}
 Examples in this section together with the models in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} show the powerful capability of our algorithm to represent the behaviors of a process model.
