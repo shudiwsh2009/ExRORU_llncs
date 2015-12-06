@@ -1,7 +1,7 @@
 set datafile separator ","
 set output 'fig_scalability_breadth.pdf'
 set xlabel "Num. of Concurrent Branches"
-set ylabel "Time Cost(ms)"
+set ylabel "Time Cost (ms)"
 #set xrange [0:60]
 set yrange [0:1000]
 set xtics 10

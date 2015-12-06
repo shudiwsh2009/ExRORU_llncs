@@ -1,7 +1,7 @@
 set datafile separator ","
 set output 'fig_scalability_depth.pdf'
 set xlabel "Num. of Transitions on Each Branch"
-set ylabel "Time Cost(ms)"
+set ylabel "Time Cost (ms)"
 #set xrange [0:12]
 set yrange [0:1000]
 set xtics 1

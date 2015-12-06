@@ -18,7 +18,7 @@ set style line 8 lt 1 pt 12 ps 1.0 lw 3 lc rgb "orange"
 set style line 9 lt 1 pt 3  ps 1.0 lw 3 lc rgb "violet"
 set style line 10 lt 1 pt 12 ps 3.0 lw 3 lc rgb "black"
 set style increment user
-set key inside top center vertical box spacing 0.8 width 2 samplen 5
+set key center at 4.5,725 vertical box spacing 0.8 width 2 samplen 5
 
 
 set title "" offset 0,-1
