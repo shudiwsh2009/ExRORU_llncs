@@ -1,43 +1,23 @@
-\documentclass[dvips,...]{llncs}
-\usepackage{makeidx}
+\documentclass{llncs}
 \usepackage{enumerate}
-\usepackage[dvips]{graphicx}
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
 \usepackage{subfigure}
 \usepackage{authblk}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{chemarrow}
-\usepackage{amsfonts}
-\usepackage{booktabs}
-\usepackage{threeparttable}
-\usepackage{algorithm}
-\usepackage{algorithmicx}
-\usepackage{algpseudocode}
-\usepackage{textcomp}
 \usepackage{multirow}
 \usepackage{diagbox}
-\usepackage[usenames,dvipsnames]{color}
-\usepackage{xcolor}
 \usepackage{colortbl}
-\definecolor{gray1}{gray}{.9}
-\definecolor{gray2}{gray}{.8}
-\definecolor{gray3}{gray}{.7}
-\renewcommand{\algorithmicrequire}{\textbf{Input}}
-\renewcommand{\algorithmicensure}{\textbf{Output}}
 \renewcommand{\textfraction}{0.15} 
 \renewcommand{\topfraction}{0.85} 
 \renewcommand{\bottomfraction}{0.65} 
 \renewcommand{\floatpagefraction}{0.60}
-\makeatletter 
-  \newcommand\figcaption{\def\@captype{figure}\caption} 
-  \newcommand\tabcaption{\def\@captype{table}\caption} 
-  \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
-\makeatother
-% \setlength{\abovecaptionskip}{4pt} 
-% \setlength{\belowcaptionskip}{4pt}
-% \setlength{\floatsep}{4pt}
-% \setlength{\textfloatsep}{4pt}
-% \setlength{\intextsep}{4pt}
+\setlength{\abovecaptionskip}{4pt} 
+\setlength{\belowcaptionskip}{4pt}
+\setlength{\floatsep}{4pt}
+\setlength{\textfloatsep}{4pt}
+\setlength{\intextsep}{4pt}
 \begin{document}
 \frontmatter 
 \pagestyle{headings}
@@ -116,9 +96,9 @@ Differentiation detection can be widely used in many scenarios and it can serve 
 
 Zha et al. \cite{zha2010workflow} represent a model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hunderds of types of relations in 4C are too complex for comprehension and hard to compute. %It is not a practical method in differentiation detection.
 
-In this paper, we propose a new method called ExRORU to represent the relations between transitions in a process model, which has better precision than the ones in \cite{jin2014computing}. Using ExRORU, we can detect the behavioral differentiation between process models. Our method is much more effective than other methods ultilizing relations between transitions and scalable than those which should capture the huge trace sets.
+In this paper, we propose a new method called ExRORU to represent the relations between transitions in a process model. ExRORU has two main contributions. First, compared to the method in \cite{jin2014computing}, it extend the process model type for acyclic free-choice WF-nets to any sound WF-nets with silent transitions and non-free-choice constructs. Second, using ExRORU, we can detect behavioral differentiation between any pair of process models uniquely. Here we just say the uniqueness property of ExRORU in an informal way. For space consideration, its formal proof is left for future work.
 
-The remainder of this paper is structured as follows. The next section gives preliminaries that will be used in this paper. The concept and computation of ExRORU as well as SDA are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation, before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
+The remainder of this paper is structured as follows. The next section gives preliminaries that will be used in this paper. The concept and computation of ExRORU are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation, before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
 
 \section{Preliminaries}\label{sec:preliminaries}
 We will show our algorithm on Petri net. The concept of Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
@@ -425,7 +405,7 @@ Using the notions and computations described in the previous sections, we can de
 
 \begin{table}[htbp]
 \centering
-\tabcaption{Extended refined ordering relations of the model in Figure \ref{fig:examplePetri}\label{tab:example_relations}}
+\caption{Extended refined ordering relations of the model in Figure \ref{fig:examplePetri}\label{tab:example_relations}}
 \begin{tabular}{|c|c|c|c|c|c|c|c!{\vrule width 1.5pt}c|c|c|c|c|c|c|c!{\vrule width 1.5pt}c|c|c|c|c|c|c|c|} \hline
 	$\rightarrow$ & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$ & 
 	$\leftarrow$ & $A$ & $B$ & $C$ & $D$ & $E$ & $I$ & $O$ & 
@@ -695,23 +675,23 @@ On the other hand, ExRORU easily detects the behavioral differentiation between 
 \begin{figure}[htbp]
 \centering
 \subfigure[] {
-	\begin{minipage}[b]{0.163\textwidth}
+	\begin{minipage}[b]{0.115\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{fig_silent_1}
+		\includegraphics[width=\textwidth]{fig_silent_1}
 	\end{minipage}
 	\label{fig:silentExampleA}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.38\textwidth}
+	\begin{minipage}[b]{0.27\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{fig_silent_2}
+		\includegraphics[width=\textwidth]{fig_silent_2}
 	\end{minipage}
 	\label{fig:silentExampleB}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.38\textwidth}
+	\begin{minipage}[b]{0.27\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{fig_silent_3}
+		\includegraphics[width=\textwidth]{fig_silent_3}
 	\end{minipage}
 	\label{fig:silentExampleC}
 }
@@ -739,14 +719,12 @@ As for comparison, TAR and BP algorithms are based on the relations between task
 \begin{table}[htbp]
 \centering
 \caption{Efficiency comparison of five algorithms\label{tab:efficiency}}
-\begin{threeparttable}
-\begin{tabular}{|c|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|} \hline
-	\diagbox{Dataset}{Cost(ms)}{Algo} & TAR & BP & PTS & CFS & ExRORU\\ \hline
-	DG & 0.41 & 2.15 & 0.52 & 0.42 & 10.89\\ \hline
-	TC & 0.59 & 2.01 & 0.39 & 0.40 & 15.34\\ \hline
-	SAP & 0.09 & 0.37 & 0.06 & 0.07 & 1.43\\ \hline
-\end{tabular}
-\end{threeparttable}
+	\begin{tabular}{|c|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|p{1.5cm}<{\centering}|} \hline
+		\diagbox{Dataset}{Cost(ms)}{Algo} & TAR & BP & PTS & CFS & ExRORU\\ \hline
+		DG & 0.41 & 2.15 & 0.52 & 0.42 & 10.89\\ \hline
+		TC & 0.59 & 2.01 & 0.39 & 0.40 & 15.34\\ \hline
+		SAP & 0.09 & 0.37 & 0.06 & 0.07 & 1.43\\ \hline
+	\end{tabular}
 \end{table}
 
 As we can see from the result, ExRORU is the slowest algorithm due to some reasons. Firstly, models in these datasets are mostly acyclic and lack parallel constructs so that the state explosion problem may not happen in algorithms utilizing reachability graph or coverability tree such as PTS, CFS and TAR. Secondly, most of the time consumption in simialrity measure such as CFS is spent in the similarity computation between the behavioral features of models. While comparison between two models using ExRORU is extremely fast. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time cost of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many special structures such as silent transitions, non-free-choice constructs and multi-relation, which shows its outstanding effectiveness.
@@ -776,7 +754,7 @@ We have artificially constructed two sets of process models to test the scalabil
 \section{Conclusion}\label{sec:conclusion}
 To better describe the relations between the execution of tasks in a process model, we extend a previous work on refined ordering relations with uncertainty. In our paper, we define three types of extended relations, all of which can be refined into three sub types. We give the computation of our extended relations based on unfolding. In order to uniquely measure the differentiation between process models, we introduce the notion of sequential direct adjacency. Our algorithm is the only existing algorithm that can handle many complex structures and has an acceptable time performance, as shown in the experiments conducted with three real-life model datasets.
 
-Our algorithm is still not fast enough, compared to other mainstream algorithms which also utilize the relations between tasks, but it can always differentiate between any pair of models. Faster implementation should be explored in future work. Finally, we will apply ExRORU on more real datasets having process models with various sizes.
+Our algorithm is still not fast enough, compared to other mainstream algorithms which also utilize the relations between tasks, but it can always differentiate between any pair of models. Faster implementation should be explored in future work. Furthermore, all the good properties that ExRORU has will be investigated thoroughly as well as their formal proof. Finally, we will apply ExRORU on more real datasets having process models with various sizes.
 
 \bibliographystyle{plain}
 \bibliography{ref}
