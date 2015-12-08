@@ -24,8 +24,8 @@
 \addtocmark{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
 \mainmatter
-\title{ExRORU: A New Approach to Characterize the Behavioral Semantics of Process Models}
-\titlerunning{ExRORU: A New Approach to Characterize the Behavioral Semantics of Process Models}
+\title{ExRORU: a New Approach to Characterize the Behavioral Semantics of Process Models}
+\titlerunning{ExRORU: a New Approach to Characterize the Behavioral Semantics of Process Models}
 
 \author[$1$]{Shuhao Wang}
 \author[$1$]{Lijie Wen}
@@ -46,7 +46,7 @@ State College, PA 16802, USA \authorcr
 
 \begin{abstract}
 A recent paper has proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. This work also gave an algorithm to compute the relations between pair of tasks based on unfolding technology. However, this algorithm has serious limitations. It cannot work for cyclic process models and those with silent transitions and non-free-choice constructs. In practice most non-trivial process models contain cycles and about 10\% to 20\% are also non-free choice. In this paper, we show how to overcome these problems by a refinement of the relations (i.e., extended refined ordering relations with uncertainty, ExRORU for short). All these relations can uniquely detect the behavioral difference between any pair of process models and can also be derived efficiently based on unfolding technology. Experiments on real-life and synthesized models show that compared to existing algorithms on behavioral representation of process models, our measure is both effective and scalable.
-\keywords{Process Model, Refined Ordering Relations with Uncertainty, Complete Prefix Unfolding, Behavioral Differentiation Detection}
+\keywords{Process Model, Refined Ordering Relations with Uncertainty, Complete Prefix Unfolding, Behavioral Semantics}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
@@ -94,7 +94,7 @@ To solve these three major problems, we extend the ordering relations in \cite{j
 
 A fine-grained characterization of all the relations among all pairs of tasks in a process model can serve as the basis of a proper similarity measure between process models. Other proposals have also addressed the problem of finding a suitable similarity measure between processes based on textual information, the topologies of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some of them.
 
-Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hundreds of types of relations in 4C are too complex for comprehension and hard to compute. Yan et al. \cite{yan2014efficient} decomposes process models into small fragments, or features, based on which they analyze execution semantics to detect the differentiations between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Abel et al. \cite{armas2014behavioral} use asymmetric event structures (AES) to characterize the behaviors of process models. AES are not comprehensive to users but more suitable to be utilized to compute the differences between two models.
+Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hundreds of types of relations in 4C are too complex for comprehension and hard to compute. Yan et al. \cite{yan2014efficient} decomposes process models into small fragments, or features, based on which they analyze execution semantics to detect the differences between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Abel et al. \cite{armas2014behavioral} use asymmetric event structures (i.e., AES) to characterize the behaviors of process models. Nevertheless, AES are not comprehensive to users but more suitable to be utilized to compute the differences between two models.
 
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
@@ -672,7 +672,7 @@ Most algorithms such as BP and TAR cannot recognize the multiple relations in a 
 
 \paragraph{\textbf{Silent transitions}} can also influence the behavior of a model, as mentioned before. In the model pairs of Figures \ref{fig:sdaExampleA}, \ref{fig:sdaExampleB} and \ref{fig:silentExamples}, BP fails to recognize the differences between all four cases while TAR fails in Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC}. 
 
-On the other hand, ExRORU easily detects the behavioral differentiation between these model pairs. We have $I\overset{I}{\twoheadrightarrow}O$ in the model of Figure \ref{fig:sdaExampleA} but $I\overset{D}{\twoheadrightarrow}O$ in the model of Figure \ref{fig:sdaExampleB}. In Figure \ref{fig:silentExampleA}, we have $A\overset{D}{\twoheadrightarrow}B$ and $A\overset{I}{\twoheadrightarrow}C$ in the left model but $A\overset{D}{\rightharpoonup}B$ and $A\overset{D}{\twoheadrightarrow}C$ in the right one. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right one in both Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
+On the other hand, ExRORU easily detects the behavioral differences between these model pairs. We have $I\overset{I}{\twoheadrightarrow}O$ in the model of Figure \ref{fig:sdaExampleA} but $I\overset{D}{\twoheadrightarrow}O$ in the model of Figure \ref{fig:sdaExampleB}. In Figure \ref{fig:silentExampleA}, we have $A\overset{D}{\twoheadrightarrow}B$ and $A\overset{I}{\twoheadrightarrow}C$ in the left model but $A\overset{D}{\rightharpoonup}B$ and $A\overset{D}{\twoheadrightarrow}C$ in the right one. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right one in both Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
 
 \begin{figure}[htbp]
 \centering
@@ -697,7 +697,7 @@ On the other hand, ExRORU easily detects the behavioral differentiation between 
 	\end{minipage}
 	\label{fig:silentExampleC}
 }
-\caption{Example WF-nets with silent transitions that BP and TAR fails in their differentiation detection\label{fig:silentExamples}}
+\caption{Example WF-nets with silent transitions that BP and TAR fails in their difference detection\label{fig:silentExamples}}
 \end{figure}
 
 \subsection{Efficiency Comparison}\label{subsec:efficiency}
