@@ -24,8 +24,8 @@
 \addtocmark{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
 \mainmatter
-\title{ExRORU: a Method for Behavioral Differentiation Detection between Process Models}
-\titlerunning{ExRORU: Extended Refined Ordering Relations with Uncertainty}
+\title{ExRORU: A New Approach to Characterize the Behavioral Semantics of Process Models}
+\titlerunning{ExRORU: A New Approach to Characterize the Behavioral Semantics of Process Models}
 
 \author[$1$]{Shuhao Wang}
 \author[$1$]{Lijie Wen}
@@ -90,11 +90,11 @@ In particular, the algorithm in \cite{jin2014computing} cannot work with cyclic 
 
 In a WF-net with non-free-choice constructs \cite{de2003workflow}, sequential relations do not necessarily satisfy transitivity. Take the models in Figure \ref{fig:nfcExampleA} and \ref{fig:nfcExampleB} for example, we can capture the causal relations between $A$ and $C$ as well as $C$ and $E$ from both models. According to \cite{jin2014computing}, it can be inferred that $A$ and $E$ satisfy the causal relation. However, this is not correct in the WF-net with a non-free-choice construct in Figure \ref{fig:nfcExampleA} because only $C$ and $D$ can be executed if $A$ has been executed in the first place.
 
-To solve these three major problems, we extend the ordering relations in \cite{jin2014computing} in a more fine-grained manner to uniquely differentiate the behavioral semantics of two process models. In addition to the idea of uncertainly, we also introduce the notion of multiple relations between a pair of tasks to reflect the fact that two tasks may have more than one relation between them.  This can allow us to capture subtle differences between two processes.
+To solve these three major problems, we extend the ordering relations in \cite{jin2014computing} in a more fine-grained manner to uniquely differentiate the behavioral semantics of two process models. In addition to the idea of uncertainty, we also introduce the notion of multiple relations between a pair of tasks to reflect the fact that two tasks may have more than one relation between them.  This can allow us to capture subtle differences between two processes.
 
 A fine-grained characterization of all the relations among all pairs of tasks in a process model can serve as the basis of a proper similarity measure between process models. Other proposals have also addressed the problem of finding a suitable similarity measure between processes based on textual information, the topologies of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some of them.
 
-Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hundreds of types of relations in 4C are too complex for comprehension and hard to compute.
+Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose another definition of relations between transitions named 4C spectrum but the hundreds of types of relations in 4C are too complex for comprehension and hard to compute. Yan et al. \cite{yan2014efficient} decomposes process models into small fragments, or features, based on which they analyze execution semantics to detect the differentiations between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Abel et al. \cite{armas2014behavioral} use asymmetric event structures (AES) to characterize the behaviors of process models. AES are not comprehensive to users but more suitable to be utilized to compute the differences between two models.
 
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
@@ -313,8 +313,8 @@ The relations above are collectively called concurrent relations with uncertaint
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
 		\centering
-		\includegraphics[width=0.3\textwidth]{fig_concurrent_case_a_1}%
-		\hspace{0.5in}%
+		\includegraphics[width=0.3\textwidth]{fig_concurrent_case_a_1}
+		\hspace{0.5in}
 		\includegraphics[width=0.3\textwidth]{fig_concurrent_case_a_2}
 	\end{minipage}
 	\label{fig:concurrentCaseA}
