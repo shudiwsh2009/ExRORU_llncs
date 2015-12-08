@@ -51,7 +51,7 @@ A recent paper has proposed new ordering relations with uncertainty between the 
 
 \section{Introduction}\label{sec:introduction}
 
-In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza1996improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
+In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
 
 \begin{figure}[htbp]
 \centering
@@ -113,7 +113,7 @@ We use $M:P\rightarrow\mathbb{N}$ to denote a marking of Petri net $N$, where $\
 A Petri net $PN=(P,T,F)$ is a WF-net if and only if $PN$ has two special places: $i$ and $o$, where place $i$ is a source place ($\bullet i=\emptyset$) and place $o$ is a sink place ($o\bullet =\emptyset$). If we add a transition $t^{*}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet t^{*}=\{o\}$ and $t^{*}\bullet=\{i\}$), then the resulting Petri net is strongly connected.
 \end{definition}
 
-An intuitive idea to extract the relations between transitions is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion~\cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza1996improvement}. Therefore, we use his work instead.
+An intuitive idea to extract the relations between transitions is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion~\cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we use his work instead.
 
 \begin{definition}[Ordering Relations]\label{def:orderingRelations}
 There are three types of ordering relations between any pair of nodes of a Petri net,
@@ -146,13 +146,13 @@ Let $O=(B,E,A,f)$ be an occurrence net and $e\in E$ be any event.
 	\begin{itemize}
 		\item[-] A local configuration $\lceil e\rceil$ of an event $e$ in an occurrence net is the set of events that precede $e$.
 		\item[-] The final marking of a local configuration $Mark(\lceil e\rceil)$ is the set of conditions that are marked after all the events in $\lceil e\rceil$ fire.
-		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil e\rceil\subset\lceil e'\rceil$ implies $\lceil e\rceil\prec\lceil e'\rceil$\footnote{We use the definition of \emph{total order} for 1-safe systems defined in \cite{esparza1996improvement}.}.
+		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil e\rceil\subset\lceil e'\rceil$ implies $\lceil e\rceil\prec\lceil e'\rceil$\footnote{We use the definition of \emph{total order} for 1-safe systems defined in \cite{esparza2002improvement}.}.
 		\item[-] An event $e$ of a branching process is a cutoff event if there exists a corresponding event $e'$, such that $Mark(\lceil e\rceil)=Mark(\lceil e'\rceil)$ and $\lceil e'\rceil\prec\lceil e\rceil$.
 		\item[-] A complete prefix unfolding is the greatest backward closed subnet of an occurrence net containing no events after cutoff events.
 	\end{itemize}
 \end{definition}
 
-Definitions about CPU and related concepts come from the work of Esparza \cite{esparza1996improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
+Definitions about CPU and related concepts come from the work of Esparza \cite{esparza2002improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}.
 
 \begin{figure}[htbp]
 \centering
