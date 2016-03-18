@@ -95,7 +95,7 @@ To solve these three major problems, we extend the ordering relations in \cite{j
 
 A fine-grained characterization of all the relations among all pairs of tasks in a process model can serve as the basis of a proper similarity measure between process models. Other proposals have also addressed the problem of finding a suitable similarity measure between processes based on textual information, the topologies of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some of them.
 
-Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose a complete and fundamental notion of relations named 4C spectrum, which defines a repertoire of eighteen basic behavioral relations that capture such behavioral phenomena as co-occurrence, conflict, causality and concurrency \cite{armas2014suitability}, but \cite{polyvyanyy20144c} only gives the computation of four relations. Moreover, there exist two models that have the same 4C relations but induce differenct behavioral semantics \cite{armas2014suitability}, such as the two WF-nets in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Yan et al. \cite{yan2014efficient} decompose process models into small fragments, or features, based on which they analyze execution semantics to detect the differences between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Abel et al. \cite{armas2014behavioral} use asymmetric event structures (i.e., AES) to characterize the behaviors of process models and AES is more suitable to be utilized to compute the differences between two models.
+Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance dependences between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose a complete and fundamental notion of relations named 4C spectrum, which defines a repertoire of eighteen basic behavioral relations that capture such behavioral phenomena as co-occurrence, conflict, causality and concurrency \cite{armas2014suitability}, but \cite{polyvyanyy20144c} only gives the computation of four relations. Moreover, there exist two models that have the same 4C relations but induce differenct behavioral semantics \cite{armas2014suitability}, such as the two WF-nets in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Yan et al. \cite{yan2014efficient} decompose process models into small fragments, or features, based on which they analyze execution semantics to detect the differences between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Armas-Cervantes et al. \cite{armas2014behavioral} use asymmetric event structures (i.e., AES) to characterize the behaviors of process models and AES is more suitable to be utilized to compute the differences between two models.
 
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
@@ -125,7 +125,7 @@ There are three types of ordering relations between any pair of nodes of a Petri
 	\end{itemize}
 \end{definition}
 
-The full firing sequences, or execution sequences are suitable to capture some ordering relations between transitions. We introduce the notion of $process$, which can be utilized to represent $causal$ and $concurrency$ relation.
+The full firing sequences, or execution sequences are suitable to capture some ordering relations between transitions. We introduce the notion of \textit{processes}, which can be utilized to represent \textit{causal} and \textit{concurrency} relation.
 
 \begin{definition}[Causal net, adapted from \cite{polyvyanyy20144c}]\label{def:causalNet}
 A net $N=(B,E,G)$ is a $causal~net$ iff: (i) for every $b\in B$ it holds that $|\bullet b|\leq 1$ and $|b\bullet|\leq 1$, and (ii) $N$ is acyclic.
@@ -140,7 +140,9 @@ A $process$ of a system $S=(N,M)$, $N=(P,T,F)$, is an ordered pair $\pi=(N_{\pi}
 	\end{itemize}
 \end{definition}
 
-There are only sequential and parallel structures but neither loop nor exclusive structures in a process. A Petri net system may have infinite processes due to the existence of loop structures, which differ on ``how much it unfolds''. It is not applicable to use the infinite processes to capture all the relations between transitions. Another intuitive idea is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion \cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we use his work instead.
+We can treat \textit{processes} as runs of a model, in which only causality and concurrency are explicitly captured. There are only sequential and parallel structures but neither loop nor exclusive structures in a process. In the next section, we will define our extended relations using the notion of \textit{processes}.
+
+However, a Petri net system may have infinite processes due to the existence of loop structures, which differ on ``how much it unfolds''. It is not applicable to use the infinite processes to capture all the relations between transitions. Another intuitive idea is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion \cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we use his work instead.
 % \begin{definition}[Occurrence net]\label{def:occurrenceNet}
 % An occurrence net is a Petri net $O=(B,E,A)$ such that: $|\bullet b|\leq 1$ for every $b\in B$; $O$ is acyclic; $O$ is finitely preceded; no element is in conflict with itself.
 % \end{definition}
@@ -166,7 +168,7 @@ Let $O=(B,E,A,f)$ be an occurrence net and $e\in E$ be any event.
 	\end{itemize}
 \end{definition}
 
-Due to space limitation, we omit the explanations of CPU and related concepts such as \textit{occurrence net} and \textit{branching process}, which can be found in the work of Esparza \cite{esparza2002improvement} and Plyvyanyy \cite{polyvyanyy2010structuring}. Obviously, we can generate the set of processes of a WF-net from its CPU by ``unfolding'' the net after the cut-off events.
+Due to space limitation, we omit the explanations of CPU and related concepts such as \textit{occurrence net} and \textit{branching process}, which can be found in the work of Esparza \cite{esparza2002improvement} and Polyvyanyy \cite{polyvyanyy2010structuring}. Obviously, we can generate the set of processes of a WF-net from its CPU by ``unfolding'' the net after the cut-off events. In other words, CPU is the minimal but complete expression of all the runs in a model using the idea of \textit{branching process}.
 
 \begin{figure}[htbp]
 \centering
@@ -716,7 +718,7 @@ On the other hand, ExRORU easily detects the behavioral differences between thes
 
 \subsection{Efficiency Comparison}\label{subsec:efficiency}
 Our dataset contains real-life models from several enterprises such as DG, TC and SAP. The basic features of these model sets are summarized in Table \ref{tab:datasets}.
-
+\\
 \begin{table}[htbp]
 \centering
 \caption{The structural features of real-life process model datasets\label{tab:datasets}}
@@ -731,7 +733,7 @@ Our dataset contains real-life models from several enterprises such as DG, TC an
 \end{table}
 
 As for comparison, TAR and BP algorithms are based on the relations between tasks as we do while PTS and CFS are based on the abstract trace sets. Therefore, we conduct experiments using ExRORU together with the four above and compare their efficiency. The average time costs on extracting behavioral features of each process model by all the algorithms are shown in Table \ref{tab:efficiency}.
-
+\\
 \begin{table}[htbp]
 \centering
 \caption{Efficiency comparison of all the five algorithms on real-life datasets\label{tab:efficiency}}
