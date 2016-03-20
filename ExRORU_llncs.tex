@@ -100,7 +100,7 @@ Zha et al. \cite{zha2010workflow} represent a process model's behavior by transi
 
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
-The remainder of this paper is structured as follows. The next section gives preliminaries that will be used throughout the paper. The concept and computation of ExRORU are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation, before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
+The remainder of this paper is structured as follows. The next section gives preliminaries that will be used throughout the paper. The concept and computation of ExRORU are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation. Section \ref{sec:discussion} gives some deep discussions before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
 
 \section{Preliminaries}\label{sec:preliminaries}
 We will show our algorithm on Petri nets. Other process models that could be converted to Petri nets are also applicable. The concept of Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
@@ -773,6 +773,11 @@ We have artificially constructed two sets of process models to test the scalabil
 }
 \caption[Scalability comparison of five algorithms]{Scalability comparison of the five algorithms on sychesized process models \label{fig:scalability}}
 \end{figure}
+
+\section{Discussion}\label{sec:discussion}
+In this section we first compare ExRORU and RORU in \cite{jin2014computing}.
+
+The methods in our approach and RORU are close in spirit. Their approach is based on two fundamental relations, causal and concurrent, each of which is refined into four sub types. All the relations in RORU are bi-directional represented by the notion of uncertainty. However, we have found that RORU are not capable to uniquely describe all processes, as we showed in Section \ref{sec:introduction}. As an improvement, we introduce the \textit{inverse causal} relation so that every relation in Table \ref{tab:relations} can be uni-directional, and we use the \texit{Direct and Indirect Causal} relation to strengthen our ability of describing a process.
 
 \section{Conclusion}\label{sec:conclusion}
 To better describe the relations between the execution of tasks in a process model, we extend a previous work on refined ordering relations with uncertainty. In this paper, we define three categories of extended relations, which can be further refined into 13 types. With the help of all these 13 kinds of different extended refined ordering relations with uncertainty, subtle behavioral difference between any pair of process models will be detected. We give the computation of our extended relations based on unfolding. Experiments show that our algorithm is the only existing algorithm that can handle many complex structures and has an acceptable time performance.
