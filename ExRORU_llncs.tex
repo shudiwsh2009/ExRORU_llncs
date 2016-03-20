@@ -10,6 +10,7 @@
 \usepackage{diagbox}
 \usepackage{colortbl}
 \usepackage{bm}
+\renewcommand\proofname{Proof Sketch}
 \renewcommand{\textfraction}{0.15} 
 \renewcommand{\topfraction}{0.85} 
 \renewcommand{\bottomfraction}{0.65} 
@@ -450,7 +451,18 @@ In general, using the notions and computations described in the previous section
 \end{tabular}
 \end{table}
 
-An extensive characterization of a process model in terms of various relations between every pair of transitions in it in this manner produces a \textit{unique fingerprint} for each model. A formal proof is outside the scope of our current work. An informal argument relies on the fact that given any process model, if we make any primitive change to it such as adding, deleting or restructuring a visible or silent transition the fingerprint for this model will always change. Thus, the difference between two models can always be detected.
+An extensive characterization of a process model in terms of various relations between every pair of transitions in it in this manner produces a \textit{unique fingerprint} for each model. A formal proof is outside the scope of our current work. We will give a brief sketch instead. %An informal argument relies on the fact that given any process model, if we make any primitive change to it such as adding, deleting or restructuring a visible or silent transition the fingerprint for this model will always change. Thus, the difference between two models can always be detected.
+
+\begin{theorem}[Uniqueness]\label{the:uniqueness}
+If there is any difference in the trace-semantics behavior between process models $P$ and $Q$, then the ExRORU matrices of them are different.
+\end{theorem}
+
+\begin{proof}
+Given any process model $P$, if we make any primitive change to it such as adding, deleting or restructuring a visible or silent transition to produce a new model $Q$, the fingerprints of $P$ and $Q$ will always be different. We'll discuss three types of changes as follows:\\
+\textbf{Restructuring an transition}. It will certainly change the existing relationships between some transitions, which immediately influence the matrix.\\
+\textbf{Adding/deleting a visible transition}. No matter how a new visible transition is added to model $P$, it has a basic ordering relation with an existing transition, which obviously makes the ExRORU matrix of the new model $Q$ different from that of the original model $P$. By induction, any new model derived from an existing model by adding a visible transition in successive steps will have a different ExRORU matrix. The proof of deleting a visible transition is similar.\\
+\textbf{Adding/deleting a silent transition}. The \textit{Direct and Indirect Causal} relation will be influenced if a silent transition is included in sequential, parallel or exclusive relation with an existing transition, thus, the ExRORU matrix will change. Also by induction, successive steps of adding a silent transition will produce a new model with different ExRORU matrix from the original one. The proof of deleting a silent transition is similar.\qed
+\end{proof}
 
 % \subsection{Sequential Direct Adjacency between Transitions}\label{subsec:sda}
 % We can distinguish most process models from each other by their executing semantics using ExRORU if silent transitions are not introduced. Silent transitions do not appear in any log trace but have effects on the behavior of a WF-net \cite{de2003workflow}.
