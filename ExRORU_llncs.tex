@@ -1,4 +1,5 @@
 \documentclass{llncs}
+\usepackage[ruled,vlined]{algorithm2e}
 \usepackage{enumerate}
 \usepackage{graphicx}
 \graphicspath{{./figures/}}
@@ -56,7 +57,7 @@ A recent paper has proposed new ordering relations with uncertainty between the 
 
 \section{Introduction}\label{sec:introduction}
 
-In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. ``Certain'' means that one task is always executed in the same instance with the other task while ``Uncertain'' means the opposite. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations with uncertainty (we name their approach as RORU) for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
+In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. ``Certain'' means that one task is always executed in the same instance with the other task while ``Uncertain'' means the opposite. These two uncertainties can be combined to form 4 bi-directional types of relations, i.e., C-C, C-U, U-C and U-U, where ``C'' denotes ``Certain'' and ``U'' denotes ``Uncertain''. Using the bi-directional relations to decorate both causal and concurrency relation, they capture 8 sub types of relations in total. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations with uncertainty (we name their approach as RORU) for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
 
 \begin{figure}[htbp]
 \centering
@@ -105,7 +106,7 @@ Yan et al. \cite{yan2014efficient} decompose process models into small fragments
 
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
-The remainder of this paper is structured as follows. The next section gives preliminaries that will be used throughout the paper. The concept and computation of ExRORU are introduced in Section \ref{sec:relations}. Section \ref{sec:experiments} shows the results of the experimental evaluation. Section \ref{sec:discussion} gives some deep discussions before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
+The remainder of this paper is structured as follows. The next section gives preliminaries that will be used throughout the paper. Section \ref{sec:relations} introduces the concept of ExRORU and Section \ref{sec:computation} gives the computation. The results of the experimental evaluation are shown in Section \ref{sec:experiments}. Section \ref{sec:discussion} gives some deep discussions before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
 
 \section{Preliminaries}\label{sec:preliminaries}
 We will show our algorithm on Petri nets. Other process models that could be converted to Petri nets are also applicable. The concept of Petri net has its origin in Carl Adam Petri's dissertation \cite{petri1966kommunikation}.
@@ -212,7 +213,7 @@ Figure \ref{fig:examplePetriAndCpu} shows a sound WF-net and its CPU. In the unf
 % \end{example}
 
 \section{Extended Refined Ordering Relations with Uncertainty}\label{sec:relations}
-In this section, we introduce the concept of ExRORU and its calculation from a WF-net. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $U=(B,E,A,f)$ be its CPU. Let $x,y\in E$ be two events of the unfolding $U$.
+In this section, we introduce the concept of ExRORU. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $U=(B,E,A,f)$ be its CPU. Let $x,y\in E$ be two events of the unfolding $U$.
 
 \subsection{Extended Refined Causal Relations with Uncertainty}\label{subsec:causalAndInverseCausal}
 CPU uses the technique of cutoff events to avoid the problem of state space explosion. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the process runs generated from a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
@@ -374,7 +375,7 @@ Table \ref{tab:relations} shows the summary of all proposed relations for ExRORU
 	\end{tabular}
 \end{table}
 
-\subsection{Computing ExRORUs from an Unfolding}\label{subsec:computationOfRelations}
+\section{Computation}\label{sec:computation}
 %As mentioned before, an intuitive idea to derive our relations is based on reachability graphs. Such technique would face a state explosion problem, especially when the WF-net contains a parallel with large scale of transitions. Theoretically, the reachability graph will derive all the reachable states by combining the executions of transitions within a parallel structure. Another problem is that we actually cannot distinguish the causal relation caused by loop structure and parallel structure using the reachability technique. By definitions, causal relations caused by parallel structure are not considered in our extended refined ordering relations. 
 As mentioned before, using reachability graphs to derive our relations would face the problem of state space explosion. %And we actually cannot distinguish the causal relation caused by loop and parallel structure using the reachability technique, the latter of which is not considered in our definitions. 
 So we adopt the ``unfolding technology'' in this paper. It is also impossible to derive the relations based on a sound WF-net itself directly because a WF-net describes the structure of a process run rather than its behavior.
@@ -385,34 +386,66 @@ Similarly, we can trace backwards along the path from one event to another to de
 
 As for the extended concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We firstly find the entrance of the parallel structure, and trace the path from it to $a$ and $b$. As Figure \ref{fig:concurrentCases} shows, by checking every condition to find out all the \textit{loop} and \textit{skip} structures, we can derive the extended concurrent relations between them.
 
-Now we have defined the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let $f^{-1}(A)$ be the set containing all the corresponding events of transition $A$.
+Now we have defined the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in the unfolding. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let $f^{-1}(A)$ be the set containing all the corresponding events of transition $A$. Due to space limitation, we only give the computation of causal relations here and the computations of the other two are similar.
 
-\begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
-Transitions $A$ and $B$ are in: 
-	\begin{itemize}
-		\item[-] \textbf{always causal relation} (denoted as $A\overset{\text{\tiny{A}}}{\rightarrow} B$) iff: $\forall a\in Corr_{E}(A), \exists b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{A}}}{\rightarrow} b$. Further, $A\overset{\text{\tiny{DA}}}{\rightarrow}B$ if $\exists a\in Corr_{E}(A), b\in Corr_{E}(B),$ $s.t.~a\overset{\text{\tiny{DA}}}{\rightarrow}b$; $A\overset{\text{\tiny{IA}}}{\rightarrow}B$ otherwise.
-		\item[-] \textbf{never causal relation} (denoted as $A\overset{\text{\tiny{N}}}{\rightarrow} B$) iff: $\forall a\in Corr_{E}(A), \forall b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{N}}}{\rightarrow} b$.
-		\item[-] \textbf{sometimes causal relation} (denoted as $A\overset{\text{\tiny{S}}}{\rightarrow} B$) iff: neither $A\overset{\text{\tiny{A}}}{\rightarrow} B$ nor $A\overset{\text{\tiny{N}}}{\rightarrow} B$. Further, $A\overset{\text{\tiny{DS}}}{\rightarrow}B$ if $\exists a\in Corr_{E}(A), b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{DS}}}{\rightarrow}b$; $A\overset{\text{\tiny{IS}}}{\rightarrow}B$ otherwise.
-	\end{itemize}  
-\end{definition}
+\begin{algorithm}[htbp]
+	\caption{Computation of Extened Refined Causal Relations between Transitions\label{algo:computation}}
+	\KwIn{Two transitions $A$ and $B$}
+	\KwOut{The extened refined causal relation between $A$ and $B$}
+	$NumAlways=0,NumNever=0,IsDirect=false$\;
+	\For{$a$ in $f^{-1}(A)$} {
+		$LocalAlways=false$\;
+		\For{$b$ in $f^{-1}(B)$} {
+			\If{$a\overset{\text{\tiny{A}}}{\rightarrow}b$ and $LocalAlways=false$} {
+				$NumAlways=NumAlways+1,LocalAlways=true$\;
+			}
+			\If{$a\overset{\text{\tiny{DA}}}{\rightarrow}b$ or $aa\overset{\text{\tiny{DS}}}{\rightarrow}b$} {
+				$IsDirect=true$\;
+			}
+		}
+		\If{$LocalAlways=false$} {
+			$NumNever=NumNever+1$\;
+		}
+	}
+	\uIf{$NumAlways=|f^{-1}(A)|$ and $IsDirect=true$} {
+		\Return{$A\overset{\text{\tiny{DA}}}{\rightarrow}B$}
+	} \uElseIf{$NumAlways=|f^{-1}(A)|$ and $IsDirect=false$} {
+		\Return{$A\overset{\text{\tiny{IA}}}{\rightarrow}B$}
+	} \uElseIf{$NumNever=|f^{-1}(A)|$} {
+		\Return{$A\overset{\text{\tiny{N}}}{\rightarrow}B$}
+	} \uElseIf{$IsDirect=true$} {
+		\Return{$A\overset{\text{\tiny{DS}}}{\rightarrow}B$}
+	} \Else {
+		\Return{$A\overset{\text{\tiny{IS}}}{\rightarrow}B$}
+	}
+\end{algorithm}
 
-\begin{definition}[Extended Inverse Causal Relations Between Transitions]\label{def:inverseCausalRelations}
-Transitions $B$ and $A$ are in: 
-	\begin{itemize}
-		\item[-] \textbf{always inverse causal relation} (denoted as $B\overset{\text{\tiny{A}}}{\leftarrow} A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{A}}}{\leftarrow} a$. Further, $B\overset{\text{\tiny{DA}}}{\leftarrow}A$ if $\exists b\in Corr_{E}(B), a\in Corr_{E}(A),s.t.~b\overset{\text{\tiny{DA}}}{\leftarrow}a$; $B\overset{\text{\tiny{IA}}}{\leftarrow}A$ otherwise.
-		\item[-] \textbf{never inverse causal relation} (denoted as $B\overset{\text{\tiny{N}}}{\leftarrow} A$) iff: $\forall b\in Corr_{E}(B), \forall a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{N}}}{\leftarrow} a$.
-		\item[-] \textbf{sometimes inverse causal relation} (denoted as $B\overset{\text{\tiny{S}}}{\leftarrow} A$) iff: neither $B\overset{\text{\tiny{A}}}{\leftarrow} A$ nor $B\overset{\text{\tiny{N}}}{\leftarrow} A$. Further, $B\overset{\text{\tiny{DS}}}{\leftarrow}A$ if $\exists b\in Corr_{E}(B), a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{DS}}}{\leftarrow}a$; $B\overset{\text{\tiny{IS}}}{\leftarrow}A$ otherwise.
-	\end{itemize}
-\end{definition}
+% \begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
+% Transitions $A$ and $B$ are in: 
+% 	\begin{itemize}
+% 		\item[-] \textbf{always causal relation} (denoted as $A\overset{\text{\tiny{A}}}{\rightarrow} B$) iff: $\forall a\in Corr_{E}(A), \exists b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{A}}}{\rightarrow} b$. Further, $A\overset{\text{\tiny{DA}}}{\rightarrow}B$ if $\exists a\in Corr_{E}(A), b\in Corr_{E}(B),$ $s.t.~a\overset{\text{\tiny{DA}}}{\rightarrow}b$; $A\overset{\text{\tiny{IA}}}{\rightarrow}B$ otherwise.
+% 		\item[-] \textbf{never causal relation} (denoted as $A\overset{\text{\tiny{N}}}{\rightarrow} B$) iff: $\forall a\in Corr_{E}(A), \forall b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{N}}}{\rightarrow} b$.
+% 		\item[-] \textbf{sometimes causal relation} (denoted as $A\overset{\text{\tiny{S}}}{\rightarrow} B$) iff: neither $A\overset{\text{\tiny{A}}}{\rightarrow} B$ nor $A\overset{\text{\tiny{N}}}{\rightarrow} B$. Further, $A\overset{\text{\tiny{DS}}}{\rightarrow}B$ if $\exists a\in Corr_{E}(A), b\in Corr_{E}(B), s.t.~a\overset{\text{\tiny{DS}}}{\rightarrow}b$; $A\overset{\text{\tiny{IS}}}{\rightarrow}B$ otherwise.
+% 	\end{itemize}  
+% \end{definition}
 
-\begin{definition}[Extended Concurrent Relations Between Transitions]\label{def:concurrentRelations}
-Transitions $A$ and $B$ are in: 
-	\begin{itemize}
-		\item[-] \textbf{always concurrent relation} (denoted as $A\Updownarrow B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\Updownarrow b$;
-		\item[-] \textbf{never concurrent relation} (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),\forall b\in Corr_{E}(B), s.t.~a\nparallel b$;
-		\item[-] \textbf{sometimes concurrent relation} (denoted as $A\Uparrow B$) iff: neither $A\Updownarrow B$ nor $A\nparallel B$.
-	\end{itemize}
-\end{definition}
+% \begin{definition}[Extended Inverse Causal Relations Between Transitions]\label{def:inverseCausalRelations}
+% Transitions $B$ and $A$ are in: 
+% 	\begin{itemize}
+% 		\item[-] \textbf{always inverse causal relation} (denoted as $B\overset{\text{\tiny{A}}}{\leftarrow} A$) iff: $\forall b\in Corr_{E}(B), \exists a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{A}}}{\leftarrow} a$. Further, $B\overset{\text{\tiny{DA}}}{\leftarrow}A$ if $\exists b\in Corr_{E}(B), a\in Corr_{E}(A),s.t.~b\overset{\text{\tiny{DA}}}{\leftarrow}a$; $B\overset{\text{\tiny{IA}}}{\leftarrow}A$ otherwise.
+% 		\item[-] \textbf{never inverse causal relation} (denoted as $B\overset{\text{\tiny{N}}}{\leftarrow} A$) iff: $\forall b\in Corr_{E}(B), \forall a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{N}}}{\leftarrow} a$.
+% 		\item[-] \textbf{sometimes inverse causal relation} (denoted as $B\overset{\text{\tiny{S}}}{\leftarrow} A$) iff: neither $B\overset{\text{\tiny{A}}}{\leftarrow} A$ nor $B\overset{\text{\tiny{N}}}{\leftarrow} A$. Further, $B\overset{\text{\tiny{DS}}}{\leftarrow}A$ if $\exists b\in Corr_{E}(B), a\in Corr_{E}(A), s.t.~b\overset{\text{\tiny{DS}}}{\leftarrow}a$; $B\overset{\text{\tiny{IS}}}{\leftarrow}A$ otherwise.
+% 	\end{itemize}
+% \end{definition}
+
+% \begin{definition}[Extended Concurrent Relations Between Transitions]\label{def:concurrentRelations}
+% Transitions $A$ and $B$ are in: 
+% 	\begin{itemize}
+% 		\item[-] \textbf{always concurrent relation} (denoted as $A\Updownarrow B$) iff: $\forall a\in Corr_{E}(A),\exists b\in Corr_{E}(B),s.t.~a\Updownarrow b$;
+% 		\item[-] \textbf{never concurrent relation} (denoted as $A\nparallel B$) iff: $\forall a\in Corr_{E}(A),\forall b\in Corr_{E}(B), s.t.~a\nparallel b$;
+% 		\item[-] \textbf{sometimes concurrent relation} (denoted as $A\Uparrow B$) iff: neither $A\Updownarrow B$ nor $A\nparallel B$.
+% 	\end{itemize}
+% \end{definition}
 
 In general, using the notions and computations described in the previous sections, we can derive ExRORUs of any process model. The ExRORU for the model in Figure \ref{fig:examplePetri} is shown in Table \ref{tab:example_relations}. For convenience, we use three separate matrices to represent the three types of relations. Each ($X$,$Y$) entry in a matrix shows the relation between transitions $X$ and $Y$. Moreover, in general, multiple relations may exist between $X$ and $Y$ as we discuss in the next section.
 
