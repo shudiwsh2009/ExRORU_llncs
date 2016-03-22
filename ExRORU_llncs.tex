@@ -32,29 +32,31 @@
 
 \author[$1$]{Shuhao Wang}
 \author[$1$]{Lijie Wen}
+\author[$2$]{Akhil Kumar}
 \author[$1$]{Jianmin Wang}
-\author[$2$]{Jianwen Su}
-\author[$3$]{Akhil Kumar}
+\author[$3$]{Jianwen Su}
 \authorrunning{Shuhao Wang et al.}
-\tocauthor{Shuhao Wang, Lijie Wen, Jianmin Wang, Jianwen Su, and Akhil Kumar}
+\tocauthor{Shuhao Wang, Lijie Wen, Akhil Kumar, Jianmin Wang, and Jianwen Su}
 \affil[$1$]{School of Software, Tsinghua University, Beijing 100084, P.R. China}
-\affil[$2$]{Department of Computer Science, UC Santa Barbara, USA}
-\affil[$3$]{Smeal College of Business, Penn State University, University Park, \authorcr
-State College, PA 16802, USA \authorcr
-\texttt{shudiwsh2009@gmail.com,\{wenlj,jimwang\}@tsinghua.edu.cn} \authorcr
-\texttt{su@cs.ucsb.edu,akhilkumar@psu.edu}}
+\affil[$2$]{Smeal College of Business, Penn State University, University Park, \authorcr
+State College, PA 16802, USA}
+\affil[$3$]{Department of Computer Science, UC Santa Barbara, USA \authorcr
+\texttt{shudiwsh2009@gmail.com,wenlj@tsinghua.edu.cn,akhilkumar@psu.edu} \authorcr
+\texttt{jimwang@tsinghua.edu.cn,su@cs.ucsb.edu}}
+% \texttt{shudiwsh2009@gmail.com,\{wenlj,jimwang\}@tsinghua.edu.cn} \authorcr
+% \texttt{su@cs.ucsb.edu,akhilkumar@psu.edu}}
 \institute{}
 
 \maketitle
 
 \begin{abstract}
-A recent paper has proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. This work also gave an algorithm to compute the relations between pairs of tasks based on unfolding technology. However, this algorithm has serious limitations. It cannot work for cyclic process models and those with silent transitions and non-free-choice constructs. In practice most non-trivial process models contain cycles and about 10\% to 20\% have also non-free choice constructs. In this paper, we show how to overcome these problems by a refinement of the relations (i.e., extended refined ordering relations with uncertainty, ExRORU for short). All these relations can uniquely detect the behavioral difference between any pair of process models and can also be derived efficiently based on unfolding technology. Experiments on real-life and synthesized models show that compared to existing algorithms on behavioral representation of process models, our measure ExRORU is both effective and scalable.
+A recent paper has proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. This work also gave an algorithm to compute the relations between pairs of tasks based on unfolding technology. However, this algorithm has serious limitations. It cannot work for cyclic process models and those with silent transitions and non-free-choice constructs. In practice most non-trivial process models contain cycles and about 10\% to 20\% have also non-free choice constructs. In this paper, we show how to overcome these problems by a refinement of the relations (i.e., extended refined ordering relations with uncertainty, ExRORU for short). All these relations can uniquely detect the behavioral difference between any pair of process models and can also be derived efficiently based on unfolding technology. Experiments on real-life and synthesized models show that ExRORU is both effective and scalable.
 \keywords{Process Model, Refined Ordering Relations with Uncertainty, Complete Prefix Unfolding, Behavioral Semantics}
 \end{abstract}
 
 \section{Introduction}\label{sec:introduction}
 
-In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
+In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations with uncertainty (we name their approach as RORU) for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
 
 \begin{figure}[htbp]
 \centering
@@ -86,12 +88,12 @@ In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with
 	\end{minipage}
 	\label{fig:nfcExampleB}
 }
-\caption{Examples where the work of Jin et al. fails to differentiate process models\label{fig:drawbacks}}
+\caption{Examples where RORU fails to differentiate process models\label{fig:drawbacks}}
 \end{figure}
 
-In particular, the algorithm in \cite{jin2014computing} cannot work with cyclic WF-nets, which could be seen directly from the paper title. Furthermore, silent transitions have not been taken into consideration in \cite{jin2014computing} so that two WF-nets with different behavioral semantics may be regarded as the same. For example, the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleA} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle\}$, while the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleB} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$, $\langle I,O\rangle\}$. Obviously, the behaviors of the two WF-nets in Figure~\ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are not the same. But the approach in \cite{jin2014computing} cannot distinguish them from each other.
+In particular, RORU cannot work with cyclic WF-nets, which could be seen directly from the paper title \cite{jin2014computing}. Furthermore, silent transitions have not been taken into consideration so that two WF-nets with different behavioral semantics may be regarded as the same. For example, the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleA} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle\}$, while the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleB} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$, $\langle I,O\rangle\}$. Obviously, the behaviors of the two WF-nets in Figure~\ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are not the same. But RORU cannot distinguish them from each other.
 
-In a WF-net with non-free-choice constructs \cite{de2003workflow}, sequential relations do not necessarily satisfy transitivity. Take the models in Figure \ref{fig:nfcExampleA} and \ref{fig:nfcExampleB} for example, we can capture the causal relations between $A$ and $C$ as well as $C$ and $E$ from both models. According to \cite{jin2014computing}, it can be inferred that $A$ and $E$ satisfy the causal relation. However, this is not correct in the WF-net with a non-free-choice construct in Figure \ref{fig:nfcExampleA} because only $C$ and $D$ can be executed if $A$ has been executed in the first place.
+In a WF-net with non-free-choice constructs \cite{de2003workflow}, sequential relations do not necessarily satisfy transitivity. Take the models in Figure \ref{fig:nfcExampleA} and \ref{fig:nfcExampleB} for example, we can capture the causal relations between $A$ and $C$ as well as $C$ and $E$ from both models. According to RORU \cite{jin2014computing}, it can be inferred that $A$ and $E$ satisfy the causal relation. However, this is not correct in the WF-net with a non-free-choice construct in Figure \ref{fig:nfcExampleA} because only $C$ and $D$ can be executed if $A$ has been executed in the first place.
 
 To solve these three major problems, we extend the ordering relations in \cite{jin2014computing} in a more fine-grained manner to uniquely differentiate the behavioral semantics of two process models. In addition to the idea of uncertainty, we also introduce the notion of multiple relations between a pair of tasks to reflect the fact that two tasks may have more than one relation between them.  This can allow us to capture subtle differences between any two processes.
 
@@ -129,11 +131,11 @@ There are three types of ordering relations between any pair of nodes of a Petri
 
 The full firing sequences, or execution sequences are suitable to capture some ordering relations between transitions. We introduce the notion of \textit{process run}, which can be utilized to represent \textit{causal} and \textit{concurrency} relation.
 
-\begin{definition}[Causal net, adapted from \cite{polyvyanyy20144c}]\label{def:causalNet}
+\begin{definition}[Causal net \cite{polyvyanyy20144c}]\label{def:causalNet}
 A net $N=(B,E,G)$ is a $causal~net$ iff: (i) for every $b\in B$ it holds that $|\bullet b|\leq 1$ and $|b\bullet|\leq 1$, and (ii) $N$ is acyclic.
 \end{definition}
 
-\begin{definition}[Process run/Run, adapted from \cite{polyvyanyy20144c}]\label{def:run}
+\begin{definition}[Process run \cite{polyvyanyy20144c}]\label{def:run}
 A \textit{process run} of a system $S=(N,M)$, $N=(P,T,F)$, is an ordered pair $\pi=(N_{\pi},\rho)$, where $N_{\pi}=(B,E,G)$ is a causal net and $\rho:B\cup E\rightarrow P\cup T$ is a mapping function such that:
 	\begin{itemize}
 		\item[-] $\rho(B)\subseteq P$ and $\rho(E)\subseteq T$;
@@ -144,10 +146,10 @@ A \textit{process run} of a system $S=(N,M)$, $N=(P,T,F)$, is an ordered pair $\
 
 In the process runs of a model, only causality and concurrency are explicitly captured. There are only sequential and parallel structures but neither loop nor exclusive structures in a run. In the next section, we will define our extended relations using the notion of \textit{process run}.
 
-However, a Petri net system may have infinite process runs due to the existence of loop structures, which differ on ``how much it unfolds''. It is not applicable to use the infinite runs to capture all the relations between transitions. Another intuitive idea is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion \cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we use his work instead.
+However, a Petri net system may have infinite process runs due to the existence of loop structures, which differ on ``how much it unfolds''. It is not applicable to use the infinite process runs to capture all the relations between transitions. Another intuitive idea is to generate the reachability graph of a WF-net, which has to face the problem of state space explosion \cite{mcmillan1995technique}. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we choose to use his work instead.
 
 \begin{definition}[Occurrence net]\label{def:occurrenceNet}
-An occurrence net is a Petri net $O=(B,E,A)$ such that: $|\bullet b|\leq 1$ for every $b\in B$; $O$ is acyclic; $O$ is finitely preceded; no element is in conflict with itself.
+An occurrence net is a Petri net $O=(B,E,A)$ such that: $|\bullet b|\leq 1$ for every condition $b\in B$; $O$ is acyclic; $O$ is finitely preceded, i.e., for every $x\in B\cap E$, the set of elements $y\in B\cap E$ such that $y<x$ is finite; no element is in conflict with itself.
 \end{definition}
 
 % \begin{definition}[Branching process]\label{def:branchingProcess}
@@ -163,7 +165,7 @@ An occurrence net is a Petri net $O=(B,E,A)$ such that: $|\bullet b|\leq 1$ for 
 \begin{definition}[Complete Prefix Unfolding]\label{def:cpu}
 Let $O=(B,E,A,f)$ be an occurrence net and $e\in E$ be any event.
 	\begin{itemize}
-		\item[-] A local configuration $\lceil e\rceil$ of an event $e$ in an occurrence net is the set of events that precede $e$.
+		\item[-] A local configuration $\lceil e\rceil$ of an event $e$ is the set of events that precede $e$.
 		\item[-] The final marking of a local configuration $Mark(\lceil e\rceil)$ is the set of conditions that are marked after all the events in $\lceil e\rceil$ fire.
 		\item[-] An adequate order $\prec$ is a strict well-founded partial order on local configurations, so that $\lceil e\rceil\subset\lceil e'\rceil$ implies $\lceil e\rceil\prec\lceil e'\rceil$\footnote{We use the definition of \emph{total order} for 1-safe systems defined in \cite{esparza2002improvement}.}.
 		\item[-] An event $e$ is a cutoff event if there exists a corresponding event $e'$, such that $Mark(\lceil e\rceil)=Mark(\lceil e'\rceil)$ and $\lceil e'\rceil\prec\lceil e\rceil$.
@@ -171,7 +173,7 @@ Let $O=(B,E,A,f)$ be an occurrence net and $e\in E$ be any event.
 	\end{itemize}
 \end{definition}
 
-Obviously, we can generate the set of process runs of a WF-net from its CPU by ``unfolding'' the net after the cut-off events. In other words, CPU is the minimal but complete expression of all the runs in a model.
+Obviously, we can generate the set of process runs of a WF-net from its CPU by ``unfolding'' the net after the cut-off events. In other words, CPU is the minimal but complete expression of all the process runs in a model.
 
 \begin{figure}[htbp]
 \centering
@@ -211,29 +213,25 @@ Figure \ref{fig:examplePetriAndCpu} shows a sound WF-net and its CPU. In the unf
 In this section, we introduce the concept of ExRORU and its calculation from a WF-net. Let $\Sigma=(P,T,F,M_{0})$ be a sound WF-net, and $U=(B,E,A,f)$ be its CPU. Let $x,y\in E$ be two events of the unfolding $U$.
 
 \subsection{Extended Refined Causal Relations with Uncertainty}\label{subsec:causalAndInverseCausal}
-CPU uses the technique of cutoff events to avoid the problem of state space explosion. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the runs generated from a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
+CPU uses the technique of cutoff events to avoid the problem of state space explosion. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the process runs generated from a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
 
-We use expressions like $[ab\{c,d\}e]$ to represent the semantics of a process. Successive letters denote the sequential structure while letters in a brace mean a parallel structure. Different branches of a parallel structure are separated by a comma and could be nested. For example, in the CPU of Figure \ref{fig:exampleCpu}, $[I\{D,AC\}O]$, $[I\{D,BC\}O]$ and $[I\{DED,AC\}O]$ are some runs.
+We use expressions like $[ab\{c,d\}e]$ to represent the semantics of a process run. Successive letters denote the sequential structure while letters in a brace mean a parallel structure. Different branches of a parallel structure are separated by a comma and could be nested. For example, in the CPU of Figure \ref{fig:exampleCpu}, $[I\{D,AC\}O]$, $[I\{D,BC\}O]$ and $[I\{DED,AC\}O]$ are some process runs.
 
-A trace, or execution sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of runs in $U$. Silent events are meaningless events for routing purpose only in models, which are not expresses in the control logic. We use shadowed box with slash to represent silent events, as shown in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Then we give the definition of \textit{Direct and Indirect Causal} relations based on whether two events can be executed adjacently in a trace.
+A trace, or execution sequence is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of process runs in $U$. Silent events are meaningless events for routing purpose only in models, which are not expressed in the control logic. We use shadowed box with slash to represent silent events, as shown in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Then we give the definition of \textit{Direct and Indirect Causal} relations based on whether two events can be executed adjacently in a trace.
 
 \begin{definition}[Direct and Indirect Causal Relations]\label{def:sda}
-Events $x$ and $y$ are in direct causal relation iff:
-	\begin{itemize}
-		\item[-] $x<y$;
-		\item[-] $\exists\sigma=\langle t_{1},t_{2},...,t_{n}\rangle\in\Omega,1\leq i<j\leq n,t_{i}=x,t_{j}=y,s.t.~\forall k\in(i,j),t_{k}$ is a silent event.
-	\end{itemize}
+Events $x$ and $y$ are in causal relation, i.e., $x<y$. They are in direct causal relation iff: $\exists\sigma=\langle t_{1},t_{2},...,t_{n}\rangle\in\Omega,1\leq i<j\leq n,t_{i}=x,t_{j}=y,s.t.~\forall k\in(i,j),t_{k}$ is a silent event. Otherwise, they are in indirect causal relation.
 	% $x\overset{D}{\twoheadrightarrow}y$ or $x\overset{D}{\rightharpoonup}y$ (``D'' for direct) if they are in direct causal relation while $x\overset{I}{\twoheadrightarrow}y$ or $x\overset{I}{\rightharpoonup}y$ (``I'' for indirect) if not.
 \end{definition}
 
-Let $\Theta$ be the set containing all the runs generated from $U$, $\Theta_{x}$ be the set of the runs containing event $x$, i.e, $\Theta_{x}=\{\beta\in\Theta|x\in\beta\}$ and $FS(\beta)$ be the set of all the execution sequences of run $\beta$. Our extended causal relations are defined using the notion of $\Theta_{x}$ and $FS$.
+Let $\Theta$ be the set containing all the process runs generated from $U$, $\Theta_{x}$ be the set of the process runs containing event $x$, i.e, $\Theta_{x}=\{\beta\in\Theta|x\in\beta\}$ and $FS(\beta)$ be the set of all the execution sequences of a process run $\beta$. Our extended causal relations are defined using the notion of $\Theta_{x}$ and $FS$.
 
 \begin{definition}[Extended Causal Relations]\label{def:extendedCausal}
 Events $x$ and $y$ are in:
 	\begin{itemize}
-		\item[-] \textbf{always causal relation} (denoted as $x\overset{\text{\tiny{A}}}{\rightarrow} y$) iff: $x<y$ and $\forall\beta_{x}\in\Theta_{x}$, $\forall\sigma\in FS(\beta_{x})$: after the execution of $x$, $y$ has to be executed and between each two $x$ (if there are more than one $x$) at least one $y$ has to be executed.
-		\item[-] \textbf{never causal relation} (denoted as $x\overset{\text{\tiny{N}}}{\rightarrow} y$) iff: $\forall\beta_{x}\in\Theta_{x}$, $\forall\sigma\in FS(\beta_{x})$: when $x$ executes, $y$ mustn't be executed after it.
-		\item[-] \textbf{sometimes causal relation} (denoted as $x\overset{\text{\tiny{S}}}{\rightarrow} y$) iff: neither $x\twoheadrightarrow y$ nor $x\overset{\text{\tiny{N}}}{\rightarrow} y$.
+		\item[-] \textbf{always causal relation} (denoted as $x\overset{\text{\tiny{A}}}{\rightarrow}y$) iff: $x<y$ and $\forall\beta_{x}\in\Theta_{x}$, $\forall\sigma\in FS(\beta_{x})$: after the execution of $x$, $y$ has to be executed and between each two $x$ (if there are more than one $x$) at least one $y$ has to be executed.
+		\item[-] \textbf{never causal relation} (denoted as $x\overset{\text{\tiny{N}}}{\rightarrow} y$) iff: $\forall\beta_{x}\in\Theta_{x}$, $\forall\sigma\in FS(\beta_{x})$: when $x$ is executed, $y$ mustn't be executed after it.
+		\item[-] \textbf{sometimes causal relation} (denoted as $x\overset{\text{\tiny{S}}}{\rightarrow} y$) iff: neither $x\overset{\text{\tiny{A}}}{\rightarrow}y$ nor $x\overset{\text{\tiny{N}}}{\rightarrow} y$.
 	\end{itemize}
 	Further, $x\overset{\text{\tiny{DA}}}{\rightarrow}y$ or $x\overset{\text{\tiny{DS}}}{\rightarrow}y$ (``D'' for direct) if they are in direct causal relation while $x\overset{\text{\tiny{IA}}}{\rightarrow}y$ or $x\overset{\text{\tiny{IS}}}{\rightarrow}y$ (``I'' for indirect) if not.
 \end{definition}
@@ -244,7 +242,7 @@ The relations above are collectively called extended refined causal relation wit
 In the CPU of Figure \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{direct always causal} relation (i.e., $A\overset{\text{\tiny{DA}}}{\rightarrow}C$) since they satisfy the conditions among all the traces containing $A$ and they can be executed adjacently. $E$ and $O$ are in \textit{indirect sometimes causal} relation (i.e., $E\overset{\text{\tiny{IS}}}{\rightarrow}O$) since there may be another $E$ between the first $E$ and $O$, and there must be at least one $D$ between them. $A$ and $B$ are in \textit{never causal} relation (i.e., $A\overset{\text{\tiny{N}}}{\rightarrow} B$).
 \end{example}
 
-\textbf{Always Inverse Causal} ($\overset{\text{\tiny{A}}}{\leftarrow}$), \textbf{Sometimes Inverse Causal} ($\overset{\text{\tiny{S}}}{\leftarrow}$) and \textbf{Never Inverse Causal} ($\overset{\text{\tiny{N}}}{\leftarrow}$) can be defined in a similar way. The relations above are collectively called extended refined inverse causal relation with uncertainty (denoted as $\leftarrow$). Also, we further refine $\overset{\text{\tiny{A}}}{\leftarrow}$ and $\overset{\text{\tiny{S}}}{\leftarrow}$ into four relations, i.e., $\overset{\text{\tiny{DA}}}{\leftarrow}$, $\overset{\text{\tiny{IA}}}{\leftarrow}$, $\overset{\text{\tiny{DS}}}{\leftarrow}$ and $\overset{\text{\tiny{IS}}}{\leftarrow}$.
+\textbf{Always Inverse Causal} ($\overset{\text{\tiny{A}}}{\leftarrow}$), \textbf{Sometimes Inverse Causal} ($\overset{\text{\tiny{S}}}{\leftarrow}$) and \textbf{Never Inverse Causal} ($\overset{\text{\tiny{N}}}{\leftarrow}$) can be defined in a similar way. Also, we further refine $\overset{\text{\tiny{A}}}{\leftarrow}$ and $\overset{\text{\tiny{S}}}{\leftarrow}$ into four relations, i.e., $\overset{\text{\tiny{DA}}}{\leftarrow}$, $\overset{\text{\tiny{IA}}}{\leftarrow}$, $\overset{\text{\tiny{DS}}}{\leftarrow}$ and $\overset{\text{\tiny{IS}}}{\leftarrow}$. The relations above are collectively called extended refined inverse causal relation with uncertainty (denoted as $\leftarrow$).
 
 % \begin{definition}[Always Inverse Causal]\label{def:alwaysInverseCausal}
 % Events $y$ and $x$ are in always inverse causal relation (denoted as $y\twoheadleftarrow x$) iff: $\forall\beta_{y}\in\Theta_{y}$, $x$ and $y$ are in \textit{alternate precedence} relation, i.e., among all the branching processes containing event $y$, every instance of $y$ has to be preceded by an instance of $x$ and the next instance of event $y$ cannot be executed before the next instance of event $x$ is executed.
@@ -262,7 +260,7 @@ In the CPU of Figure \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{direct alw
 In the CPU of Figure \ref{fig:exampleCpu}, $O$ and $D$ are in \textit{direct always inverse causal} relation (i.e., $O\overset{\text{\tiny{DA}}}{\leftarrow}D$) since they satisfy the conditions among all the traces containing $O$ and they can be executed adjacently. $O$ and $A$ are in \textit{indirect sometimes inverse causal} relation (i.e., $O\overset{\text{\tiny{IS}}}{\leftarrow}A$) since there may be no instance of event $A$ in some traces containing $O$ and there must be an event $C$ in front of $O$. $A$ and $B$ are in \textit{never inverse causal} relation (i.e., $A\overset{\text{\tiny{N}}}{\leftarrow} B$).
 \end{example}
 
-We have identified several cases of causal and inverse causal relations and turned them into abstract formulas as shown in Figure \ref{fig:causalCases}. We use part of the unfolding instead of the massive runs to save space. In these cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. %In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
+We have identified several cases of causal and inverse causal relations and turned them into abstract formulas as shown in Figure \ref{fig:causalCases}. We use part of the unfolding instead of the massive process runs to save space. In these cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. %In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
 
 \begin{figure}[htbp]
 \centering
@@ -300,9 +298,9 @@ We have identified several cases of causal and inverse causal relations and turn
 \end{figure}
 
 % \textcolor{red}{Compress the following two paragraphs}
-We omit the \textit{direct} and \textit{indirect} symbol since we cannot determine them in these abstract formulas. For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have runs such as $[A*B],[A*A*B],[A*A*A*B]$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\overset{\text{\tiny{S}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. Similarly in Figure \ref{fig:causalCaseB}, we have $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{S}}}{\leftarrow} A$.
+We omit the \textit{direct} and \textit{indirect} symbol since we cannot determine them in these abstract formulas. For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have process runs such as $[A*B],[A*A*B],[A*A*A*B]$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\overset{\text{\tiny{S}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. Similarly in Figure \ref{fig:causalCaseB}, we have $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
-In Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
+In Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has process runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
 \subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
 We use $\Omega_{x}$ to denote the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined using the notion of $\Omega_{x}$.
