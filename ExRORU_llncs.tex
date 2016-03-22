@@ -312,7 +312,8 @@ We use $\sigma\uparrow X$ to denote the projection of $\sigma$ onto some event s
 \begin{definition}[Extended Concurrent Relations]\label{def:extendedConcurrent}
 Events $x$ and $y$ are in:
 	\begin{itemize}
-		\item[-] \textbf{always concurrent relation} (denoted as $x\Updownarrow y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x~co~y$ and $(|P|\%2=0\vee(|P|\%2=1\wedge P_{|P|}=y))\wedge\forall_{0\leq k<|P|/2}((P_{2k+1}=x\wedge P_{2k+2}=y)\vee(P_{2k+1}=y\wedge P_{2k+2}=x)\vee(P_{2k+1}=y\wedge P_{2k+2}=y))$, where $P$ is the abbreviation of $P(\sigma_{x},x,y)$;
+		% \item[-] \textbf{always concurrent relation} (denoted as $x\Updownarrow y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x~co~y$ and $(|P|\%2=0\vee(|P|\%2=1\wedge P_{|P|}=y))\wedge\forall_{0\leq k<|P|/2}((P_{2k+1}=x\wedge P_{2k+2}=y)\vee(P_{2k+1}=y\wedge P_{2k+2}=x)\vee(P_{2k+1}=y\wedge P_{2k+2}=y))$, where $P$ is the abbreviation of $P(\sigma_{x},x,y)$;
+		\item[-] \textbf{always concurrent relation} (denoted as $x\Updownarrow y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x~co~y$ and $P(\sigma,x,y)$ satisfies the regular expression $[xy|yx|yy]^{*}y?$;
 		\item[-] \textbf{never concurrent relation} (denoted as $x\nparallel y$) iff: $\forall\sigma_{x}\in\Omega_{x}$, $x$ and $y$ are not in concurrency relation;
 		\item[-] \textbf{sometimes concurrent relation} (denoted as $x\Uparrow y$) iff: neither $x\Updownarrow y$ nor $x\nparallel y$.
 	\end{itemize}
@@ -821,9 +822,7 @@ To better describe the relations between the execution of tasks in a process mod
 
 While our algorithm may not be the fastest among the algorithms that rely on the relations between tasks to characterize process models, however it can always uniquely differentiate between any pair of models. Faster computation with proofs will be explored in future work. Furthermore, the main properties of ExRORU will be investigated thoroughly and shown with formal proofs. Finally, we will apply ExRORU on more real-life datasets from different enterprises having process models of various sizes.
 
-\paragraph{\textbf{Acknowledgement.}} The work is supported by National Science Foundation of
-China Projects (No. 61472207 \& No. 61325008) and the Special Foundation for Innovation of
-Shandong, China (No. 2013CXC30001).
+\paragraph{\textbf{Acknowledgement.}} The work is supported by National Science Foundation of China Projects (No. 61472207 \& No. 61325008) and the Special Foundation for Innovation of Shandong, China (No. 2013CXC30001).
 
 \bibliographystyle{plain}
 \bibliography{ref}
