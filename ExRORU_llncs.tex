@@ -11,6 +11,7 @@
 \usepackage{diagbox}
 \usepackage{colortbl}
 \usepackage{bm}
+\usepackage{setspace}
 \newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
 \renewcommand\proofname{Proof Sketch}
 \renewcommand{\textfraction}{0.15} 
@@ -64,28 +65,28 @@ In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_sda_example_1}
+		\includegraphics[width=0.9\textwidth]{fig_sda_example_1}
 	\end{minipage}
 	\label{fig:sdaExampleA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_sda_example_2}
+		\includegraphics[width=0.9\textwidth]{fig_sda_example_2}
 	\end{minipage}
 	\label{fig:sdaExampleB}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_nfc_example_1}
+		\includegraphics[width=0.9\textwidth]{fig_nfc_example_1}
 	\end{minipage}
 	\label{fig:nfcExampleA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_nfc_example_2}
+		\includegraphics[width=0.9\textwidth]{fig_nfc_example_2}
 	\end{minipage}
 	\label{fig:nfcExampleB}
 }
@@ -176,12 +177,12 @@ Let $O=(B,E,A,f)$ be an occurrence net, where $f$ denotes the many-to-one mappin
 \centering
 \subfigure[A sound WF-net] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_example_petri}
+	\includegraphics[width=0.6\textwidth]{fig_example_petri}
 	\label{fig:examplePetri}
 }
 \subfigure[The CPU of \subref{fig:examplePetri}] {
 	\centering
-	\includegraphics[width=0.45\textwidth]{fig_example_cpu}
+	\includegraphics[width=0.6\textwidth]{fig_example_cpu}
 	\label{fig:exampleCpu}
 }
 \caption{A sound WF-net example and its CPU\label{fig:examplePetriAndCpu}}
@@ -268,30 +269,36 @@ We have identified several cases of causal and inverse causal relations and turn
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_a_1}\\
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_a_2}
+		\includegraphics[width=0.9\textwidth]{fig_causal_case_a_1}\\
+		\vspace{4pt}
+		\includegraphics[width=0.9\textwidth]{fig_causal_case_a_2}
 	\end{minipage}
 	\label{fig:causalCaseA}
 }
 \subfigure[] {
 	\begin{minipage}[b]{0.45\textwidth}
 		\centering
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_b_1}
-		\includegraphics[width=0.8\textwidth]{fig_causal_case_b_2}
+		\includegraphics[width=0.9\textwidth]{fig_causal_case_b_1}\\
+		\vspace{4pt}
+		\includegraphics[width=0.9\textwidth]{fig_causal_case_b_2}
 	\end{minipage}
 	\label{fig:causalCaseB}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
+	\begin{minipage}[b]{1.0\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{fig_causal_case_c}
+		\includegraphics[width=0.5\textwidth]{fig_causal_case_c_1}\\
+		\vspace{4pt}
+		\includegraphics[width=0.5\textwidth]{fig_causal_case_c_2}
 	\end{minipage}
 	\label{fig:causalCaseC}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
+	\begin{minipage}[b]{1.0\textwidth}
 		\centering
-		\includegraphics[width=1.0\textwidth]{fig_causal_case_d}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_d_1}\\
+		\vspace{4pt}
+		\includegraphics[width=0.6\textwidth]{fig_causal_case_d_2}
 	\end{minipage}
 	\label{fig:causalCaseD}
 }
@@ -301,7 +308,7 @@ We have identified several cases of causal and inverse causal relations and turn
 % \textcolor{red}{Compress the following two paragraphs}
 We omit the \textit{direct} and \textit{indirect} symbol since we cannot determine them in these abstract formulas. For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have process runs such as $[A*B],[A*A*B],[A*A*A*B]$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\overset{\text{\tiny{S}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. Similarly in Figure \ref{fig:causalCaseB}, we have $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
-In Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has process runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
+In the upper unfolding of Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure in the lower unfolding, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive or loop structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has process runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
 \subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
 We use $\Omega_{x}$ to denote the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined using the notion of $\Omega_{x}$.
@@ -325,28 +332,28 @@ The relations above are collectively called extended refined concurrent relation
 \subfigure[] {
 	\begin{minipage}[b]{1\textwidth}
 		\centering
-		\includegraphics[width=0.3\textwidth]{fig_concurrent_case_a_1}
-		\hspace{0.5in}
-		\includegraphics[width=0.3\textwidth]{fig_concurrent_case_a_2}
+		\includegraphics[width=0.35\textwidth]{fig_concurrent_case_a_1}
+		% \hspace{0.5in}
+		\includegraphics[width=0.35\textwidth]{fig_concurrent_case_a_2}
 	\end{minipage}
 	\label{fig:concurrentCaseA}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.3\textwidth}
+	\begin{minipage}[b]{0.35\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{fig_concurrent_case_b}
 	\end{minipage}
 	\label{fig:concurrentCaseB}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.3\textwidth}
+	\begin{minipage}[b]{0.35\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{fig_concurrent_case_c}
 	\end{minipage}
 	\label{fig:concurrentCaseC}
 }
 \subfigure[] {
-	\begin{minipage}[b]{0.3\textwidth}
+	\begin{minipage}[b]{0.35\textwidth}
 		\centering
 		\includegraphics[width=1.0\textwidth]{fig_concurrent_case_d}
 	\end{minipage}
@@ -431,7 +438,46 @@ Similarly, we can trace backwards along the path from one event to another to de
 As for the extended refined concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We firstly find the entrance of the parallel structure, and trace the path from it to $a$ and $b$. As Figure \ref{fig:concurrentCases} shows, by checking every condition to find out all the \textit{loop} and \textit{skip} structures, we can derive the extended concurrent relations between them.
 
 \subsection{Computing ExRORU between transitions}
-Now we have captured the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in CPU. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let \textit{map-to-events(A)} be the set containing all the mapping events of transition $A$. Due to space limitation, we only give the computation of causal relations in Algorithm \ref{algo:computation} and the computations of the other two are similar. Algorithm \ref{algo:computation} is very straight-forward so we don't explain it in detail.
+Now we have captured the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in CPU. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let \textit{map-to-events(A)} be the set containing all the mapping events of transition $A$. Due to space limitation, we only give the computation of causal relations in Algorithm \ref{algo:computation} and the computations of the other two are similar. %Algorithm \ref{algo:computation} is very straight-forward so we don't explain it in detail.
+
+Algorithm \ref{algo:computation} receives two transitions $A$ and $B$ as inputs and gives out the causal relation between them as outputs. It first intializes the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 1), then uses a double loop to capture the relation between the mapping events of $A$ and $B$ (line 2-12). For every mapping event $a$ of transition $A$, the ``LocalCausal'' and ``LocalAlways'' flags are defined (line 3): If there exists at least one mapping event $b$ of transition $B$ so that $a$ and $b$ are in causal relation, we change the ``LocalCausal'' flag (line 5-6); If $a$ and $b$ satisfies $a\overset{\text{\tiny{A}}}{\rightarrow}b$, we increase the ``Always'' counter (line 7-8); If $a$ and $b$ are in direct causal relation, we change the ``Direct'' flag (line 9-10). After traversing all the mapping events of $B$, if the ``LocalCausal'' flag does not change, the ``Never'' counter will be increased (line 11-12). Finally, the algorithm will define the causal relation between $A$ and $B$ based on the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 13-22).
+
+\begin{algorithm}[htbp]
+	\setstretch{0.8}
+	\LinesNumbered
+	\caption{Computation of Extended Refined Causal Relations between Transitions\label{algo:computation}}
+	\KwIn{Two transitions $A$ and $B$}
+	\KwOut{The extended refined causal relation between $A$ and $B$}
+	$NumAlways=0,NumNever=0,IsDirect=false$\;
+	\For{$a$ in \textit{map-to-events(A)}} {
+		$LocalCausal=false,LocalAlways=false$\;
+		\For{$b$ in \textit{map-to-events(B)}} {
+			\If{$LocalCausal=false$ \textnormal{and (}$a\overset{\text{\tiny{A}}}{\rightarrow}b$ \textnormal{or} $a\overset{\text{\tiny{S}}}{\rightarrow}b$\textnormal{)}} {
+				$LocalCausal=true$\;
+			}
+			\If{$LocalAlways=false$ \textnormal{and} $a\overset{\text{\tiny{A}}}{\rightarrow}b$} {
+				$NumAlways=NumAlways+1,LocalAlways=true$\;
+			}
+			\If{$IsDirect=false$ \textnormal{and (}$a\overset{\text{\tiny{DA}}}{\rightarrow}b$ \textnormal{or} $a\overset{\text{\tiny{DS}}}{\rightarrow}b$\textnormal{)}} {
+				$IsDirect=true$\;
+			}
+		}
+		\If{$LocalCausal=false$} {
+			$NumNever=NumNever+1$\;
+		}
+	}
+	\uIf{$NumAlways=|\textit{map-to-events(A)}|$ \textnormal{and} $IsDirect=true$} {
+		\Return{$A\overset{\text{\tiny{DA}}}{\rightarrow}B$\textnormal{;}}
+	} \uElseIf{$NumAlways=|\textit{map-to-events(A)}|$ \textnormal{and} $IsDirect=false$} {
+		\Return{$A\overset{\text{\tiny{IA}}}{\rightarrow}B$\textnormal{;}}
+	} \uElseIf{$NumNever=|\textit{map-to-events(A)}|$} {
+		\Return{$A\overset{\text{\tiny{N}}}{\rightarrow}B$\textnormal{;}}
+	} \uElseIf{$IsDirect=true$} {
+		\Return{$A\overset{\text{\tiny{DS}}}{\rightarrow}B$\textnormal{;}}
+	} \Else {
+		\Return{$A\overset{\text{\tiny{IS}}}{\rightarrow}B$\textnormal{;}}
+	}
+\end{algorithm}
 
 % \begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
 % Transitions $A$ and $B$ are in: 
@@ -468,41 +514,6 @@ If there is any difference in the trace-semantics behavior between two process m
 \begin{proof}
 We omit a full case by case analysis for lack of space, but the the proof idea is that if we make any primitive change to a process model such as adding, deleting or restructuring a visible or silent transition to produce a new model, the relation matrix or fingerprint for this model will always change, which will be reflected in the ExRORU matrix.  Some sample cases are: (i) the \textit{Direct and Indirect Causal} relation is changed if a silent transition is included in sequential, parallel or exclusive relation with an existing transition; (ii) introducing a cycle into a model will change a $always$ causal relation to a sometimes $causal$ relation; (iii) Adding or removing a non-free-choice construct (such as in Figure \ref{fig:nfcExampleA}) would change the causality also. Thus, we can show that the set of ExRORU can detect all the changes above. \qed
 \end{proof}
-
-\begin{algorithm}[htbp]
-	\caption{Computation of Extended Refined Causal Relations between Transitions\label{algo:computation}}
-	\KwIn{Two transitions $A$ and $B$}
-	\KwOut{The extended refined causal relation between $A$ and $B$}
-	$NumAlways=0,NumNever=0,IsDirect=false$\;
-	\For{$a$ in \textit{map-to-events(A)}} {
-		$LocalCausal=false,LocalAlways=false$\;
-		\For{$b$ in \textit{map-to-events(B)}} {
-			\If{$LocalCausal=false$ \textnormal{and (}$a\overset{\text{\tiny{A}}}{\rightarrow}b$ \textnormal{or} $a\overset{\text{\tiny{S}}}{\rightarrow}b$\textnormal{)}} {
-				$LocalCausal=true$\;
-			}
-			\If{$LocalAlways=false$ \textnormal{and} $a\overset{\text{\tiny{A}}}{\rightarrow}b$} {
-				$NumAlways=NumAlways+1,LocalAlways=true$\;
-			}
-			\If{$IsDirect=false$ \textnormal{and (}$a\overset{\text{\tiny{DA}}}{\rightarrow}b$ \textnormal{or} $a\overset{\text{\tiny{DS}}}{\rightarrow}b$\textnormal{)}} {
-				$IsDirect=true$\;
-			}
-		}
-		\If{$LocalCausal=false$} {
-			$NumNever=NumNever+1$\;
-		}
-	}
-	\uIf{$NumAlways=|\textit{map-to-events(A)}|$ \textnormal{and} $IsDirect=true$} {
-		\Return{$A\overset{\text{\tiny{DA}}}{\rightarrow}B$\textnormal{;}}
-	} \uElseIf{$NumAlways=|\textit{map-to-events(A)}|$ \textnormal{and} $IsDirect=false$} {
-		\Return{$A\overset{\text{\tiny{IA}}}{\rightarrow}B$\textnormal{;}}
-	} \uElseIf{$NumNever=|\textit{map-to-events(A)}|$} {
-		\Return{$A\overset{\text{\tiny{N}}}{\rightarrow}B$\textnormal{;}}
-	} \uElseIf{$IsDirect=true$} {
-		\Return{$A\overset{\text{\tiny{DS}}}{\rightarrow}B$\textnormal{;}}
-	} \Else {
-		\Return{$A\overset{\text{\tiny{IS}}}{\rightarrow}B$\textnormal{;}}
-	}
-\end{algorithm}
 
 % \subsection{Sequential Direct Adjacency between Transitions}\label{subsec:sda}
 % We can distinguish most process models from each other by their executing semantics using ExRORU if silent transitions are not introduced. Silent transitions do not appear in any log trace but have effects on the behavior of a WF-net \cite{de2003workflow}.
@@ -720,12 +731,12 @@ Actually, there are only two complete process runs in the CPU of the model in Fi
 \centering
 \subfigure[A WF-net with multi-relation] {
 	\centering
-	\includegraphics[width=0.46\textwidth]{fig_multi_rel}
+	\includegraphics[width=0.6\textwidth]{fig_multi_rel}
 	\label{fig:multiRelExample}
 }
 \subfigure[The CPU of the WF-net in \subref{fig:multiRelExample}] {
 	\centering
-	\includegraphics[width=0.46\textwidth]{fig_multi_rel_cpu}
+	\includegraphics[width=0.6\textwidth]{fig_multi_rel_cpu}
 	\label{fig:multiRelExampleCpu}
 }
 \caption{A WF-net with multi-relation and its CPU\label{fig:exampleMultiRelation}}
