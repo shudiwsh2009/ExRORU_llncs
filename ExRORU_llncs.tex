@@ -18,18 +18,20 @@
 \renewcommand{\topfraction}{0.85} 
 \renewcommand{\bottomfraction}{0.65} 
 \renewcommand{\floatpagefraction}{0.60}
-% \setlength{\abovecaptionskip}{4pt} 
-% \setlength{\belowcaptionskip}{4pt}
-% \setlength{\floatsep}{4pt}
-% \setlength{\textfloatsep}{4pt}
-% \setlength{\intextsep}{4pt}
+
+\setlength{\abovecaptionskip}{4pt} 
+\setlength{\belowcaptionskip}{4pt}
+\setlength{\floatsep}{4pt}
+\setlength{\textfloatsep}{4pt}
+\setlength{\intextsep}{4pt}
+
 \begin{document}
 \frontmatter 
-\pagestyle{headings}
+% \pagestyle{headings}
 \addtocmark{ExRORU: Extended Refined Ordering Relations with Uncertainty}
 
 \mainmatter
-\title{ExRORU: a New Approach to Characterize the Behavioral Semantics of Process Models}
+\title{ExRORU: a New Approach to Characterize the Behavioral Semantics of Process Models \\ (short paper)}
 \titlerunning{ExRORU: a New Approach to Characterize the Behavioral Semantics of Process Models}
 
 \author[$1$]{Shuhao Wang}
@@ -58,53 +60,48 @@ A recent paper has proposed new ordering relations with uncertainty between the 
 
 \section{Introduction}\label{sec:introduction}
 
-In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. ``Certain'' means that one task is always executed in the same instance with the other task while ``Uncertain'' means the opposite. These two uncertainties can be combined to form 4 bi-directional types of relations, i.e., C-C, C-U, U-C and U-U, where ``C'' denotes ``Certain'' and ``U'' denotes ``Uncertain''. Using the bi-directional relations to decorate both causal and concurrency relation, they capture 8 sub types of relations in total. They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations with uncertainty (we name their approach as RORU) for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
+In \cite{jin2014computing}, Jin et al. have proposed new ordering relations with uncertainty between the executions of tasks in acyclic process models. They refine the causal and concurrency relations between pairs of tasks in a concurrent system with uncertainty. Uncertainty arises because the relation between a pair of tasks in a process model depends upon the exact execution path taken. %``Certain'' means that one task is always executed in the same instance with the other task while ``Uncertain'' means the opposite. These two uncertainties can be combined to form 4 bi-directional types of relations, i.e., C-C, C-U, U-C and U-U, where ``C'' denotes ``Certain'' and ``U'' denotes ``Uncertain''. Using the bi-directional relations to decorate both causal and concurrency relation, they capture 8 sub types of relations in total. 
+They then propose some rules for adjacent tasks and transitivity rules for non-adjacent tasks, based on which they develop an algorithm to compute the refined ordering relations with uncertainty (we name their approach as RORU) for acyclic process models (represented in Workflow nets~\cite{van1998application}, WF-nets for short) from their unfoldings~\cite{mcmillan1995technique,esparza2002improvement}. Although the approach in \cite{jin2014computing} is elegant, it has many obvious shortcomings that should be overcome for practical applications in enterprises.
 
-\begin{figure}[htbp]
-\centering
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_sda_example_1}
-	\end{minipage}
-	\label{fig:sdaExampleA}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_sda_example_2}
-	\end{minipage}
-	\label{fig:sdaExampleB}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_nfc_example_1}
-	\end{minipage}
-	\label{fig:nfcExampleA}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_nfc_example_2}
-	\end{minipage}
-	\label{fig:nfcExampleB}
-}
-\caption{Examples where RORU fails to differentiate process models\label{fig:drawbacks}}
-\end{figure}
+% \begin{figure}[htbp]
+% \centering
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_sda_example_1}
+% 	\end{minipage}
+% 	\label{fig:sdaExampleA}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_sda_example_2}
+% 	\end{minipage}
+% 	\label{fig:sdaExampleB}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_nfc_example_1}
+% 	\end{minipage}
+% 	\label{fig:nfcExampleA}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_nfc_example_2}
+% 	\end{minipage}
+% 	\label{fig:nfcExampleB}
+% }
+% \caption{Examples where RORU fails to differentiate process models\label{fig:drawbacks}}
+% \end{figure}
 
-In particular, RORU cannot work with cyclic WF-nets, which could be seen directly from the paper title \cite{jin2014computing}. Furthermore, silent transitions have not been taken into consideration so that two WF-nets with different behavioral semantics may be regarded as the same. For example, the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleA} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle\}$, while the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleB} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$, $\langle I,O\rangle\}$. Obviously, the behaviors of the two WF-nets in Figure~\ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are not the same. But RORU cannot distinguish them from each other.
-
-In a WF-net with non-free-choice constructs \cite{de2003workflow}, sequential relations do not necessarily satisfy transitivity. Taking the models in Figure \ref{fig:nfcExampleA} and \ref{fig:nfcExampleB} for example, we may detect separate causal relations between $A$ and $C$ as well as $C$ and $E$ from both models. According to RORU \cite{jin2014computing}, this can lead us to infer that $A$ and $E$ satisfy the causal relation also. However, this is not correct in the WF-net with a non-free-choice construct in Figure \ref{fig:nfcExampleA} because only $C$ and $D$ (and not E) can be executed if $A$ has been executed in the first place. Hence, $A$ and $E$ are $never$ in a causal relation, and a more fine-grained characterization of causality is needed. 
-
+In particular, RORU cannot work with cyclic WF-nets, which could be seen directly from the paper title \cite{jin2014computing}. Furthermore, silent transitions have not been taken into consideration so that two WF-nets with different behavioral semantics may be regarded as the same. %For example, the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleA} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle\}$, while the set of full firing sequences of the WF-net in Figure \ref{fig:sdaExampleB} is $\{\langle I,A,B,O\rangle$, $\langle I,B,A,O\rangle$, $\langle I,A,O\rangle$, $\langle I,B,O\rangle$, $\langle I,O\rangle\}$. Obviously, the behaviors of the two WF-nets in Figure~\ref{fig:sdaExampleA} and \ref{fig:sdaExampleB} are not the same. But RORU cannot distinguish them from each other.
+In a WF-net with non-free-choice constructs \cite{de2003workflow}, sequential relations do not necessarily satisfy transitivity. %Taking the models in Figure \ref{fig:nfcExampleA} and \ref{fig:nfcExampleB} for example, we may detect separate causal relations between $A$ and $C$ as well as $C$ and $E$ from both models. According to RORU \cite{jin2014computing}, this can lead us to infer that $A$ and $E$ satisfy the causal relation also. However, this is not correct in the WF-net with a non-free-choice construct in Figure \ref{fig:nfcExampleA} because only $C$ and $D$ (and not E) can be executed if $A$ has been executed in the first place. Hence, $A$ and $E$ are $never$ in a causal relation, and a more fine-grained characterization of causality is needed. 
 To solve these three major problems, we extend the ordering relations in \cite{jin2014computing} in a more fine-grained manner to uniquely differentiate the behavioral semantics of two process models. In addition to the idea of uncertainty, we also introduce the notion of multiple relations between a pair of tasks to reflect the fact that two tasks may have more than one relation between them.  This can allow us to capture subtle differences between any pair of processes.
 
-A fine-grained characterization of all the relations among all pairs of tasks in a process model can serve as the basis of a proper similarity measure between process models \cite{dijkman2014managing}. Other proposals have also addressed the problem of finding a suitable similarity measure between processes based on textual information, the topologies of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some of them.
-
-Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance, i.e., global dependencies between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. Polyvyanyy et al. \cite{polyvyanyy20144c} propose a complete and fundamental notion of relations named 4C spectrum, which defines a repertoire of 18 basic behavioral relations that capture such behavioral phenomena as co-occurrence, conflict, causality and concurrency \cite{armas2014suitability}, but \cite{polyvyanyy20144c} only gives the computation of four relations. Moreover, there exist pairs of models that have the same 4C relations but induce different behavioral semantics \cite{armas2014suitability}, such as the two WF-nets in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}.
-
-Yan et al. \cite{yan2014efficient} decompose process models into small fragments, or features, based on which they analyze execution semantics to detect the differences between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Armas-Cervantes et al. \cite{armas2014behavioral} use asymmetric event structures (i.e., AES) to characterize the behaviors of process models and AES is more suitable to be utilized to compute the differences between two models.
-
+%A fine-grained characterization of all the relations among all pairs of tasks in a process model can serve as the basis of a proper similarity measure between process models \cite{dijkman2014managing}. %Other proposals have also addressed the problem of finding a suitable similarity measure between processes based on textual information, the topologies of process models, or their execution semantics \cite{weidlich2011efficient}. We give a quick introduction to some of them. Zha et al. \cite{zha2010workflow} represent a process model's behavior by transition adjacency relations (TAR for short). But TAR cannot tackle the long-distance, i.e., global dependencies between transitions, thus it is not able to handle specific structures like non-free-choice constructs. The BP algorithm \cite{weidlich2011efficient} represents the behavioral semantics of a process model based on behavioral profiles between transitions, but it cannot deal with silent transitions and distinguish parallel structures from loop structures. The PTS algorithm by Wang et al. \cite{wang2010behavioral} and its improvement CFS by Dong et al. \cite{dong2014cfs} utilize refined trace sets of process models to compute their similarity and are the most realistic results so far. But extracting the trace sets by both their methods is very time-consuming. %Polyvyanyy et al. \cite{polyvyanyy20144c} propose a complete and fundamental notion of relations named 4C spectrum, which defines a repertoire of 18 basic behavioral relations that capture such behavioral phenomena as co-occurrence, conflict, causality and concurrency \cite{armas2014suitability}, but \cite{polyvyanyy20144c} only gives the computation of four relations. Moreover, there exist pairs of models that have the same 4C relations but induce different behavioral semantics \cite{armas2014suitability}。 %such as the two WF-nets in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}.
+%Yan et al. \cite{yan2014efficient} decompose process models into small fragments, or features, based on which they analyze execution semantics to detect the differences between process models. However, their work lacks a global representation of the behavioral semantics of a model and only focuses on the local differences between two process models. Armas-Cervantes et al. \cite{armas2014behavioral} use asymmetric event structures (i.e., AES) to characterize the behaviors of process models and AES is more suitable to be utilized to compute the differences between two models.
 There are three main contributions of this paper. First, it proposes a method called ExRORU that allows us to characterize all types of sound process models including those with cycles, silent transitions and non-free-choice constructs. Second, we argue informally that using ExRORU, we can detect behavioral differences between any pair of process models uniquely. Finally, we implement ExRORU and compare it with other algorithms that are also based on computing relations between transitions.
 
 The remainder of this paper is structured as follows. Section 2 gives preliminaries to be used throughout the paper. Section \ref{sec:relations} introduces the concept of ExRORU and Section \ref{sec:computation} gives the computation. The results of the experimental evaluation are shown in Section \ref{sec:experiments}. Section \ref{sec:discussion} gives some deep discussions before we conclude the paper and give an outlook on the future work in Section \ref{sec:conclusion}.
@@ -116,7 +113,7 @@ We will show our algorithm on Petri nets. Other process models that could be con
 A Petri net is a triple $N=(P,T,F)$, where $P$ is a finite set of places, $T$ is a finite set of transitions ($P\cap T=\emptyset$ and $P\cup T\neq\emptyset$), and $F\subseteq(P\times T)\cup(T\times P)$ is a set of arcs (i.e., flow relation).
 \end{definition}
 
-We use $M:P\rightarrow\mathbb{N}$ to denote a marking of Petri net $N$, where $\mathbb{N}$ is the set of natural numbers. A Petri net system is a pair $\Sigma=(N,M_{0})$, where $N$ is a Petri net and $M_{0}$ is the initial marking of $N$. For more details about Petri net, please refer to the work of Murata \cite{murata1989petri}. A Petri net that models a workflow is called a Workflow net (i.e., WF-net) \cite{van1998application}.
+%We use $M:P\rightarrow\mathbb{N}$ to denote a marking of Petri net $N$, where $\mathbb{N}$ is the set of natural numbers. A Petri net system is a pair $\Sigma=(N,M_{0})$, where $N$ is a Petri net and $M_{0}$ is the initial marking of $N$. For more details about Petri net, please refer to the work of Murata \cite{murata1989petri}. A Petri net that models a workflow is called a Workflow net (i.e., WF-net) \cite{van1998application}.
 
 \begin{definition}[WF-net]\label{def:wfnet}
 A Petri net $PN=(P,T,F)$ is a WF-net if and only if $PN$ has two special places: $i$ and $o$, where $i$ is a source place ($\bullet i=\emptyset$) and $o$ is a sink place ($o\bullet =\emptyset$). If we add a transition $\overline{t}$ to $PN$ which connects place $o$ with $i$ (i.e. $\bullet \overline{t}=\{o\}$ and $\overline{t}\bullet=\{i\}$), the resulting Petri net is strongly connected.
@@ -146,7 +143,9 @@ A \textit{process run} of a system $S=(N,M)$ with $N=(P,T,F)$, is an ordered pai
 	\end{itemize}
 \end{definition}
 
-In the process runs of a model, only causality and concurrency are explicitly captured. There are only sequential and parallel structures but neither loop nor exclusive structures in a run. However, a Petri net system may have infinite process runs due to the existence of loop structures, which differ on ``how much it unfolds''. It is not applicable to use the infinite process runs to capture all the relations between transitions. Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. Therefore, we choose to use his work instead.
+In the process runs of a model, only causality and concurrency are explicitly captured. %There are only sequential and parallel structures but neither loop nor exclusive structures in a run. 
+However, a Petri net system may have infinite process runs due to the existence of loop structures。 %which differ on ``how much it unfolds''. %It is not applicable to use the infinite process runs to capture all the relations between transitions. 
+Javier Esparza et al. proposed the notion of complete prefix unfolding (CPU for short) to avoid this \cite{esparza2002improvement}. %Therefore, we choose to use his work instead.
 
 \begin{definition}[Occurrence net]\label{def:occurrenceNet}
 An occurrence net is a Petri net $O=(B,E,A)$ such that: $|\bullet b|\leq 1$ for every condition $b\in B$; $O$ is acyclic; $O$ is finitely preceded, i.e., for every condition or event $x\in B\cup E$, the set of elements $y\in B\cup E$ such that $y<x$ is finite; no element is in conflict with itself.
@@ -177,12 +176,12 @@ Let $O=(B,E,A,f)$ be an occurrence net, where $f$ denotes the many-to-one mappin
 \centering
 \subfigure[A sound WF-net] {
 	\centering
-	\includegraphics[width=0.48\textwidth]{fig_example_petri}
+	\includegraphics[width=0.45\textwidth]{fig_example_petri}
 	\label{fig:examplePetri}
 }
 \subfigure[The CPU of \subref{fig:examplePetri}] {
 	\centering
-	\includegraphics[width=0.48\textwidth]{fig_example_cpu}
+	\includegraphics[width=0.45\textwidth]{fig_example_cpu}
 	\label{fig:exampleCpu}
 }
 \caption{A sound WF-net example and its CPU\label{fig:examplePetriAndCpu}}
@@ -192,7 +191,7 @@ Let $O=(B,E,A,f)$ be an occurrence net, where $f$ denotes the many-to-one mappin
 Figure \ref{fig:examplePetriAndCpu} shows a sound WF-net and its CPU. In the unfolding, events labelled as $B$ and $E$ are cutoff events. For event $B$, $A$ is its corresponding event while event $E$'s corresponding event is $I$.
 \end{example}
 
-Obviously, we can generate the set of process runs of a WF-net from its CPU by ``unfolding'' the net after the cut-off events. In other words, CPU is the minimal but complete representation of all the process runs in a model. Therefore, we use \textit{process run} to define our relations and compute them with the help of CPU, which will be shown in the next two sections.
+%Obviously, we can generate the set of process runs of a WF-net from its CPU by ``unfolding'' the net after the cut-off events. In other words, CPU is the minimal but complete representation of all the process runs in a model. Therefore, we use \textit{process run} to define our relations and compute them with the help of CPU, which will be shown in the next two sections.
 
 %As mentioned before, an intuitive idea to derive our relations is based on reachability graphs. Such technique would face a state explosion problem, especially when the WF-net contains a parallel with large scale of transitions. Theoretically, the reachability graph will derive all the reachable states by combining the executions of transitions within a parallel structure. Another problem is that we actually cannot distinguish the causal relation caused by loop structure and parallel structure using the reachability technique. By definitions, causal relations caused by parallel structure are not considered in our extended refined ordering relations. %And we actually cannot distinguish the causal relation caused by loop and parallel structure using the reachability technique, the latter of which is not considered in our definitions. It is impossible to derive the relations based on a sound WF-net itself directly because a WF-net describes the structure of a process run rather than its behavior. Another intuitive idea is to check our causal relations based on all the process runs. However, the size of  process runs may be infinite, which is not practical to compute and utilize. Therefore, 
 
@@ -218,8 +217,7 @@ In this section, we introduce the concept of ExRORU. Let $\Sigma=(P,T,F,M_{0})$ 
 % CPU uses the technique of cutoff events to avoid the problem of state space explosion. We can set a mapping between cutoff conditions (conditions after cutoff events) and the conditions after the corresponding event of a cutoff event. Therefore, the process runs generated from a CPU never ends on a cutoff condition, but will continue from the mapping of a cutoff condition instead.
 
 We use expressions like $[ab\{c,d\}e]$ to represent the semantics of a process run. Successive letters denote the sequential structure while letters in a brace mean a parallel structure. Different branches of a parallel structure are separated by a comma and could be nested. For example, in the CPU of Figure \ref{fig:exampleCpu}, $[I\{D,AC\}O]$, $[I\{D,BC\}O]$ and $[I\{DED,AC\}O]$ are some process runs.
-
-A trace is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of process runs in $U$. Silent events are meaningless events for routing purpose only in models, which are not expressed in the control logic. We use shadowed box with slash to represent silent events, as shown in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Then we give the definition of \textit{Direct and Indirect Causal} relations based on whether two events can be executed adjacently in a trace.
+A trace is a finite sequence of events $\sigma\in E^{*}$, leading from the source state to the end state by executing the events in order. Let $\Omega$ be the set containing all the traces of process runs in $U$. Silent events are meaningless events for routing purpose only in models, which are not expressed in the control logic. We use shadowed box with slash to represent silent events。% as shown in Figure \ref{fig:sdaExampleA} and \ref{fig:sdaExampleB}. Then we give the definition of \textit{Direct and Indirect Causal} relations based on whether two events can be executed adjacently in a trace.
 
 \begin{definition}[Direct and Indirect Causal Relations]\label{def:sda}
 Events $x$ and $y$ are in causal relation, i.e., $x<y$. They are in direct causal relation iff: $\exists\sigma=\langle t_{1},t_{2},...,t_{n}\rangle\in\Omega,1\leq i<j\leq n,t_{i}=x,t_{j}=y,s.t.~\forall k\in(i,j),t_{k}$ is a silent event. Otherwise, they are in indirect causal relation.
@@ -262,53 +260,53 @@ In the CPU of Figure \ref{fig:exampleCpu}, $A$ and $C$ are in \textit{direct alw
 In the CPU of Figure \ref{fig:exampleCpu}, $O$ and $D$ are in \textit{direct always inverse causal} relation (i.e., $O\overset{\text{\tiny{DA}}}{\leftarrow}D$) since they satisfy the conditions among all the traces containing $O$ and they can be executed adjacently. $O$ and $A$ are in \textit{indirect sometimes inverse causal} relation (i.e., $O\overset{\text{\tiny{IS}}}{\leftarrow}A$) since there may be no instance of event $A$ in some traces containing $O$. $A$ and $B$ are in \textit{never inverse causal} relation (i.e., $A\overset{\text{\tiny{N}}}{\leftarrow} B$).
 \end{example}
 
-We have identified several cases of causal and inverse causal relations and turned them into abstract formulas as shown in Figure \ref{fig:causalCases}. We use part of the unfolding instead of the massive process runs to save space. In these cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. %In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
-\\
-\begin{figure}[htbp]
-\centering
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.7\textwidth]{fig_causal_case_a_1}\\
-		\vspace{4pt}
-		\includegraphics[width=0.7\textwidth]{fig_causal_case_a_2}
-	\end{minipage}
-	\label{fig:causalCaseA}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[width=0.7\textwidth]{fig_causal_case_b_1}\\
-		\vspace{4pt}
-		\includegraphics[width=0.7\textwidth]{fig_causal_case_b_2}
-	\end{minipage}
-	\label{fig:causalCaseB}
-}
-\subfigure[] {
-	\begin{minipage}[b]{1.0\textwidth}
-		\centering
-		\includegraphics[width=0.4\textwidth]{fig_causal_case_c_1}\\
-		\vspace{4pt}
-		\includegraphics[width=0.4\textwidth]{fig_causal_case_c_2}
-	\end{minipage}
-	\label{fig:causalCaseC}
-}
-\subfigure[] {
-	\begin{minipage}[b]{1.0\textwidth}
-		\centering
-		\includegraphics[width=0.48\textwidth]{fig_causal_case_d_1}\\
-		\vspace{4pt}
-		\includegraphics[width=0.48\textwidth]{fig_causal_case_d_2}
-	\end{minipage}
-	\label{fig:causalCaseD}
-}
-\caption{Abstract formulas of causal and inverse causal relations. \subref{fig:causalCaseA} $A\overset{\text{\tiny{S}}}{\rightarrow} B, B\overset{\text{\tiny{A}}}{\leftarrow} A$; \subref{fig:causalCaseB} $A\overset{\text{\tiny{A}}}{\rightarrow} B, B\overset{\text{\tiny{S}}}{\leftarrow} A$; \subref{fig:causalCaseC} $A\overset{\text{\tiny{A}}}{\rightarrow} B, B\overset{\text{\tiny{A}}}{\leftarrow} A$; \subref{fig:causalCaseD} $A\overset{\text{\tiny{S}}}{\rightarrow} B, B\overset{\text{\tiny{S}}}{\leftarrow} A$.\label{fig:causalCases}}
-\end{figure}
+%We have identified several cases of causal and inverse causal relations and turned them into abstract formulas as shown in Figure \ref{fig:causalCases}. We use part of the unfolding instead of the massive process runs to save space. In these cases, $A$ and $B$ are events of an unfolding. The edge labeled with ``Loop $X$'' means that there is a path starting from some condition after $X$ and ending in some condition before $X$ so that $X$ can be executed more than once. The edge labeled with ``Skip $X$'' means that there is a path starting from some condition before $X$ and ending in some condition after $X$ so that $X$ may not be executed. %In other words, events inside a \textit{loop} structure can be executed more than once while events inside a \textit{skip} structure may not be executed.
+% \\
+% \begin{figure}[htbp]
+% \centering
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.7\textwidth]{fig_causal_case_a_1}\\
+% 		\vspace{4pt}
+% 		\includegraphics[width=0.7\textwidth]{fig_causal_case_a_2}
+% 	\end{minipage}
+% 	\label{fig:causalCaseA}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.45\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.7\textwidth]{fig_causal_case_b_1}\\
+% 		\vspace{4pt}
+% 		\includegraphics[width=0.7\textwidth]{fig_causal_case_b_2}
+% 	\end{minipage}
+% 	\label{fig:causalCaseB}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{1.0\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.4\textwidth]{fig_causal_case_c_1}\\
+% 		\vspace{4pt}
+% 		\includegraphics[width=0.4\textwidth]{fig_causal_case_c_2}
+% 	\end{minipage}
+% 	\label{fig:causalCaseC}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{1.0\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.48\textwidth]{fig_causal_case_d_1}\\
+% 		\vspace{4pt}
+% 		\includegraphics[width=0.48\textwidth]{fig_causal_case_d_2}
+% 	\end{minipage}
+% 	\label{fig:causalCaseD}
+% }
+% \caption{Abstract formulas of causal and inverse causal relations. \subref{fig:causalCaseA} $A\overset{\text{\tiny{S}}}{\rightarrow} B, B\overset{\text{\tiny{A}}}{\leftarrow} A$; \subref{fig:causalCaseB} $A\overset{\text{\tiny{A}}}{\rightarrow} B, B\overset{\text{\tiny{S}}}{\leftarrow} A$; \subref{fig:causalCaseC} $A\overset{\text{\tiny{A}}}{\rightarrow} B, B\overset{\text{\tiny{A}}}{\leftarrow} A$; \subref{fig:causalCaseD} $A\overset{\text{\tiny{S}}}{\rightarrow} B, B\overset{\text{\tiny{S}}}{\leftarrow} A$.\label{fig:causalCases}}
+% \end{figure}
 
 % \textcolor{red}{Compress the following two paragraphs}
-We omit the \textit{direct} and \textit{indirect} symbol since we cannot determine them in these abstract formulas. For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have process runs such as $[A*B],[A*A*B],[A*A*A*B]$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\overset{\text{\tiny{S}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. Similarly in Figure \ref{fig:causalCaseB}, we have $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{S}}}{\leftarrow} A$.
+% We omit the \textit{direct} and \textit{indirect} symbol since we cannot determine them in these abstract formulas. For convenience, we use symbol $*$ to represent any numbers of sequential events excluding $A$ and $B$. In Figure \ref{fig:causalCaseA}, we have process runs such as $[A*B],[A*A*B],[A*A*A*B]$ for the upper unfolding and $[A*B],[A*]$ for the lower unfolding, both of which indicate that $A$ and $B$ are in \textit{sometimes causal} relation and \textit{always inverse causal} relation, i.e., $A\overset{\text{\tiny{S}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. Similarly in Figure \ref{fig:causalCaseB}, we have $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
-In the upper unfolding of Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure in the lower unfolding, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive or loop structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has process runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
+% In the upper unfolding of Figure \ref{fig:causalCaseC}, a loop structure in the middle part of an unfolding will certainly not affect the extended relations between $A$ and $B$, neither will an exclusive structure in the lower unfolding, i.e., $A\overset{\text{\tiny{A}}}{\rightarrow} B,B\overset{\text{\tiny{A}}}{\leftarrow} A$. However, if there are exclusive or loop structures across both $A$ and $B$, such as the unfolding in Figure \ref{fig:causalCaseD}, which has process runs such as $[A*B],[A*],[*B],[*]$, then $A\overset{\text{\tiny{S}}}{\rightarrow} B$ and $B\overset{\text{\tiny{S}}}{\leftarrow} A$.
 
 \subsection{Extended Refined Concurrent Relations with Uncertainty}\label{subsec:concurrent}
 We use $\Omega_{x}$ to denote the set of the traces containing event $x$, i.e., $\Omega_{x}=\{\sigma\in\Omega|x\in\sigma\}$. Our extended concurrent relations are defined using the notion of $\Omega_{x}$.
@@ -325,44 +323,44 @@ Events $x$ and $y$ are in:
 	\end{itemize}
 \end{definition}
 
-The relations above are collectively called extended refined concurrent relations with uncertainty (denoted as $\parallel$). We have also identified several cases of concurrent relations and turn them into abstract formulas in Figure \ref{fig:concurrentCases}.
-\\
-\begin{figure}[htbp]
-\centering
-\subfigure[] {
-	\begin{minipage}[b]{1\textwidth}
-		\centering
-		\includegraphics[width=0.28\textwidth]{fig_concurrent_case_a_1}
-		% \hspace{0.5in}
-		\includegraphics[width=0.28\textwidth]{fig_concurrent_case_a_2}
-	\end{minipage}
-	\label{fig:concurrentCaseA}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.35\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_b}
-	\end{minipage}
-	\label{fig:concurrentCaseB}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.35\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_c}
-	\end{minipage}
-	\label{fig:concurrentCaseC}
-}
-\subfigure[] {
-	\begin{minipage}[b]{0.35\textwidth}
-		\centering
-		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_d}
-	\end{minipage}
-	\label{fig:concurrentCaseD}
-}
-\caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B,B\Updownarrow A$; \subref{fig:concurrentCaseB} $A\Updownarrow B,B\Updownarrow A$; \subref{fig:concurrentCaseC} $A\Updownarrow B,B\Updownarrow A$; \subref{fig:concurrentCaseD} $A\Uparrow B,B\Updownarrow A$.\label{fig:concurrentCases}}
-\end{figure}
+The relations above are collectively called extended refined concurrent relations with uncertainty (denoted as $\parallel$). %We have also identified several cases of concurrent relations and turn them into abstract formulas in Figure \ref{fig:concurrentCases}.
+% \\
+% \begin{figure}[htbp]
+% \centering
+% \subfigure[] {
+% 	\begin{minipage}[b]{1\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.28\textwidth]{fig_concurrent_case_a_1}
+% 		% \hspace{0.5in}
+% 		\includegraphics[width=0.28\textwidth]{fig_concurrent_case_a_2}
+% 	\end{minipage}
+% 	\label{fig:concurrentCaseA}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.35\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_b}
+% 	\end{minipage}
+% 	\label{fig:concurrentCaseB}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.35\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_c}
+% 	\end{minipage}
+% 	\label{fig:concurrentCaseC}
+% }
+% \subfigure[] {
+% 	\begin{minipage}[b]{0.35\textwidth}
+% 		\centering
+% 		\includegraphics[width=0.75\textwidth]{fig_concurrent_case_d}
+% 	\end{minipage}
+% 	\label{fig:concurrentCaseD}
+% }
+% \caption{Abstract formulas of concurrent relations. \subref{fig:concurrentCaseA} $A\Uparrow B,B\Updownarrow A$; \subref{fig:concurrentCaseB} $A\Updownarrow B,B\Updownarrow A$; \subref{fig:concurrentCaseC} $A\Updownarrow B,B\Updownarrow A$; \subref{fig:concurrentCaseD} $A\Uparrow B,B\Updownarrow A$.\label{fig:concurrentCases}}
+% \end{figure}
 
-In Figure \ref{fig:concurrentCaseA}, we have traces such as $\langle I*A*B*\rangle ,\langle I*B*A*\rangle ,\langle I*A*\rangle $ for the left unfolding and traces such as $\langle I*A*B*\rangle ,\langle I*A*A*B*\rangle ,\langle I*A*A*A*B*\rangle$ for the right unfolding, which do not satisfy the conditions in Definition \ref{def:extendedConcurrent}. Therefore, events $A$ and $B$ are in \textit{sometimes concurrent} relation, i.e., $A\Uparrow B$. As for the unfolding in Figure \ref{fig:concurrentCaseB}, events $A$ and $B$ may be executed both once or not executed at all, indicating that $A\Updownarrow B$. It is easily seen that traces in the unfolding of Figure \ref{fig:concurrentCaseC} satisfy the conditions in Definition \ref{def:extendedConcurrent}, so $A$ and $B$ are in \textit{always concurrent} relation, i.e., $A\Updownarrow B$. The unfolding in Figure \ref{fig:concurrentCaseD} shows a non-free-choice construct, which we will discuss further in detail later.
+% In Figure \ref{fig:concurrentCaseA}, we have traces such as $\langle I*A*B*\rangle ,\langle I*B*A*\rangle ,\langle I*A*\rangle $ for the left unfolding and traces such as $\langle I*A*B*\rangle ,\langle I*A*A*B*\rangle ,\langle I*A*A*A*B*\rangle$ for the right unfolding, which do not satisfy the conditions in Definition \ref{def:extendedConcurrent}. Therefore, events $A$ and $B$ are in \textit{sometimes concurrent} relation, i.e., $A\Uparrow B$. As for the unfolding in Figure \ref{fig:concurrentCaseB}, events $A$ and $B$ may be executed both once or not executed at all, indicating that $A\Updownarrow B$. It is easily seen that traces in the unfolding of Figure \ref{fig:concurrentCaseC} satisfy the conditions in Definition \ref{def:extendedConcurrent}, so $A$ and $B$ are in \textit{always concurrent} relation, i.e., $A\Updownarrow B$. The unfolding in Figure \ref{fig:concurrentCaseD} shows a non-free-choice construct, which we will discuss further in detail later.
 
 Table \ref{tab:relations} shows the summary of all proposed relations for ExRORU.
 \\
@@ -431,19 +429,16 @@ The ExRORU for the CPU in Figure \ref{fig:exampleCpu} is shown in Table \ref{tab
 In this section, we first give some tips to compute the ExRORU between events with the help of the abstract formulas in previous section and then focus on the algorithm on how to compute the ExRORU between transitions of a Petri net.
 
 \subsection{Computing ExRORU between events}
-Motivated by the abstract formulas in Figure \ref{fig:causalCases}, we will derive our relations on a CPU by tracing the directed path from one event to another and check every condition to determine whether there is a \textit{loop} or \textit{skip} structure.
+%Motivated by the abstract formulas in Figure \ref{fig:causalCases}, 
+We will derive our relations on a CPU by tracing the directed path from one event to another and check every condition to determine whether there is a \textit{loop} or \textit{skip} structure.
 
 Similarly, we can trace backwards along the path from one event to another to derive the inverse causal relations between them. It should be noticed that $\rightarrow$ and $\leftarrow$ may not have the same uncertainty for one pair of events. For example, we have $A\overset{\text{\tiny{IA}}}{\rightarrow}O$ but $O\overset{\text{\tiny{IS}}}{\leftarrow}A$ in the CPU of Figure \ref{fig:exampleCpu}. Furthermore, $D\overset{\text{\tiny{DS}}}{\rightarrow}E$ and $E\overset{\text{\tiny{DA}}}{\leftarrow}D$ both exist due to the cycle in the CPU, which cannot be computed by RORU \cite{jin2014computing} at all.
 
-As for the extended refined concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We firstly find the entrance of the parallel structure, and trace the path from it to $a$ and $b$. As Figure \ref{fig:concurrentCases} shows, by checking every condition to find out all the \textit{loop} and \textit{skip} structures, we can derive the extended concurrent relations between them.
-
-\subsection{Computing ExRORU between transitions}
-Now we have captured the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in CPU. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let \textit{map-to-events(A)} be the set containing all the mapping events of transition $A$. Due to space limitation, we only give the computation of causal relations in Algorithm \ref{algo:computation} and the computations of the other two are similar. %Algorithm \ref{algo:computation} is very straight-forward so we don't explain it in detail.
-
-Algorithm \ref{algo:computation} receives two transitions $A$ and $B$ as inputs and gives out the causal relation between them as outputs. It first intializes the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 1), then uses a double loop to capture the relation between the mapping events of $A$ and $B$ (line 2-12). For every mapping event $a$ of transition $A$, the ``LocalCausal'' and ``LocalAlways'' flags are defined (line 3): If there exists at least one mapping event $b$ of transition $B$ so that $a$ and $b$ are in causal relation, we change the ``LocalCausal'' flag (line 5-6); If $a$ and $b$ satisfies $a\overset{\text{\tiny{A}}}{\rightarrow}b$, we increase the ``Always'' counter (line 7-8); If $a$ and $b$ are in direct causal relation, we change the ``Direct'' flag (line 9-10). After traversing all the mapping events of $B$, if the ``LocalCausal'' flag does not change, the ``Never'' counter will be increased (line 11-12). Finally, the algorithm will define the causal relation between $A$ and $B$ based on the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 13-22).
+As for the extended refined concurrent relations between events $a$ and $b$, there are actually two relations which should be taken into consideration, i.e., $a\parallel b$ and $b\parallel a$. We firstly find the entrance of the parallel structure, and trace the path from it to $a$ and $b$. %As Figure \ref{fig:concurrentCases} shows, 
+By checking every condition to find out all the \textit{loop} and \textit{skip} structures, we can derive the extended concurrent relations between them.
 
 \begin{algorithm}[htbp]
-	\setstretch{0.8}
+	\setstretch{0.5}
 	\LinesNumbered
 	\caption{Computation of Extended Refined Causal Relations between Transitions\label{algo:computation}}
 	\KwIn{Two transitions $A$ and $B$}
@@ -479,6 +474,11 @@ Algorithm \ref{algo:computation} receives two transitions $A$ and $B$ as inputs 
 	}
 \end{algorithm}
 
+\subsection{Computing ExRORU between transitions}
+Now we have captured the relations between events in a CPU, which will be utilized to compute the relations between transitions in a WF-net next. In general, there may be more than one mapping event in the CPU related to a transition in the original WF-net. These mapping events are different from each other and are treated as unique events when we derive the relations between events in CPU. Therefore, when we try to derive the ExRORUs between transitions in the WF-net, we need to check the relations between each pair of mapping events of those transitions. Based on this, we give the computation of ExRORU between transitions. Let \textit{map-to-events(A)} be the set containing all the mapping events of transition $A$. Due to space limitation, we only give the computation of causal relations in Algorithm \ref{algo:computation} and the computations of the other two are similar. Algorithm \ref{algo:computation} is very straight-forward so we don't explain it in detail.
+
+%Algorithm \ref{algo:computation} receives two transitions $A$ and $B$ as inputs and gives out the causal relation between them as outputs. It first intializes the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 1), then uses a double loop to capture the relation between the mapping events of $A$ and $B$ (line 2-12). For every mapping event $a$ of transition $A$, the ``LocalCausal'' and ``LocalAlways'' flags are defined (line 3): If there exists at least one mapping event $b$ of transition $B$ so that $a$ and $b$ are in causal relation, we change the ``LocalCausal'' flag (line 5-6); If $a$ and $b$ satisfies $a\overset{\text{\tiny{A}}}{\rightarrow}b$, we increase the ``Always'' counter (line 7-8); If $a$ and $b$ are in direct causal relation, we change the ``Direct'' flag (line 9-10). After traversing all the mapping events of $B$, if the ``LocalCausal'' flag does not change, the ``Never'' counter will be increased (line 11-12). Finally, the algorithm will define the causal relation between $A$ and $B$ based on the ``Always'' counter, the ``Never'' counter and the ``Direct'' flag (line 13-22).
+
 % \begin{definition}[Extended Causal Relations Between Transitions]\label{def:causalRelations}
 % Transitions $A$ and $B$ are in: 
 % 	\begin{itemize}
@@ -506,14 +506,15 @@ Algorithm \ref{algo:computation} receives two transitions $A$ and $B$ as inputs 
 % 	\end{itemize}
 % \end{definition}
 
-An extensive characterization of a process model in terms of various relations between every pair of transitions in it in this manner produces a \textit{unique fingerprint} for each model. A formal proof is outside the scope of our current work. We will give a brief sketch instead. %An informal argument relies on the fact that given any process model, if we make any primitive change to it such as adding, deleting or restructuring a visible or silent transition the fingerprint for this model will always change. Thus, the difference between two models can always be detected.
+An extensive characterization of a process model in terms of various relations between every pair of transitions in it in this manner produces a \textit{unique fingerprint} for each model. A formal proof is outside the scope of our current work. %We will give a brief sketch instead. %An informal argument relies on the fact that given any process model, if we make any primitive change to it such as adding, deleting or restructuring a visible or silent transition the fingerprint for this model will always change. Thus, the difference between two models can always be detected.
 
-\begin{theorem}[Uniqueness]\label{the:uniqueness}
-If there is any difference in the trace-semantics behavior between two process models, their ExRORU matrices are different.
-\end{theorem}
-\begin{proof}
-We omit a full case by case analysis for lack of space, but the the proof idea is that if we make any primitive change to a process model such as adding, deleting or restructuring a visible or silent transition to produce a new model, the relation matrix or fingerprint for this model will always change, which will be reflected in the ExRORU matrix.  Some sample cases are: (i) the \textit{Direct and Indirect Causal} relation is changed if a silent transition is included in sequential, parallel or exclusive relation with an existing transition; (ii) introducing a cycle into a model will change a $always$ causal relation to a sometimes $causal$ relation; (iii) Adding or removing a non-free-choice construct (such as in Figure \ref{fig:nfcExampleA}) would change the causality also. Thus, we can show that the set of ExRORU can detect all the changes above. \qed
-\end{proof}
+% \begin{theorem}[Uniqueness]\label{the:uniqueness}
+% If there is any difference in the trace-semantics behavior between two process models, their ExRORU matrices are different.
+% \end{theorem}
+% \begin{proof}
+% We omit a full case by case analysis for lack of space, but the the proof idea is that if we make any primitive change to a process model such as adding, deleting or restructuring a visible or silent transition to produce a new model, the relation matrix or fingerprint for this model will always change, which will be reflected in the ExRORU matrix.  Some sample cases are: (i) the \textit{Direct and Indirect Causal} relation is changed if a silent transition is included in sequential, parallel or exclusive relation with an existing transition; (ii) introducing a cycle into a model will change a $always$ causal relation to a sometimes $causal$ relation; (iii) Adding or removing a non-free-choice construct %(such as in Figure \ref{fig:nfcExampleA}) 
+% would change the causality also. Thus, we can show that the set of ExRORU can detect all the changes above. \qed
+% \end{proof}
 
 % \subsection{Sequential Direct Adjacency between Transitions}\label{subsec:sda}
 % We can distinguish most process models from each other by their executing semantics using ExRORU if silent transitions are not introduced. Silent transitions do not appear in any log trace but have effects on the behavior of a WF-net \cite{de2003workflow}.
@@ -714,15 +715,48 @@ We omit a full case by case analysis for lack of space, but the the proof idea i
 We have implemented an algorithm\footnote{https://github.com/shudiwsh2009/ExRORU} to extract ExRORUs from a process model based on the CPU in jbpt\footnote{https://code.google.com/p/jbpt/}. In this section, we present the experimental evaluation of our algorithm from both effectiveness and efficiency perspectives. We evaluate the effectiveness by comparing it with other algorithms and evaluate the efficiency by applying our algorithm on real-life datasets.
 
 \subsection{Effectiveness Comparison}\label{subsec:effectiveness}
-Examples in this section together with the WF-nets in Figure \ref{fig:drawbacks} show the powerful capability of ExRORU to represent the behaviors of a process model.
+Examples in this section %together with the WF-nets in Figure \ref{fig:drawbacks} 
+show the powerful capability of ExRORU to represent the behaviors of a process model.
+
+\begin{figure}[htbp]
+\centering
+\subfigure[] {
+	\begin{minipage}[b]{0.42\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{fig_sda_example_1}
+	\end{minipage}
+	\label{fig:sdaExampleA}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.42\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{fig_sda_example_2}
+	\end{minipage}
+	\label{fig:sdaExampleB}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.42\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{fig_nfc_example_1}
+	\end{minipage}
+	\label{fig:nfcExampleA}
+}
+\subfigure[] {
+	\begin{minipage}[b]{0.42\textwidth}
+		\centering
+		\includegraphics[width=0.75\textwidth]{fig_nfc_example_2}
+	\end{minipage}
+	\label{fig:nfcExampleB}
+}
+\caption{Examples where RORU fails to differentiate process models\label{fig:drawbacks}}
+\end{figure}
 
 \paragraph{\textbf{Non-free-choice constructs.}}\label{par:nfc} 
 Figure \ref{fig:nfcExampleA} shows a WF-net with non-free-choice constructs \cite{de2003workflow} and Figure \ref{fig:nfcExampleB} shows a similar WF-net that is free choice.
 
-Consider TAR algorithm. The TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle$, $\langle B,C\rangle, \langle C,E\rangle\}$. However, it is obvious that their behaviors are not the same, since the trace set of the model in Figure \ref{fig:nfcExampleA} is $\{\langle A,C,D\rangle,\langle B,C,E\rangle\}$ while the tract set of the model in Figure \ref{fig:nfcExampleB} is $\{\langle A,C,D\rangle,\langle A,C,E\rangle,\langle B,C,D\rangle,\langle B,C,E\rangle\}$.
+% Consider TAR algorithm. The TAR-sets of them are both $\{\langle A,C\rangle, \langle C,D\rangle$, $\langle B,C\rangle, \langle C,E\rangle\}$. However, it is obvious that their behaviors are not the same, since the trace set of the model in Figure \ref{fig:nfcExampleA} is $\{\langle A,C,D\rangle,\langle B,C,E\rangle\}$ while the tract set of the model in Figure \ref{fig:nfcExampleB} is $\{\langle A,C,D\rangle,\langle A,C,E\rangle,\langle B,C,D\rangle,\langle B,C,E\rangle\}$.
 
 As stated in Section \ref{sec:introduction}, sequential relations do not necessarily satisfy transitivity in a model with non-free-choice such as Figure \ref{fig:nfcExampleA}. Therefore, RORU also fails in this example.
-
 Actually, there are only two complete process runs in the CPU of the model in Figure \ref{fig:nfcExampleA}, i.e., $[A\{C\}D]$ and $[B\{C\}E]$. Therefore, we have $A\overset{\text{\tiny{IA}}}{\rightarrow}D$ and $B\overset{\text{\tiny{IA}}}{\rightarrow}E$. On the other hand, there are four complete runs in the CPU of the model in Figure \ref{fig:nfcExampleB}, i.e., $[ACD],[ACE],[BCD],[BCE]$, indicating $A\overset{\text{\tiny{IS}}}{\rightarrow}D$ and $B\overset{\text{\tiny{IS}}}{\rightarrow}E$. Thus, ExRORU can detect the differences between these two models.
 
 \paragraph{\textbf{Multi-relation.}} As noted above, in general multiple relations may exist between two transitions $X$ and $Y$ in a process model. To illustrate, an example WF-net and its CPU are shown in Figure \ref{fig:exampleMultiRelation}. \textit{Transitions $A$ and $D$ can have both causal and concurrent relation between them.} From the unfolding in Figure \ref{fig:multiRelExampleCpu}, we know there are two complete runs, i.e., $[I\{AC,BD\}O]$ and $[I\{A\}E\{D\}O]$. Using ExRORU, we have $A\overset{\text{\tiny{IS}}}{\rightarrow}D$ and $A\Uparrow D$ simultaneously.
@@ -731,22 +765,23 @@ Actually, there are only two complete process runs in the CPU of the model in Fi
 \centering
 \subfigure[A WF-net with multi-relation] {
 	\centering
-	\includegraphics[width=0.6\textwidth]{fig_multi_rel}
+	\includegraphics[width=0.45\textwidth]{fig_multi_rel}
 	\label{fig:multiRelExample}
 }
 \subfigure[The CPU of the WF-net in \subref{fig:multiRelExample}] {
 	\centering
-	\includegraphics[width=0.6\textwidth]{fig_multi_rel_cpu}
+	\includegraphics[width=0.45\textwidth]{fig_multi_rel_cpu}
 	\label{fig:multiRelExampleCpu}
 }
 \caption{A WF-net with multi-relation and its CPU\label{fig:exampleMultiRelation}}
 \end{figure}
 
-Most algorithms such as BP and TAR cannot recognize the multiple relations in a process model since they categorize each pair of transitions into one type of relation. Hence, they are unable to distinguish between all pairs of process models correctly. Although RORU allows the existence of multiple relations between a pair of transitions, there are multiple mapping events in the CPU of the model in Figure \ref{fig:nfcExampleA}. According to the computation in RORU, each mapping event has been treated as one unique event and it is not mentioned how to translate the relations between multiple mapping events and other events to the relations between the original transitions of them. Therefore, we cannot determine the relations between transition $D$ and other transitions.
+% Most algorithms such as BP and TAR cannot recognize the multiple relations in a process model since they categorize each pair of transitions into one type of relation. Hence, they are unable to distinguish between all pairs of process models correctly. Although RORU allows the existence of multiple relations between a pair of transitions, there are multiple mapping events in the CPU of the model in Figure \ref{fig:nfcExampleA}. 
+According to the computation in RORU, each mapping event has been treated as one unique event and it is not mentioned how to translate the relations between multiple mapping events and other events to the relations between the original transitions of them. Therefore, we cannot determine the relations between transition $D$ and other transitions.
 
-\paragraph{\textbf{Silent transitions}} can also influence the behavior of a model, as mentioned before. In the model pairs of Figures \ref{fig:sdaExampleA}, \ref{fig:sdaExampleB} and \ref{fig:silentExamples}, BP fails to recognize the differences between all four cases because BP doesn't take the adjacency of transitions into consideration, nor can it distinguish \textit{always concurrent} from \textit{sometimes concurrent}. TAR fails in Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC} due to similar reasons. RORU also fails in models with silent transitions or cycles.
-
-On the other hand, ExRORU easily detects the behavioral differences between these model pairs. We have $I\overset{\text{\tiny{IA}}}{\rightarrow}O$ in the model of Figure \ref{fig:sdaExampleA} but $I\overset{\text{\tiny{DA}}}{\rightarrow}O$ in the model of Figure \ref{fig:sdaExampleB}. In Figure \ref{fig:silentExampleA}, we have $A\overset{\text{\tiny{DA}}}{\rightarrow}B$ and $A\overset{\text{\tiny{IA}}}{\rightarrow}C$ in the left model but $A\overset{\text{\tiny{DS}}}{\rightarrow}B$ and $A\overset{\text{\tiny{DA}}}{\rightarrow}C$ in the right one. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right one in both Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
+\paragraph{\textbf{Silent transitions}} can also influence the behavior of a model, as mentioned before. %In the model pairs of Figures \ref{fig:sdaExampleA}, \ref{fig:sdaExampleB} and \ref{fig:silentExamples}, BP fails to recognize the differences between all four cases because BP doesn't take the adjacency of transitions into consideration, nor can it distinguish \textit{always concurrent} from \textit{sometimes concurrent}. TAR fails in Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC} due to similar reasons. RORU also fails in models with silent transitions or cycles.
+%On the other hand, 
+ExRORU easily detects the behavioral differences between these model pairs. We have $I\overset{\text{\tiny{IA}}}{\rightarrow}O$ in the model of Figure \ref{fig:sdaExampleA} but $I\overset{\text{\tiny{DA}}}{\rightarrow}O$ in the model of Figure \ref{fig:sdaExampleB}. In Figure \ref{fig:silentExampleA}, we have $A\overset{\text{\tiny{DA}}}{\rightarrow}B$ and $A\overset{\text{\tiny{IA}}}{\rightarrow}C$ in the left model but $A\overset{\text{\tiny{DS}}}{\rightarrow}B$ and $A\overset{\text{\tiny{DA}}}{\rightarrow}C$ in the right one. And we have $B\Uparrow C$ in the left model but $B\Updownarrow C$ in the right one in both Figures \ref{fig:silentExampleB} and \ref{fig:silentExampleC}.
 \\
 \begin{figure}[htbp]
 \centering
@@ -806,64 +841,64 @@ Our dataset contains real-life models from several enterprises such as DG, TC an
 % As we can see from the result, ExRORU is the slowest algorithm due to the following reasons. Firstly, models in these datasets are lack of parallel constructs so that the problem of state space explosion may not happen in algorithms utilizing reachability graph or coverability tree such as PTS, CFS and TAR. Secondly, most of the time consumption in similarity measure such as CFS is spent in the similarity computation between the behavioral features of models, which is not considered in our experiment of extracting behavioral features. Finally, considering that ExRORU contains much more details about relations between tasks than other algorithms, the time cost of it is acceptable. To our best knowledge, ExRORU is the only existing algorithm that can handle many complex structures such as silent transitions, non-free-choice constructs and multi-relation, which shows its outstanding effectiveness.
 
 % \subsection{Scalability Comparison}\label{subsec:scalability}
-Furthermore, we have artificially constructed two sets of process models to test the scalability of ExRORU. The first set contains 11 models with increasing numbers ($5,10,...,55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers ($1,2,3,...,11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time costs on extracting behavioral features using ExRORU of both datasets are shown in Figure \ref{fig:scalability}.
+% Furthermore, we have artificially constructed two sets of process models to test the scalability of ExRORU. The first set contains 11 models with increasing numbers ($5,10,...,55$) of concurrent branches with only one transition on each of them, which we call breadth-scalability dataset. The other one contains 11 models with exactly five concurrent branches but increasing numbers ($1,2,3,...,11$) of sequential transitions on each of them, which we call depth-scalability dataset. The time costs on extracting behavioral features using ExRORU of both datasets are shown in Figure \ref{fig:scalability}.
 
-\begin{figure}[htbp]
-\centering
-\subfigure[Breadth-scalability dataset] {
-	\begin{minipage}[b]{0.46\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{fig_scalability_breadth}
-	\end{minipage}
-	\label{fig:scalabilityA}
-}
-\subfigure[Depth-scalability dataset] {
-	\begin{minipage}[b]{0.46\textwidth}
-		\centering
-		\includegraphics[width=1.0\textwidth]{fig_scalability_depth}
-	\end{minipage}
-	\label{fig:scalabilityB}
-}
-\caption[Scalability evaluation of ExRORU]{Scalability evaluation of ExRORU on synthesized process models \label{fig:scalability}}
-\end{figure}
+% \begin{figure}[htbp]
+% \centering
+% \subfigure[Breadth-scalability dataset] {
+% 	\begin{minipage}[b]{0.46\textwidth}
+% 		\centering
+% 		\includegraphics[width=1.0\textwidth]{fig_scalability_breadth}
+% 	\end{minipage}
+% 	\label{fig:scalabilityA}
+% }
+% \subfigure[Depth-scalability dataset] {
+% 	\begin{minipage}[b]{0.46\textwidth}
+% 		\centering
+% 		\includegraphics[width=1.0\textwidth]{fig_scalability_depth}
+% 	\end{minipage}
+% 	\label{fig:scalabilityB}
+% }
+% \caption[Scalability evaluation of ExRORU]{Scalability evaluation of ExRORU on synthesized process models \label{fig:scalability}}
+% \end{figure}
 
-As we can see from the result, the time costs of ExRORU is reasonable for practical app considering that ExRORU contains many details about relations between tasks. To our best knowledge, ExRORU is the only existing algorithm that can handle many complex structures such as silent transitions, non-free-choice constructs and multi-relation, which shows its outstanding effectiveness.
+% As we can see from the result, the time costs of ExRORU is reasonable for practical app considering that ExRORU contains many details about relations between tasks. To our best knowledge, ExRORU is the only existing algorithm that can handle many complex structures such as silent transitions, non-free-choice constructs and multi-relation, which shows its outstanding effectiveness.
 
-\section{Discussion}\label{sec:discussion}
-%In Section \ref{subsec:effectiveness}. Since we extend the  RORU method in \cite{jin2014computing} to ExRORU and they are the most similar pair %among all the algorithms, we want to have a deep discussion about them.
+% \section{Discussion}\label{sec:discussion}
+% %In Section \ref{subsec:effectiveness}. Since we extend the  RORU method in \cite{jin2014computing} to ExRORU and they are the most similar pair %among all the algorithms, we want to have a deep discussion about them.
 
-The proposed method ExRORU is close in spirit to RORU \cite{jin2014computing} that is based on two fundamental relations, i.e., causal and concurrent, each of which is refined into four sub types. All the relations in RORU are bi-directional with uncertainty. However, we have found that RORU is not able to uniquely describe all processes as explained in Section \ref{sec:introduction}. The most severe problem in RORU is that it cannot deal with cyclic models. On checking the datasets in Section \ref{subsec:evaluation} it was found that around 20\% of DG, 60\% of TC and 5\% of SAP are cyclic models. 
-%(The reason that cyclic models in SAP are rare is that models in SAP are mainly real-life reference models and do not consider redo structure.)
-\\
-\begin{table}[htbp]
-\centering
-\caption{Correspondences between the relations of RORU and ExRORU without \textit{Direct and Indirect Causal} relation in acyclic models \label{tab:corr}}
-	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
-		\multicolumn{1}{|c|}{\multirow{2}{*}{RORU}} & \multicolumn{4}{c|}{Causal} & \multicolumn{4}{c|}{Concurrency} & \multicolumn{1}{c|}{\multirow{2}{*}{}} & \multicolumn{1}{c|}{\multirow{2}{*}{}} \\ \cline{2-9}
-		\multicolumn{1}{|c|}{} & C-C & C-U & U-C & U-U & C-C & C-U & U-C & U-U & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{}\\ \hline
-		ExRORU & \tabincell{c}{$x\overset{\text{\tiny{A}}}{\rightarrow} y$\\$x\overset{\text{\tiny{A}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{S}}}{\rightarrow} y$\\$x\overset{\text{\tiny{A}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{A}}}{\rightarrow} y$\\$x\overset{\text{\tiny{S}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{S}}}{\rightarrow} y$\\$x\overset{\text{\tiny{S}}}{\leftarrow} y$} & \tabincell{c}{$x\Updownarrow y$\\$y\Updownarrow x$} & \tabincell{c}{$x\Uparrow y$\\$y\Updownarrow x$} & \tabincell{c}{$x\Updownarrow y$\\$y\Uparrow x$} & \tabincell{c}{$x\Uparrow y$\\$y\Uparrow x$} & \tabincell{c}{$x\overset{\text{\tiny{N}}}{\rightarrow} y$\\$x\overset{\text{\tiny{N}}}{\leftarrow} y$} & \tabincell{c}{$x\nparallel y$\\$y\nparallel x$}\\ \hline
-	\end{tabular}
-\end{table}
+% The proposed method ExRORU is close in spirit to RORU \cite{jin2014computing} that is based on two fundamental relations, i.e., causal and concurrent, each of which is refined into four sub types. All the relations in RORU are bi-directional with uncertainty. However, we have found that RORU is not able to uniquely describe all processes as explained in Section \ref{sec:introduction}. The most severe problem in RORU is that it cannot deal with cyclic models. On checking the datasets in Section \ref{subsec:evaluation} it was found that around 20\% of DG, 60\% of TC and 5\% of SAP are cyclic models. 
+% %(The reason that cyclic models in SAP are rare is that models in SAP are mainly real-life reference models and do not consider redo structure.)
+% \\
+% \begin{table}[htbp]
+% \centering
+% \caption{Correspondences between the relations of RORU and ExRORU without \textit{Direct and Indirect Causal} relation in acyclic models \label{tab:corr}}
+% 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}\hline
+% 		\multicolumn{1}{|c|}{\multirow{2}{*}{RORU}} & \multicolumn{4}{c|}{Causal} & \multicolumn{4}{c|}{Concurrency} & \multicolumn{1}{c|}{\multirow{2}{*}{}} & \multicolumn{1}{c|}{\multirow{2}{*}{}} \\ \cline{2-9}
+% 		\multicolumn{1}{|c|}{} & C-C & C-U & U-C & U-U & C-C & C-U & U-C & U-U & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{}\\ \hline
+% 		ExRORU & \tabincell{c}{$x\overset{\text{\tiny{A}}}{\rightarrow} y$\\$x\overset{\text{\tiny{A}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{S}}}{\rightarrow} y$\\$x\overset{\text{\tiny{A}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{A}}}{\rightarrow} y$\\$x\overset{\text{\tiny{S}}}{\leftarrow} y$} & \tabincell{c}{$x\overset{\text{\tiny{S}}}{\rightarrow} y$\\$x\overset{\text{\tiny{S}}}{\leftarrow} y$} & \tabincell{c}{$x\Updownarrow y$\\$y\Updownarrow x$} & \tabincell{c}{$x\Uparrow y$\\$y\Updownarrow x$} & \tabincell{c}{$x\Updownarrow y$\\$y\Uparrow x$} & \tabincell{c}{$x\Uparrow y$\\$y\Uparrow x$} & \tabincell{c}{$x\overset{\text{\tiny{N}}}{\rightarrow} y$\\$x\overset{\text{\tiny{N}}}{\leftarrow} y$} & \tabincell{c}{$x\nparallel y$\\$y\nparallel x$}\\ \hline
+% 	\end{tabular}
+% \end{table}
 
-Table \ref{tab:corr} shows an approximate mapping between the 8 relations of RORU to the 13 relations of ExRORU.  We introduced the \textit{inverse causal} relation to make every relation in Table \ref{tab:relations} uni-directional, and the \textit{Direct and Indirect Causal} relations  strengthen our ability to describe a process uniquely. With complete prefix unfolding (CPU), ExRORU can work on cyclic models also.  Further, we use ``never'' to describe the relation between two transitions that are in conflict (i.e., $x\#y$). RORU cannot differentiate between a pair of models with only conflicting transitions, while ExRORU can.
+% Table \ref{tab:corr} shows an approximate mapping between the 8 relations of RORU to the 13 relations of ExRORU.  We introduced the \textit{inverse causal} relation to make every relation in Table \ref{tab:relations} uni-directional, and the \textit{Direct and Indirect Causal} relations  strengthen our ability to describe a process uniquely. With complete prefix unfolding (CPU), ExRORU can work on cyclic models also.  Further, we use ``never'' to describe the relation between two transitions that are in conflict (i.e., $x\#y$). RORU cannot differentiate between a pair of models with only conflicting transitions, while ExRORU can.
 
-Table \ref{tab:summary} gives a summary comparison between RORU and ExRORU. As noted earlier, ExRORU guarantees the uniqueness property while RORU fails. ExRORU has more number of relations, hence it has a a finer granularity level. This helps ensure uniqueness and also that some relation always exists between every pair of transitions. Finally, non-free-choice models require a finer characterization of granularity that is permitted by the relation set of ExRORU. 
+% Table \ref{tab:summary} gives a summary comparison between RORU and ExRORU. As noted earlier, ExRORU guarantees the uniqueness property while RORU fails. ExRORU has more number of relations, hence it has a a finer granularity level. This helps ensure uniqueness and also that some relation always exists between every pair of transitions. Finally, non-free-choice models require a finer characterization of granularity that is permitted by the relation set of ExRORU. 
 
-\begin{table}[htbp]
-\centering
-\caption{A summary of qualitative comparison of RORU vs. ExRORU\label{tab:summary}}
-	\begin{tabular}{|l|l|l|}\hline
-		\diagbox[width=16em,trim=l]{Attribute}{Method} & RORU & ExRORU\\ \hline
-		Uniqueness & Fails & Guarantees\\ \hline
-		Can deal with cyclic models & No & Yes\\ \hline
-		Can handle non-free-choice models & No & Yes\\ \hline
-		Number of fundamental relations & 2 & 3\\ \hline
-		Total number of relations & 8 & 13\\ \hline
-		Types of relations & \tabincell{l}{$\{\twoheadrightarrow,\rightharpoonup,\mapsto,\rightleftharpoons,$\\$~\equiv,\Downarrow,\Uparrow,\Updownarrow\}$} & \tabincell{l}{$\{\overset{\text{\tiny{DA}}}{\rightarrow},\overset{\text{\tiny{IA}}}{\rightarrow},\overset{\text{\tiny{DS}}}{\rightarrow},\overset{\text{\tiny{IS}}}{\rightarrow},\overset{\text{\tiny{N}}}{\rightarrow},\overset{\text{\tiny{DA}}}{\leftarrow},\overset{\text{\tiny{IA}}}{\leftarrow},$\\$~\overset{\text{\tiny{DS}}}{\leftarrow},\overset{\text{\tiny{IS}}}{\leftarrow},\overset{\text{\tiny{N}}}{\leftarrow},\Updownarrow,\Uparrow,\nparallel\}$}\\ \hline
-		\tabincell{l}{Relation between every pairs of\\transitions exist} & No & Yes\\ \hline
-		\tabincell{l}{Able to distinguish direct from\\indirect causal transitions} & No & Yes\\ \hline
-	\end{tabular}
-\end{table}
+% \begin{table}[htbp]
+% \centering
+% \caption{A summary of qualitative comparison of RORU vs. ExRORU\label{tab:summary}}
+% 	\begin{tabular}{|l|l|l|}\hline
+% 		\diagbox[width=16em,trim=l]{Attribute}{Method} & RORU & ExRORU\\ \hline
+% 		Uniqueness & Fails & Guarantees\\ \hline
+% 		Can deal with cyclic models & No & Yes\\ \hline
+% 		Can handle non-free-choice models & No & Yes\\ \hline
+% 		Number of fundamental relations & 2 & 3\\ \hline
+% 		Total number of relations & 8 & 13\\ \hline
+% 		Types of relations & \tabincell{l}{$\{\twoheadrightarrow,\rightharpoonup,\mapsto,\rightleftharpoons,$\\$~\equiv,\Downarrow,\Uparrow,\Updownarrow\}$} & \tabincell{l}{$\{\overset{\text{\tiny{DA}}}{\rightarrow},\overset{\text{\tiny{IA}}}{\rightarrow},\overset{\text{\tiny{DS}}}{\rightarrow},\overset{\text{\tiny{IS}}}{\rightarrow},\overset{\text{\tiny{N}}}{\rightarrow},\overset{\text{\tiny{DA}}}{\leftarrow},\overset{\text{\tiny{IA}}}{\leftarrow},$\\$~\overset{\text{\tiny{DS}}}{\leftarrow},\overset{\text{\tiny{IS}}}{\leftarrow},\overset{\text{\tiny{N}}}{\leftarrow},\Updownarrow,\Uparrow,\nparallel\}$}\\ \hline
+% 		\tabincell{l}{Relation between every pairs of\\transitions exist} & No & Yes\\ \hline
+% 		\tabincell{l}{Able to distinguish direct from\\indirect causal transitions} & No & Yes\\ \hline
+% 	\end{tabular}
+% \end{table}
 
 %The 4C Spectrum \cite{polyvyanyy20144c} proposes a huge set of relations to gain a strong ability of describing processes.
 
